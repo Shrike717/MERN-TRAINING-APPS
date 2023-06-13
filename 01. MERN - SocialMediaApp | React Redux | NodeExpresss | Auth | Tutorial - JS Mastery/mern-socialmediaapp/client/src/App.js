@@ -1,12 +1,23 @@
-import "./App.css";
+import React, { useEffect } from "react"; // Redux 9. Import useEffect
 
 import { Container, AppBar, Typography, Grow, Grid } from "@mui/material";
+import { useDispatch } from "react-redux"; // Redux 7. Import this hook
 
+import "./App.css";
+
+import { getPosts } from "./actions/posts"; // Redux 11. Import action file to dispatch
 import Posts from "./components/Posts/Posts";
 import Form from "./components/Form/Form";
 import memories from "./assets/images/memories.png";
 
 function App() {
+	const dispatch = useDispatch(); // Redux 8. Create hook
+
+	useEffect(() => {
+		// Redux 10. Setup useEffect
+		dispatch(getPosts()); // Redux 12. Evoke action in dispatch
+	}, [dispatch]);
+
 	return (
 		// Container centers everything
 		<Container maxWidth="lg">
