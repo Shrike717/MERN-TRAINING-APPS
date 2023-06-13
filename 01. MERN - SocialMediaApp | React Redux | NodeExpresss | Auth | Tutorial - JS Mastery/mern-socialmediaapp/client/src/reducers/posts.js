@@ -5,9 +5,9 @@ const postsReducer = (posts = [], action) => {
 		action.type // i..e "CREATE"...
 	) {
 		case "FETCH_ALL":
-			return action.payload; // Redux 14. Setting teh return to action.payload
+			return action.payload; // Redux 14. Setting the return to action.payload
 		case "CREATE":
-			return posts;
+			return [...posts, action.payload];
 		default:
 			return posts;
 	}
