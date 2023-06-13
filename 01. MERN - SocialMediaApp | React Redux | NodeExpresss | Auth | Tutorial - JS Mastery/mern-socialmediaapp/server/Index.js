@@ -9,14 +9,14 @@ import postRoutes from "./routes/posts.js";
 
 const app = express();
 
-// MW Connecting posts routes to app with prefix "/posts":
-app.use("/posts", postRoutes);
-
 // MW Parsing bodies:
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 // MW for CORS:
-app.use(cors());
+app.use(cors()); // Has tobb  be  before the routes!
+
+// MW Connecting posts routes to app with prefix "/posts":
+app.use("/posts", postRoutes);
 
 // connecting to db with mongoose:
 mongoose
