@@ -5,29 +5,6 @@ import FileBase from "react-file-base64";
 import { useDispatch } from "react-redux";
 import { createPost } from "../../actions/posts";
 
-// export default makeStyles((theme) => ({
-//   root: {
-//     '& .MuiTextField-root': {
-//       margin: theme.spacing(1),
-//     }
-//   },
-//   paper: {
-//     padding: theme.spacing(2),
-//   },
-//   form: {
-//     display: 'flex',
-//     flexWrap: 'wrap',
-//     justifyContent: 'center',
-//   },
-//   fileInput: {
-//     width: '97%',
-//     margin: '10px 0',
-//   },
-//   buttonSubmit: {
-//     marginBottom: 10,
-//   },
-// }));
-
 const StyledPaper = styled(Paper)(({ theme }) => ({
 	"&.MuiPaper-root": {
 		paddingTop: theme.spacing(1.25),
@@ -46,12 +23,12 @@ const Form = () => {
 		selectedFile: "",
 	});
 
-	const dispatch = useDispatch();
+	const dispatch = useDispatch(); // Initialising useDispatch hook
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		dispatch(createPost(postData));
+		dispatch(createPost(postData)); // Calling the ceatePost action and sending the data from he form  field
 	};
 
 	const clear = () => {};
@@ -71,6 +48,7 @@ const Form = () => {
 				<Typography
 					variant="h6"
 					textAlign="center"
+					fontWeight="600"
 					sx={{ marginBottom: "5px" }}
 				>
 					Creating a memory
