@@ -8,7 +8,8 @@ import "./App.css";
 import { getPosts } from "./actions/posts"; // Redux 11. Import action file to dispatch
 import Posts from "./components/Posts/Posts";
 import Form from "./components/Form/Form";
-import memories from "./assets/images/memories.png";
+// import memories from "./assets/images/memories.png";
+import memories from "./assets/images/photography-icon-png-2392.png";
 
 function App() {
 	const dispatch = useDispatch(); // Redux 8. Create hook
@@ -36,16 +37,11 @@ function App() {
 				<Typography
 					variant="h2"
 					align="center"
-					sx={{ color: "rgba(0,183,255, 1)" }}
+					sx={{ color: "#1665C0", marginRight: "15px" }}
 				>
 					Memories
 				</Typography>
-				<img
-					src={memories}
-					alt="memories"
-					height="60"
-					sx={{ marginLeft: "15px" }}
-				/>
+				<img src={memories} alt="memories" height="60" />
 			</AppBar>
 			<Grow in>
 				<Container>

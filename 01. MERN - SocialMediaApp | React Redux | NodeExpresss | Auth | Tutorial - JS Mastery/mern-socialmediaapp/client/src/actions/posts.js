@@ -13,9 +13,9 @@ export const getPosts = () => async (dispatch) => {
 
 export const createPost = (post) => async (dispatch) => {
 	try {
-		const { data } = await api.createPost(post);
+		const { data } = await api.createPost(post); // Axios request sending new post to BeE triggert from here. Response gets saved
 
-		dispatch({ type: "CREATE", payload: data }); // Action that gets dispatched
+		dispatch({ type: "CREATE", payload: data }); // Action that gets dispatched. Sends response data to postsReducer
 	} catch (error) {
 		console.log(error);
 	}
