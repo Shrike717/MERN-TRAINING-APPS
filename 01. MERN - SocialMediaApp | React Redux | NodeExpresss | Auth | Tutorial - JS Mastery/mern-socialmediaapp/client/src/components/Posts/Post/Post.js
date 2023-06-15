@@ -12,9 +12,15 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
+import { useDispatch } from "react-redux"; // Delete 6a: importng useDispatch
+
+import { deletePost } from "../../../actions/posts"; // Delete 6c: importing deletePost action
 
 const Post = ({ post, setCurrentId }) => {
 	// Edit 6: Destructure State Setter for currentId
+
+	const dispatch = useDispatch(); // Delete 6b: initialising dispach hook
+
 	return (
 		<Card
 			sx={{
@@ -104,7 +110,11 @@ const Post = ({ post, setCurrentId }) => {
 					Like
 					{post.likeCount}
 				</Button>
-				<Button size="small" color="primary" onClick={() => {}}>
+				<Button
+					size="small"
+					color="primary"
+					onClick={() => dispatch(deletePost(post._id))} // Delete 6c: Dispatching the action on Delete button
+				>
 					<DeleteIcon fontSize="small" sx={{ marginRight: "5px" }} />
 					Delete
 				</Button>

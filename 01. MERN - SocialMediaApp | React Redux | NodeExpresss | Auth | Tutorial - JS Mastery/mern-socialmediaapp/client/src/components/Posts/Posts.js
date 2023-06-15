@@ -7,7 +7,7 @@ import Post from "./Post/Post";
 const Posts = ({ setCurrentId }) => {
 	// Edit 6: Destructure State Setter for currentId
 	const posts = useSelector((state) => state.posts); // Redux 15b: Initialising hook to fetch the data from redux store
-	console.log(posts);
+
 	return !posts.length ? (
 		<CircularProgress />
 	) : (
