@@ -26,9 +26,9 @@ export const createPost = async (req, res, next) => {
 
 export const updatePost = async (req, res, next) => {
 	// Edit 2. Controller action. Then go  to FE
-	// /posts/123 => is filling the value of  { _id }
-	const { id } = req.params; // Destructuring and renaming it => Mongoosse syntax
-	const _id = id;
+	// /posts/123 => is filling the value of  { id }
+	const { id } = req.params; // Destructuring it
+	const _id = id; // Renaming it => Mongoosse syntax
 	const post = req.body; // Extracting updated post from body
 
 	// If not a valid MG _id send back error Message
@@ -42,6 +42,26 @@ export const updatePost = async (req, res, next) => {
 		});
 
 		res.status(200).json(updatedPost); // And sending it back
+	} catch (error) {
+		res.status(409).json({ message: error });
+	}
+};
+
+export const deletePost = async (req, res, next) => {
+	// Delete 2; Controller action. Then go  to FE
+	// /posts/123 => is filling the value of  { id }
+	const { id } = req.params; // Destructuring it
+	const _id = id; // Renaming it => Mongoosse syntax
+
+	// If not a valid MG _id send back error Message
+	if (!mongoose.Types.ObjectId.isValid(_id))
+		return res.status(404).send("No post with that id!");
+
+	try {
+		// Finding and deleting post from DB:
+		await PostMessage.findByIdAndRemove(_id);
+
+		res.status(200).json({ message: "Posst deleted successfully!" });
 	} catch (error) {
 		res.status(409).json({ message: error });
 	}
