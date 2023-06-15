@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // Edit 14c: import useEffect
 import { Box, TextField, Button, Typography, Paper } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import FileBase from "react-file-base64";
-import { useDispatch } from "react-redux";
-import { createPost } from "../../actions/posts";
+import { useDispatch, useSelector } from "react-redux"; // Edit 14a: Import useSelector
+import { createPost, updatePost } from "../../actions/posts"; // Edit 10: importing postCreate action
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
 	"&.MuiPaper-root": {
@@ -14,7 +14,10 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 	},
 }));
 
-const Form = () => {
+// For updating a post: we have to get the current Id of this post to this component
+
+const Form = ({ currentId, setCurrentId }) => {
+	// Edit 6: Destructure State Setter for currentId and currentId
 	const [postData, setPostData] = useState({
 		creator: "",
 		title: "",
@@ -25,13 +28,37 @@ const Form = () => {
 
 	const dispatch = useDispatch(); // Initialising useDispatch hook
 
+	const postToUpdate = useSelector((state) =>
+		currentId ? state.posts.find((p) => p._id === currentId) : null
+	); // Edit 14b: Fetch the post that will be updated fron store
+
+	useEffect(() => {
+		// edit 14d: Populate fields with data of post the user wants to edt (the postToUpdate)
+		if (postToUpdate) setPostData(postToUpdate);
+	}, [postToUpdate]);
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		dispatch(createPost(postData)); // Calling the ceatePost action and sending the data from he form  field
+		if (currentId) {
+			// Edit 9: If we have a currentId we dispatch an updatePost action with id and updated post data. Oherwise createPost
+			dispatch(updatePost(currentId, postData));
+		} else {
+			dispatch(createPost(postData)); // Calling the ceatePost action and sending the data from he form field
+		}
+		clear();
 	};
 
-	const clear = () => {};
+	const clear = () => {
+		setCurrentId(null);
+		setPostData({
+			creator: "",
+			title: "",
+			message: "",
+			tags: "",
+			selectedFile: "",
+		});
+	};
 
 	return (
 		<StyledPaper elevation={2}>
@@ -51,7 +78,8 @@ const Form = () => {
 					fontWeight="600"
 					sx={{ marginBottom: "5px" }}
 				>
-					Creating a memory
+					{/* Edit 15: Dynamic change of Headline above form field */}
+					{currentId ? "Editing" : "Creating"} a memory
 				</Typography>
 				<TextField
 					name="creator"
@@ -121,10 +149,6 @@ const Form = () => {
 					size="small"
 					onClick={clear}
 					fullWidth
-					// sx={{
-					// 	backgroundColor: "#e53935",
-					// 	"&:hover": { backgroundColor: "a51515" },
-					// }}
 				>
 					Clear
 				</Button>

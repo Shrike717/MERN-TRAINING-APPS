@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"; // Redux 9. Import useEffect
+import React, { useState, useEffect } from "react"; // Redux 9. Import useEffect | Edit 3. impprt useState
 
 import { Container, AppBar, Typography, Grow, Grid } from "@mui/material";
 import { useDispatch } from "react-redux"; // Redux 7. Import this hook
@@ -12,6 +12,7 @@ import Form from "./components/Form/Form";
 import memories from "./assets/images/photography-icon-png-2392.png";
 
 function App() {
+	const [currentId, setCurrentId] = useState(null); // Edit 4. State Keeping track of currentId for post editing. It begins here with null
 	const dispatch = useDispatch(); // Redux 8. Create hook
 
 	useEffect(() => {
@@ -52,10 +53,15 @@ function App() {
 						spacing={3}
 					>
 						<Grid item xs={12} sm={7}>
-							<Posts />
+							{/* Edit 5. Give State Setter for currentId as prop */}
+							<Posts setCurrentId={setCurrentId} />
 						</Grid>
 						<Grid item xs={12} sm={4}>
-							<Form />
+							{/* Edit 5. Give State Setter for currentId and currentId as prop */}
+							<Form
+								currentId={currentId}
+								setCurrentId={setCurrentId}
+							/>
 						</Grid>
 					</Grid>
 				</Container>

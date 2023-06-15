@@ -13,7 +13,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
 
-const Post = ({ post }) => {
+const Post = ({ post, setCurrentId }) => {
+	// Edit 6: Destructure State Setter for currentId
 	return (
 		<Card
 			sx={{
@@ -43,7 +44,7 @@ const Post = ({ post }) => {
 					color: "white",
 				}}
 			>
-				<Typography variant="h6">{post.title}</Typography>
+				<Typography variant="h6">{post.creator}</Typography>
 				<Typography variant="body2">
 					{moment(post.createdAt).locale("en").fromNow()}
 				</Typography>
@@ -56,7 +57,12 @@ const Post = ({ post }) => {
 					color: "white",
 				}}
 			>
-				<Button size="small" sx={{ color: "white" }} onClick={() => {}}>
+				{/* Edit 8: Sending the currentId up to App component. State changes from null tto id */}
+				<Button
+					size="small"
+					sx={{ color: "white" }}
+					onClick={() => setCurrentId(post._id)}
+				>
 					<MoreHorizIcon />
 				</Button>
 			</Box>
@@ -73,10 +79,13 @@ const Post = ({ post }) => {
 			</Box>
 			<CardContent>
 				<Typography
-					sx={{ padding: "0 16px" }}
+					// sx={{ padding: "0 16px" }}
 					variant="h5"
 					gutterBottom
 				>
+					{post.title}
+				</Typography>
+				<Typography variant="body1" gutterBottom>
 					{post.message}
 				</Typography>
 			</CardContent>

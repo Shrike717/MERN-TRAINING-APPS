@@ -4,9 +4,9 @@ import { useSelector } from "react-redux"; // Redux 15a: Importing useSelector h
 
 import Post from "./Post/Post";
 
-const Posts = () => {
+const Posts = ({ setCurrentId }) => {
+	// Edit 6: Destructure State Setter for currentId
 	const posts = useSelector((state) => state.posts); // Redux 15b: Initialising hook to fetch the data from redux store
-
 	console.log(posts);
 	return !posts.length ? (
 		<CircularProgress />
@@ -19,11 +19,10 @@ const Posts = () => {
 		>
 			{posts.map((post) => {
 				return (
-					<>
-						<Grid item key={post._id} xs={12} sm={6}>
-							<Post post={post} />
-						</Grid>
-					</>
+					<Grid item key={post._id} xs={12} sm={6}>
+						{/* Edit 7: Pass State Setter for currentId */}
+						<Post post={post} setCurrentId={setCurrentId} />
+					</Grid>
 				);
 			})}
 		</Grid>
