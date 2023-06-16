@@ -12,9 +12,9 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
-import { useDispatch } from "react-redux"; // Delete 6a: importng useDispatch
+import { useDispatch } from "react-redux"; // Delete 6a: importing useDispatch
 
-import { deletePost } from "../../../actions/posts"; // Delete 6c: importing deletePost action
+import { deletePost, likePost } from "../../../actions/posts"; // Delete 6c: importing deletePost action | Like 6a
 
 const Post = ({ post, setCurrentId }) => {
 	// Edit 6: Destructure State Setter for currentId
@@ -79,19 +79,23 @@ const Post = ({ post, setCurrentId }) => {
 					margin: "20px",
 				}}
 			>
-				<Typography variant="body2" color="text-secondary">
-					{post.tags.map((tag) => `#${tag}`)}
+				<Typography sx={{ color: "#525252" }} variant="body2">
+					{post.tags.map((tag) => `#${tag} `)}
 				</Typography>
 			</Box>
 			<CardContent>
-				<Typography
-					// sx={{ padding: "0 16px" }}
-					variant="h5"
-					gutterBottom
-				>
+				<Typography variant="h5" gutterBottom>
 					{post.title}
 				</Typography>
-				<Typography variant="body1" gutterBottom>
+				<Typography
+					sx={{
+						color: "#525252",
+						height: "50px",
+						overflow: "scroll",
+					}}
+					component="p"
+					variant="body2"
+				>
 					{post.message}
 				</Typography>
 			</CardContent>
@@ -102,12 +106,13 @@ const Post = ({ post, setCurrentId }) => {
 					justifyContent: "space-between",
 				}}
 			>
-				<Button size="small" color="primary" onClick={() => {}}>
-					<ThumbUpAltIcon
-						fontSize="small"
-						sx={{ marginRight: "5px" }}
-					/>
-					Like
+				<Button
+					size="small"
+					color="primary"
+					onClick={() => dispatch(likePost(post._id))} // Like 6b: Dispatching the action on Like button
+				>
+					<ThumbUpAltIcon fontSize="small" />
+					&nbsp; Like &nbsp;
 					{post.likeCount}
 				</Button>
 				<Button
