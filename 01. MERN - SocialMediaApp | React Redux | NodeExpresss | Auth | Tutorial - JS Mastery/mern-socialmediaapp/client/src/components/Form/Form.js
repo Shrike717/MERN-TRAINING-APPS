@@ -121,7 +121,10 @@ const Form = ({ currentId, setCurrentId }) => {
 					fullWidth
 					value={postData.tags}
 					onChange={(e) =>
-						setPostData({ ...postData, tags: e.target.value })
+						setPostData({
+							...postData,
+							tags: e.target.value.split(","), // Splitting tags for search later
+						})
 					}
 				/>
 				<Box sx={{ width: "97%", margin: "10px 0" }}>

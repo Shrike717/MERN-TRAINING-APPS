@@ -48,8 +48,8 @@ export const updatePost = async (req, res, next) => {
 };
 
 export const deletePost = async (req, res, next) => {
-	// Delete 2; Controller action. Then go  to FE
-	// /posts/123 => is filling the value of  { id }
+	// Delete 2; Controller action. Then go to FE
+	// /posts/123 => is filling the value of { id }
 	const { id } = req.params; // Destructuring it
 	const _id = id; // Renaming it => Mongoosse syntax
 
@@ -62,6 +62,32 @@ export const deletePost = async (req, res, next) => {
 		await PostMessage.findByIdAndRemove(_id);
 
 		res.status(200).json({ message: "Posst deleted successfully!" });
+	} catch (error) {
+		res.status(409).json({ message: error });
+	}
+};
+
+export const likePost = async (req, res, next) => {
+	// Like 2; Controller action. Then go to FE
+	// /posts/123 => is filling the value of { id }
+	const { id } = req.params; // Destructuring it
+	const _id = id; // Renaming it => Mongoosse syntax
+	console.log(_id);
+	// If not a valid MG _id send back error Message
+	if (!mongoose.Types.ObjectId.isValid(_id))
+		return res.status(404).send("No post with that id!");
+
+	try {
+		// First we need the post from the DB:
+		const post = await PostMessage.findById(_id);
+
+		// Then we update it with increemented likeCount and store it in updatedPost variable
+		const updatedPost = await PostMessage.findByIdAndUpdate(
+			_id,
+			{ likeCount: post.likeCount + 1 },
+			{ new: true }
+		);
+		res.status(200).json(updatedPost); // And sending it back
 	} catch (error) {
 		res.status(409).json({ message: error });
 	}
