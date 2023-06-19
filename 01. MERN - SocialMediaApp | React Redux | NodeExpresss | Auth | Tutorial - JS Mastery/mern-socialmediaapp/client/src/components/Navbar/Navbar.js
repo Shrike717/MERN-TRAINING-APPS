@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
 	Box,
 	AppBar,
@@ -14,12 +14,7 @@ import memories from "../../assets/images/photography-icon-png-2392.png";
 import { themeApp } from "../../appStyles";
 
 function Navbar() {
-	const user = null;
-	// const user = {
-	// 	result: {
-	// 		name: "Daniel",
-	// 	},
-	// };
+	const user = null; // Dummy vaiable during construction
 
 	return (
 		<AppBar
@@ -33,7 +28,7 @@ function Navbar() {
 				justifyContent: "space-between",
 				alignItems: "center",
 				padding: "10px 50px",
-				[themeApp.breakpoints.down("mobile")]: {
+				[themeApp.breakpoints.down("sm")]: {
 					flexDirection: "column",
 				},
 			}}
@@ -41,7 +36,7 @@ function Navbar() {
 			<Box sx={{ display: "flex", alignItems: "center" }}>
 				<Link to={"/"}>
 					<Typography
-						variant="h2"
+						variant="h3"
 						align="center"
 						sx={{
 							color: "#1665C0",
@@ -51,14 +46,14 @@ function Navbar() {
 						Memories
 					</Typography>
 				</Link>
-				<img src={memories} alt="memories" height="60" />
+				<img src={memories} alt="memories" height="50" />
 			</Box>
 			<Toolbar
 				sx={{
 					display: "flex",
 					justifyContent: "flex-end",
 					width: "400px",
-					[themeApp.breakpoints.down("mobile")]: {
+					[themeApp.breakpoints.down("tablet")]: {
 						width: "auto",
 					},
 				}}
