@@ -72,7 +72,7 @@ export const likePost = async (req, res, next) => {
 	// /posts/123 => is filling the value of { id }
 	const { id } = req.params; // Destructuring it
 	const _id = id; // Renaming it => Mongoosse syntax
-	console.log(_id);
+
 	// If not a valid MG _id send back error Message
 	if (!mongoose.Types.ObjectId.isValid(_id))
 		return res.status(404).send("No post with that id!");
