@@ -1,4 +1,9 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom"; // Google 4d: Importing navigate hook to forward to homepage
+import { GoogleLogin } from "@react-oauth/google"; // Google 4a: Importing button component
+import jwt_decode from "jwt-decode"; // Google 4c: // Importing jwt-decode
+
 import {
 	Box,
 	Container,
@@ -11,12 +16,15 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 
 import Input from "./Input";
-
+import { AUTH } from "../../constants/actionTypes";
 import { themeApp } from "../../appStyles";
 
 const Auth = () => {
 	const [isSignup, setIsSignUp] = useState(false); // PoS what input fields are shown with conditional rendering
 	const [showPassword, setShowPassword] = useState(false); // Sets if password is visible or redacted
+
+	const dispatch = useDispatch(); // Google 4e: Initalising hooks
+	const navigate = useNavigate();
 
 	// const isSignup = false; // Dummy variable during construcion of component
 
@@ -33,6 +41,21 @@ const Auth = () => {
 	const switchMode = () => {
 		setIsSignUp(!isSignup);
 		setShowPassword(false);
+	};
+
+	const googleSuccess = async (res) => {
+		// Google 4f: Function to decode end dispatch user credentials and token
+		const token = res?.credential; // ?. Does not throw error if obj does not exist it throws undefined
+		const result = jwt_decode(token);
+		// console.log(result);
+
+		try {
+			dispatch({ type: AUTH, data: { result, token } });
+
+			navigate("/"); // Forwarding to homepage after login. This causes Navbar component to rerender
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
@@ -115,6 +138,28 @@ const Auth = () => {
 						>
 							{isSignup ? "SIGN UP" : "SIGN IN"}
 						</Button>
+						{!isSignup && (
+							<Box
+								fullwidth="true"
+								sx={{
+									margin: themeApp.spacing(0, 0, 2),
+									display: "flex",
+									justifyContent: "center",
+								}}
+							>
+								<GoogleLogin // Google 4b: Setting button
+									size="large"
+									onSuccess={(credentialResponse) => {
+										// console.log(credentialResponse);
+										googleSuccess(credentialResponse);
+									}}
+									onError={() => {
+										console.log("Login Failed");
+									}}
+								/>
+							</Box>
+						)}
+
 						<Grid container justifyContent="flex-end">
 							<Grid>
 								{/* Toggles PoS isSignup */}

@@ -1,5 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react"; // Google 7a: Import hooks
+import { useDispatch } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom"; // Google 7a: Import hooks
 import {
 	Box,
 	AppBar,
@@ -10,11 +11,39 @@ import {
 } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
 
+import { LOGOUT } from "../../constants/actionTypes";
 import memories from "../../assets/images/photography-icon-png-2392.png";
 import { themeApp } from "../../appStyles";
 
 function Navbar() {
-	const user = null; // Dummy vaiable during construction
+	const dispatch = useDispatch(); // Google 7b: Initialise hooks
+	const navigate = useNavigate();
+	const location = useLocation();
+
+	const [user, setUser] = useState(
+		// Google 7c: Setting user in PoS
+		JSON.parse(localStorage.getItem("profile"))
+	);
+
+	// console.log(user);
+	// const user = null; // Dummy variable used during construction JSX
+
+	const handleLogout = () => {
+		// Google 7d: Writing logout funcion
+		dispatch({ type: LOGOUT });
+
+		navigate("/"); // This changes location state and triggers Navbar rerender
+
+		setUser(null);
+	};
+
+	useEffect(() => {
+		// Google 7f: Prep for custom Signup process.. Setting user again from localSstorage.
+		const token = user?.token;
+
+		// Check for JWT later.....
+		setUser(JSON.parse(localStorage.getItem("profile")));
+	}, [location]); // Triggers rerender
 
 	return (
 		<AppBar
@@ -55,6 +84,7 @@ function Navbar() {
 					width: "400px",
 					[themeApp.breakpoints.down("tablet")]: {
 						width: "auto",
+						justifyContent: "center",
 					},
 				}}
 			>
@@ -62,13 +92,14 @@ function Navbar() {
 					<Box
 						sx={{
 							display: "flex",
-							justifyContent: "space-between",
+							gap: "0.5em",
+							justifyContent: "flex-end",
 							width: "400px",
 							alignItems: "center",
 							[themeApp.breakpoints.down("mobile")]: {
 								width: "auto",
 								marginTop: 20,
-								justifyContent: "center",
+								justifyContent: "flex-start",
 							},
 						}}
 					>
@@ -80,7 +111,7 @@ function Navbar() {
 								backgroundColor: deepPurple[500],
 							}}
 							alt={user.result.name}
-							src={user.result.imageUrl}
+							// src={user.picture}
 						>
 							{user.result.name.charAt(0)}
 						</Avatar>
@@ -97,7 +128,8 @@ function Navbar() {
 						<Button
 							variant="contained"
 							color="secondary"
-							sx={{ marginLeft: "20px" }}
+							onClick={handleLogout} // Google 7e: Wireing up logot function
+							sx={{ marginLeft: "10px" }}
 						>
 							LOGOUT
 						</Button>
