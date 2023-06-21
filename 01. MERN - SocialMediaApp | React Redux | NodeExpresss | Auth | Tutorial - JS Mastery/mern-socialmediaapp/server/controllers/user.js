@@ -1,9 +1,12 @@
 import bcrypt from "bcrypt"; // Hashes pw before sending it to DB
 import jwt from "jsonwebtoken"; // Creates a token. With that user is stored in the browser for some time
+import sgMail from "@sendgrid/mail";
 import dotenv from "dotenv"; // Needed for JWT Secret
 dotenv.config();
 
 import User from "../models/user.js"; // Man Auth 11
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY); // SG API Key
 
 // Man Auth 12: Signin Action
 export const postSignin = async (req, res) => {
@@ -77,6 +80,25 @@ export const postSignup = async (req, res) => {
 
 		// Man Auth 13g: Then sending back user and token
 		res.status(200).json({ result, token });
+
+		// Sending Registration Confirmation with Sendgrid:
+		// Configurating Message and calling the send function on sgMail object with message afterwards
+		const msg = {
+			to: result.email, // Change to your recipient -> when user is signing up dan717@gmx.de
+			from: "dbauer.webdev@gmail.com", // Change to your verified sender -> Node Training App
+			subject: "Signup succeeded!",
+			text: "You successfully signed up!",
+			html: "<strong>You successfully signed up!</strong>",
+		};
+		sgMail
+			.send(msg)
+			.then((response) => {
+				console.log(response[0].statusCode);
+				console.log(response[0].headers);
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	} catch (error) {
 		res.status(500).json({ message: "Something went wrong." });
 	}
