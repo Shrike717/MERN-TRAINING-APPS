@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import PostMessage from "../models/postMessage.js";
 
-export const getPosts = async (req, res, next) => {
+export const getPosts = async (req, res) => {
 	try {
 		const postMessages = await PostMessage.find();
 
@@ -24,7 +24,7 @@ export const createPost = async (req, res, next) => {
 	}
 };
 
-export const updatePost = async (req, res, next) => {
+export const updatePost = async (req, res) => {
 	// Edit 2. Controller action. Then go  to FE
 	// /posts/123 => is filling the value of  { id }
 	const { id } = req.params; // Destructuring it
@@ -47,7 +47,7 @@ export const updatePost = async (req, res, next) => {
 	}
 };
 
-export const deletePost = async (req, res, next) => {
+export const deletePost = async (req, res) => {
 	// Delete 2; Controller action. Then go to FE
 	// /posts/123 => is filling the value of { id }
 	const { id } = req.params; // Destructuring it
@@ -67,7 +67,7 @@ export const deletePost = async (req, res, next) => {
 	}
 };
 
-export const likePost = async (req, res, next) => {
+export const likePost = async (req, res) => {
 	// Like 2; Controller action. Then go to FE
 	// /posts/123 => is filling the value of { id }
 	const { id } = req.params; // Destructuring it
