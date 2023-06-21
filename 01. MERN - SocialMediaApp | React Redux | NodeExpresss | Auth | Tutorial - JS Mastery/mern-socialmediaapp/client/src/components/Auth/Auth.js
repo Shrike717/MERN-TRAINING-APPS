@@ -14,23 +14,48 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
+import { themeApp } from "../../appStyles";
 
 import Input from "./Input";
 import { AUTH } from "../../constants/actionTypes";
-import { themeApp } from "../../appStyles";
+import { signin, signup } from "../../actions/auth"; // Man Auth 4b: Importing the actions
+
+// Man Auth 1a:
+const initialState = {
+	firstName: "",
+	lastName: "",
+	email: "",
+	password: "",
+	confirmedPassword: "",
+};
 
 const Auth = () => {
 	const [isSignup, setIsSignUp] = useState(false); // PoS what input fields are shown with conditional rendering
 	const [showPassword, setShowPassword] = useState(false); // Sets if password is visible or redacted
+	const [formData, setFormData] = useState(initialState); // Man Auth 1b::
 
 	const dispatch = useDispatch(); // Google 4e: Initalising hooks
 	const navigate = useNavigate();
 
 	// const isSignup = false; // Dummy variable during construcion of component
 
-	const handleSubmit = () => {};
+	// Man Auth 2: Writing functon and check form is wired up to this
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		// console.log(formData);
 
-	const handleChange = () => {};
+		// Man Auth 4a:
+		if (isSignup) {
+			dispatch(signup(formData, navigate));
+		} else {
+			dispatch(signin(formData, navigate));
+		}
+	};
+
+	// Man Auth 3: Retrieve the field values in PoS formData
+	const handleChange = (e) => {
+		setFormData({ ...formData, [e.target.name]: e.target.value });
+	};
 
 	// Toggles PoS to show or hide password
 	const handleShowPassword = () => {
@@ -99,7 +124,7 @@ const Auth = () => {
 										half
 									/>
 									<Input
-										name="LastName"
+										name="lastName"
 										label=" Last Name"
 										handleChange={handleChange}
 										half
@@ -122,7 +147,7 @@ const Auth = () => {
 							/>
 							{isSignup && (
 								<Input
-									name="confirmPassword"
+									name="confirmedPassword"
 									label="Repeat Passsword"
 									handleChange={handleChange}
 									type="password"
