@@ -20,8 +20,8 @@ function Navbar() {
 	const navigate = useNavigate();
 	const location = useLocation();
 
+	// Google 7c: Setting user in PoS
 	const [user, setUser] = useState(
-		// Google 7c: Setting user in PoS
 		JSON.parse(localStorage.getItem("profile"))
 	);
 
@@ -38,12 +38,12 @@ function Navbar() {
 	};
 
 	useEffect(() => {
-		// Google 7f: Prep for custom Signup process.. Setting user again from localSstorage.
+		// Google 7f: Prep for custom Signup process.. Setting user again from localStorage.
 		const token = user?.token;
 
 		// Check for JWT later.....
 		setUser(JSON.parse(localStorage.getItem("profile")));
-	}, [location]); // Triggers rerender
+	}, [location]); // Triggers rerender to show uuser in navbar
 
 	return (
 		<AppBar

@@ -4,6 +4,7 @@ import { styled } from "@mui/material/styles";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux"; // Edit 14a: Import useSelector
 import { createPost, updatePost } from "../../actions/posts"; // Edit 10: importing postCreate action
+import { useLocation } from "react-router-dom"; // My trick to force rerender of form after logout
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
 	"&.MuiPaper-root": {
@@ -17,14 +18,18 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 // For updating a post: we have to get the current Id of this post to this component
 
 const Form = ({ currentId, setCurrentId }) => {
+	const location = useLocation(); // Needed to force rerender of form after logout
+
 	// Edit 6: Destructure State Setter for currentId and currentId
 	const [postData, setPostData] = useState({
-		creator: "",
+		// creator: "", // Was needed before Auth flow
 		title: "",
 		message: "",
 		tags: "",
 		selectedFile: "",
 	});
+	// After Auth flow: User now neded to pass the user name of logged in user to the BE
+	const user = JSON.parse(localStorage.getItem("profile"));
 
 	const dispatch = useDispatch(); // Initialising useDispatch hook
 
@@ -35,24 +40,45 @@ const Form = ({ currentId, setCurrentId }) => {
 	useEffect(() => {
 		// edit 14d: Populate fields with data of post the user wants to edt (the postToUpdate)
 		if (postToUpdate) setPostData(postToUpdate);
-	}, [postToUpdate]);
+	}, [postToUpdate, location]); // With location: Force to rerender after logout
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
 		if (currentId) {
 			// Edit 9: If we have a currentId we dispatch an updatePost action with id and updated post data. Oherwise createPost
-			dispatch(updatePost(currentId, postData));
+			dispatch(
+				updatePost(currentId, { ...postData, name: user?.result?.name }) // After Auth flow: Passing logged in user name to BE
+			);
 		} else {
-			dispatch(createPost(postData)); // Calling the ceatePost action and sending the data from he form field
+			dispatch(createPost({ ...postData, name: user?.result?.name })); // Calling the ceatePost action and sending the data from he form field
 		}
 		clear();
 	};
 
+	if (!user?.result?.name) {
+		return (
+			<StyledPaper elevation={2}>
+				<Typography
+					variant="h6"
+					textAlign="center"
+					fontWeight="600"
+					sx={{ marginBottom: "5px" }}
+				>
+					Welcome to Memories!
+				</Typography>
+				<Typography variant="body1" align="center">
+					Please sign in to create your own memories and like other
+					memories.
+				</Typography>
+			</StyledPaper>
+		);
+	}
+
 	const clear = () => {
 		setCurrentId(null);
 		setPostData({
-			creator: "",
+			// creator: "",
 			title: "",
 			message: "",
 			tags: "",
@@ -79,9 +105,9 @@ const Form = ({ currentId, setCurrentId }) => {
 					sx={{ marginBottom: "5px" }}
 				>
 					{/* Edit 15: Dynamic change of Headline above form field */}
-					{currentId ? "Editing" : "Creating"} a memory
+					{currentId ? "Editing" : "Create"} a memory
 				</Typography>
-				<TextField
+				{/* <TextField
 					name="creator"
 					variant="outlined"
 					label="Creator"
@@ -91,7 +117,7 @@ const Form = ({ currentId, setCurrentId }) => {
 						setPostData({ ...postData, creator: e.target.value })
 					}
 					sx={{ marginBottom: "10px", fontWeight: "600" }}
-				/>
+				/> */}
 				<TextField
 					name="title"
 					variant="outlined"
