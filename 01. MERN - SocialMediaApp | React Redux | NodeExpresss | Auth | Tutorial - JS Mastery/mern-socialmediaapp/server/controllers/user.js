@@ -88,7 +88,7 @@ export const postSignup = async (req, res) => {
 			from: "dbauer.webdev@gmail.com", // Change to your verified sender -> Node Training App
 			subject: "Signup succeeded!",
 			text: "You successfully signed up!",
-			html: "<strong>You successfully signed up!</strong>",
+			html: "This is from Memory App: <strong>You successfully signed up!</strong>", // WARNING: Error n html causes email not to be send
 		};
 		sgMail
 			.send(msg)

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
 	Box,
 	Card,
@@ -9,10 +9,12 @@ import {
 	Typography,
 } from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
 import { useDispatch } from "react-redux"; // Delete 6a: importing useDispatch
+import { useLocation } from "react-router-dom";
 
 import { deletePost, likePost } from "../../../actions/posts"; // Delete 6c: importing deletePost action | Like 6a
 
@@ -20,6 +22,50 @@ const Post = ({ post, setCurrentId }) => {
 	// Edit 6: Destructure State Setter for currentId
 
 	const dispatch = useDispatch(); // Delete 6b: initialising dispach hook
+
+	const location = useLocation();
+
+	// After Auth flow: Loggd in User now needed for conditional rendering of likes, edit and delete buttons
+	const user = JSON.parse(localStorage.getItem("profile"));
+
+	useEffect(() => {}, [location]); // Forces Post component to rerender after logout
+
+	// Util component wih logic for the like functionality:
+	const Likes = () => {
+		if (post.likes.length > 0) {
+			return post.likes.find(
+				(like) => like === (user?.result?.sub || user?.result?._id)
+			) ? (
+				<>
+					<ThumbUpAltIcon fontSize="small" />
+					&nbsp;{" "}
+					{/* // This was too long for card
+                    {post.likes.length > 2
+						? `You and ${post.likes.length - 1} others`
+						: `${post.likes.length} like${
+								post.likes.length > 1 ? "s" : ""
+						  }`} */}
+					{/* instead i did this: */}
+					{post.likes.length > 1
+						? `${post.likes.length} like${"s"}`
+						: `${post.likes.length} like`}
+				</>
+			) : (
+				<>
+					<ThumbUpAltOutlinedIcon fontSize="small" />
+					&nbsp; {post.likes.length}{" "}
+					{post.likes.length === 1 ? "like" : "likes"}
+				</>
+			);
+		}
+		return (
+			<>
+				{" "}
+				<ThumbUpAltOutlinedIcon fontSize="small" />
+				&nbsp; Like
+			</>
+		);
+	};
 
 	return (
 		<Card
@@ -50,28 +96,32 @@ const Post = ({ post, setCurrentId }) => {
 					color: "white",
 				}}
 			>
-				<Typography variant="h6">{post.creator}</Typography>
+				<Typography variant="h6">{post.name}</Typography>
 				<Typography variant="body2">
 					{moment(post.createdAt).locale("en").fromNow()}
 				</Typography>
 			</Box>
-			<Box
-				sx={{
-					position: "absolute",
-					top: "25px",
-					right: "20px",
-					color: "white",
-				}}
-			>
-				{/* Edit 8: Sending the currentId up to App component. State changes from null tto id */}
-				<Button
-					size="small"
-					sx={{ color: "white" }}
-					onClick={() => setCurrentId(post._id)}
+			{/* Only creator sees element when logged in */}
+			{(user?.result?.sub === post?.creator ||
+				user?.result?._id === post?.creator) && (
+				<Box
+					sx={{
+						position: "absolute",
+						top: "25px",
+						right: "20px",
+						color: "white",
+					}}
 				>
-					<MoreHorizIcon />
-				</Button>
-			</Box>
+					{/* Edit 8: Sending the currentId up to App component. State changes from null tto id */}
+					<Button
+						size="small"
+						sx={{ color: "white" }}
+						onClick={() => setCurrentId(post._id)}
+					>
+						<MoreHorizIcon />
+					</Button>
+				</Box>
+			)}
 			<Box
 				sx={{
 					display: "flex",
@@ -84,7 +134,7 @@ const Post = ({ post, setCurrentId }) => {
 				</Typography>
 			</Box>
 			<CardContent>
-				<Typography variant="h5" gutterBottom>
+				<Typography variant="h6" gutterBottom>
 					{post.title}
 				</Typography>
 				<Typography
@@ -109,20 +159,26 @@ const Post = ({ post, setCurrentId }) => {
 				<Button
 					size="small"
 					color="primary"
+					disabled={!user?.result}
 					onClick={() => dispatch(likePost(post._id))} // Like 6b: Dispatching the action on Like button
 				>
-					<ThumbUpAltIcon fontSize="small" />
-					&nbsp; Like &nbsp;
-					{post.likeCount}
+					<Likes />
 				</Button>
-				<Button
-					size="small"
-					color="primary"
-					onClick={() => dispatch(deletePost(post._id))} // Delete 6c: Dispatching the action on Delete button
-				>
-					<DeleteIcon fontSize="small" sx={{ marginRight: "5px" }} />
-					Delete
-				</Button>
+				{/* Only creator sees element when logged in */}
+				{(user?.result?.sub === post?.creator ||
+					user?.result?._id === post?.creator) && (
+					<Button
+						size="small"
+						color="primary"
+						onClick={() => dispatch(deletePost(post._id))} // Delete 6c: Dispatching the action on Delete button
+					>
+						<DeleteIcon
+							fontSize="small"
+							sx={{ marginRight: "5px" }}
+						/>
+						Delete
+					</Button>
+				)}
 			</CardActions>
 		</Card>
 	);

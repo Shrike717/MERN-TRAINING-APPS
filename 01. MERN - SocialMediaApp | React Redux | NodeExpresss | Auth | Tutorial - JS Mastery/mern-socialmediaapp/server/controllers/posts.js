@@ -11,10 +11,14 @@ export const getPosts = async (req, res) => {
 	}
 };
 
-export const createPost = async (req, res, next) => {
+export const createPost = async (req, res) => {
+	// console.log(req.userId);
 	const post = req.body;
 
-	const newPost = new PostMessage(post);
+	const newPost = new PostMessage({
+		...post,
+		creator: req.userId, // After Auth is in place we add the useId to creator property
+	});
 	try {
 		await newPost.save();
 
@@ -73,6 +77,9 @@ export const likePost = async (req, res) => {
 	const { id } = req.params; // Destructuring it
 	const _id = id; // Renaming it => Mongoosse syntax
 
+	// With auth flow: Check if user is authenticated. Request is then populated in auth middleware:
+	if (!req.userId) return res.json({ message: "Unauthenticated" });
+
 	// If not a valid MG _id send back error Message
 	if (!mongoose.Types.ObjectId.isValid(_id))
 		return res.status(404).send("No post with that id!");
@@ -81,12 +88,24 @@ export const likePost = async (req, res) => {
 		// First we need the post from the DB:
 		const post = await PostMessage.findById(_id);
 
-		// Then we update it with increemented likeCount and store it in updatedPost variable
-		const updatedPost = await PostMessage.findByIdAndUpdate(
-			_id,
-			{ likeCount: post.likeCount + 1 },
-			{ new: true }
-		);
+		// With auth flow: Now checking if userId is in likes array or not. Looping over ids
+		// If userid is already there, it is gonna be a dislike
+		const index = post.likes.findIndex((id) => id === String(req.userId));
+
+		// With auth flow: ONlY if userId was not in array it is gonna be -1
+		if (index === -1) {
+			// Like a post
+			post.likes.push(req.userId); // Adds userId
+		} else {
+			// Dislike a post
+			post.likes = post.likes.filter((id) => id !== String(req.userId)); // Filters out userId
+		}
+
+		// With auth flow: Then we update it and store it in updatedPost variable
+		const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, {
+			// Now we update the post including new likes array. No count incrementing anymore
+			new: true,
+		});
 		res.status(200).json(updatedPost); // And sending it back
 	} catch (error) {
 		res.status(409).json({ message: error });
