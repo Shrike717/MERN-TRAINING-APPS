@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react"; // Redux 9. Import useEffect | Edit 3. impprt useState
 import { useDispatch } from "react-redux"; // Redux 7. Import this hook
 
-import { Container, Grow } from "@mui/material";
+import { Container, Grow, Paper } from "@mui/material";
+import { themeApp } from "../../appStyles";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Posts from "../Posts/Posts";
 import Form from "../Form/Form";
-import { themeApp } from "../../appStyles";
+import Pagination from "../Pagination/Pagination";
 
 import { getPosts } from "../../actions/posts"; // Redux 11. Import action file to dispatch
 
@@ -47,6 +48,16 @@ function Home() {
 							currentId={currentId}
 							setCurrentId={setCurrentId}
 						/>
+						<Paper
+							elevation={6}
+							sx={{
+								borderRadius: 4,
+								marginTop: "1rem",
+								padding: "16px",
+							}}
+						>
+							<Pagination />
+						</Paper>
 					</Grid>
 				</Grid>
 			</Container>
