@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"; // Google 7a: Import hooks
 import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom"; // Google 7a: Import hooks
+import decode from "jwt-decode"; // Needed to check JWT Token expiry date
 import {
 	Box,
 	AppBar,
@@ -41,9 +42,17 @@ function Navbar() {
 		// Google 7f: Prep for custom Signup process.. Setting user again from localStorage.
 		const token = user?.token;
 
-		// Check for JWT later.....
+		// Loggic for checking oken expiry date
+		if (token) {
+			// decoding token to check expiry date
+			const decodedToken = decode(token);
+			console.log(decodedToken);
+			// Checks the two dates in milliseconds and logs out when expired
+			if (decodedToken?.exp * 1000 < new Date().getTime()) handleLogout();
+		}
+
 		setUser(JSON.parse(localStorage.getItem("profile")));
-	}, [location]); // Triggers rerender to show uuser in navbar
+	}, [location]); // Triggers rerender to show user in navbar
 
 	return (
 		<AppBar
