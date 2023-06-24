@@ -1,5 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import env from "react-dotenv";
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	Navigate,
+} from "react-router-dom";
 import { Container } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -10,19 +14,51 @@ import { themeApp } from "./appStyles";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
 import Auth from "./components/Auth/Auth";
+import PostDetails from "./components/PostDetails/PostDetails";
 
 function App() {
+	const user = JSON.parse(localStorage.getItem("profile")); // Needed to only see /auth when not logged in
+	console.log(user);
+
 	return (
 		// Google 2. and 3.: Getting clientId and wrapping App in GoogleOAuthProvider
-		<GoogleOAuthProvider clientId={env.REACT_PUBLIC_GOOGLE_API_TOKEN}>
+		<GoogleOAuthProvider
+			clientId={process.env.REACT_APP_PUBLIC_GOOGLE_API_TOKEN}
+		>
 			<Router>
 				<ThemeProvider theme={themeApp}>
 					{/* Container centers everything */}
-					<Container maxWidth="laptop">
+					<Container maxWidth="xl">
 						<Navbar />
 						<Routes>
-							<Route path="/" exact element={<Home />} />
-							<Route path="/auth" exact element={<Auth />} />
+							<Route
+								path="/"
+								exact
+								element={<Navigate replace to="/posts" />} // Redirects to /posts
+							/>
+							{/* But then we have to render sth for the redirect path */}
+							<Route path="/posts" exact element={<Home />} />
+							<Route
+								path="/posts/search"
+								exact
+								element={<Home />}
+							/>
+							<Route
+								path="/posts/:id"
+								exact
+								element={<PostDetails />}
+							/>
+							<Route
+								path="/auth"
+								exact
+								element={
+									!user ? (
+										<Auth />
+									) : (
+										<Navigate replace to="/posts" /> // Ensures that logged in user can't reach /auth manually
+									)
+								}
+							/>
 						</Routes>
 					</Container>
 				</ThemeProvider>
