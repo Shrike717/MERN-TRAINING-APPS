@@ -15,6 +15,13 @@ API.interceptors.request.use((req) => {
 });
 
 export const fetchPosts = () => API.get("/posts");
+// Text Search 11: Sending dynamically generated url with searchQuery and tags to BE
+export const fetchPostsBySearch = (searchQuery) =>
+	API.get(
+		`/posts/search?searchQuery=${searchQuery.searchTerm || "none"}&tags=${
+			searchQuery.tags
+		} `
+	);
 export const createPost = (newPost) => API.post("/posts", newPost); // Data from formfield sent to BE
 export const updatePost = (id, updatedPost) =>
 	API.patch(`/posts/${id}`, updatedPost); // Edit 11: Dynamic url with id and updatedPost data as body sent to BE

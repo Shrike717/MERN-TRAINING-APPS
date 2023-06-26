@@ -19,7 +19,7 @@ import Posts from "../Posts/Posts";
 import Form from "../Form/Form";
 import Pagination from "../Pagination/Pagination";
 
-import { getPosts } from "../../actions/posts"; // Redux 11. Import action file to dispatch
+import { getPosts, getPostsBySearch } from "../../actions/posts"; // Redux 11. Import action file to dispatch. Text Search 12a: Import getPostsBySearch
 import LoginMessage from "../Auth/LoginMessage";
 
 // Text Search 2: Util function to know on which page we are currrently on and which searchTerm are we looking for.
@@ -52,7 +52,8 @@ function Home() {
 	// Text Search 9: Dispatches the search with searchTerm or tags when click on button or press enter
 	const searchPost = () => {
 		if (searchTerm.trim() || tags) {
-			// dispatch -> fetch search post
+			// Text Search 12b: dispatch -> fetch search post
+			dispatch(getPostsBySearch({ searchTerm, tags: tags.join(",") }));
 		} else {
 			navigate("/");
 		}
