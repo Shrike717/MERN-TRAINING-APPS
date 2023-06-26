@@ -19,6 +19,17 @@ export const getPosts = () => async (dispatch) => {
 	}
 };
 
+// Text Search 10: Creating action for getting all posts matching search
+export const getPostsBySearch = (searchQuery) => async (dispatch) => {
+	try {
+		const { data } = await api.getPostsBySearch(searchQuery); // Axios request sending search query to BE triggert from here. Response gets saved
+
+		console.log(data);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 export const createPost = (post) => async (dispatch) => {
 	try {
 		const { data } = await api.createPost(post); // Axios request sending new post to BE triggert from here. Response gets saved
