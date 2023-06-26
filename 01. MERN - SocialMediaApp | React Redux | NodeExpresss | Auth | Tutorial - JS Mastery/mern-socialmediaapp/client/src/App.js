@@ -18,7 +18,6 @@ import PostDetails from "./components/PostDetails/PostDetails";
 
 function App() {
 	const user = JSON.parse(localStorage.getItem("profile")); // Needed to only see /auth when not logged in
-	console.log(user);
 
 	return (
 		// Google 2. and 3.: Getting clientId and wrapping App in GoogleOAuthProvider
@@ -55,7 +54,7 @@ function App() {
 									!user ? (
 										<Auth />
 									) : (
-										<Navigate replace to="/posts" /> // Ensures that logged in user can't reach /auth manually
+										<Navigate replace to="/posts" /> // Ensures that logged in user can't reach /auth manually. NOT working correctly after timeout
 									)
 								}
 							/>

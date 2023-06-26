@@ -7,7 +7,7 @@ export const themeApp = createTheme({
 			laptop: 1024,
 			tablet: 870,
 			mobile: 0,
-			// xs: 0,
+			xs: 0,
 			xm: 500,
 			sm: 600,
 			md: 900,

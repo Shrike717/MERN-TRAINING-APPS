@@ -17,6 +17,7 @@
     "jwt-decoder": "^0.0.0",
     "material-ui-chip-input": "^1.1.0",
     "moment": "^2.29.4",
+    "mui-chips-input": "^2.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-file-base64": "^1.0.3",
@@ -56,10 +57,6 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
-  },
-  "react-dotenv": {
-    "whitelist": [
-      "REACT_PUBLIC_GOOGLE_API_TOKEN"
-    ]
   }
+
 }

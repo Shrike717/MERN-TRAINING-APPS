@@ -46,7 +46,7 @@ function Navbar() {
 		if (token) {
 			// decoding token to check expiry date
 			const decodedToken = decode(token);
-			console.log(decodedToken);
+
 			// Checks the two dates in milliseconds and logs out when expired
 			if (decodedToken?.exp * 1000 < new Date().getTime()) handleLogout();
 		}

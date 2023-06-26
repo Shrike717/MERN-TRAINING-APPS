@@ -56,24 +56,24 @@ const Form = ({ currentId, setCurrentId }) => {
 		clear();
 	};
 
-	if (!user?.result?.name) {
-		return (
-			<StyledPaper elevation={2}>
-				<Typography
-					variant="h6"
-					textAlign="center"
-					fontWeight="600"
-					sx={{ marginBottom: "5px" }}
-				>
-					Welcome to Memories!
-				</Typography>
-				<Typography variant="body1" align="center">
-					Please sign in to create your own memories and like other
-					memories.
-				</Typography>
-			</StyledPaper>
-		);
-	}
+	// if (!user?.result?.name) {
+	// 	return (
+	// 		<StyledPaper elevation={2}>
+	// 			<Typography
+	// 				variant="h6"
+	// 				textAlign="center"
+	// 				fontWeight="600"
+	// 				sx={{ marginBottom: "5px" }}
+	// 			>
+	// 				Welcome to Memories!
+	// 			</Typography>
+	// 			<Typography variant="body1" align="center">
+	// 				Please sign in to create your own memories and like other
+	// 				memories.
+	// 			</Typography>
+	// 		</StyledPaper>
+	// 	);
+	// }
 
 	const clear = () => {
 		setCurrentId(null);
@@ -105,7 +105,7 @@ const Form = ({ currentId, setCurrentId }) => {
 					sx={{ marginBottom: "5px" }}
 				>
 					{/* Edit 15: Dynamic change of Headline above form field */}
-					{currentId ? "Editing" : "Create"} a memory
+					{currentId ? "Edit your memory" : "Create a memory"}
 				</Typography>
 				{/* <TextField
 					name="creator"

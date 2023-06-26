@@ -126,21 +126,24 @@ const Post = ({ post, setCurrentId }) => {
 				sx={{
 					display: "flex",
 					justifyContent: "space-between",
-					margin: "20px",
+					margin: "20px 20px 8px 20px",
 				}}
 			>
 				<Typography sx={{ color: "#525252" }} variant="body2">
 					{post.tags.map((tag) => `#${tag} `)}
 				</Typography>
 			</Box>
-			<CardContent>
-				<Typography variant="h6" gutterBottom>
+			<CardContent sx={{ paddingTop: "0px", paddingBottom: "10px" }}>
+				<Typography
+					variant="body1"
+					sx={{ fontWeight: 600, paddingBottom: "10px" }}
+				>
 					{post.title}
 				</Typography>
 				<Typography
 					sx={{
 						color: "#525252",
-						height: "50px",
+						height: "60px",
 						overflow: "scroll",
 					}}
 					component="p"
