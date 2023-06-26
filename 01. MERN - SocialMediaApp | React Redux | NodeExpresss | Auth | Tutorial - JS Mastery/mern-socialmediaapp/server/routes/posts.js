@@ -1,6 +1,7 @@
 import express from "express";
 
 import {
+	getPostsBySearch, // Text Search 13b: RImporting controller action
 	getPosts,
 	createPost,
 	updatePost, // Edit 1b: Importing controller action
@@ -13,6 +14,7 @@ import auth from "../middleware/auth.js";
 const router = express.Router();
 
 // http://localhost:5000/posts -> Prefix!
+router.get("/search", getPostsBySearch); // Text Search 13a: Route
 router.get("/", getPosts);
 router.post("/", auth, createPost);
 router.patch("/:id", auth, updatePost); // Edit 1a: Route
