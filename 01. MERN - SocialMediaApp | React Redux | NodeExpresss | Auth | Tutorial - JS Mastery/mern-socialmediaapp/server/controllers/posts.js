@@ -13,16 +13,16 @@ export const getPosts = async (req, res) => {
 
 // Text Search 14: Controller action to fetch matching posts
 export const getPostsBySearch = async (req, res) => {
-	const { searchTerm, tags } = req.query;
+	const { searchQuery, tags } = req.query;
 
 	try {
-		const title = new RegExp(searchTerm, "i"); // i = ignore: Test, test, TEST -> test. RegExp is better forr MG to search DB.
+		const title = new RegExp(searchQuery, "i"); // i = ignore: Test, test, TEST -> test. RegExp is better for MG to search DB.
 
 		const posts = await PostMessage.find({
 			$or: [{ title: title }, { tags: { $in: tags.split(",") } }],
 		});
 
-		res.json({ posts });
+		res.json({ data: posts });
 	} catch (error) {
 		res.status(404).json({ message: error });
 	}

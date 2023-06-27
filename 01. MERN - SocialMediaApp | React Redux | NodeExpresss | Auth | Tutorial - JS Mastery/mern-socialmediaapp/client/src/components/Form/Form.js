@@ -4,7 +4,6 @@ import { styled } from "@mui/material/styles";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux"; // Edit 14a: Import useSelector
 import { createPost, updatePost } from "../../actions/posts"; // Edit 10: importing postCreate action
-import { useLocation } from "react-router-dom"; // My trick to force rerender of form after logout
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
 	"&.MuiPaper-root": {
@@ -18,8 +17,6 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 // For updating a post: we have to get the current Id of this post to this component
 
 const Form = ({ currentId, setCurrentId }) => {
-	const location = useLocation(); // Needed to force rerender of form after logout
-
 	// Edit 6: Destructure State Setter for currentId and currentId
 	const [postData, setPostData] = useState({
 		// creator: "", // Was needed before Auth flow
@@ -40,7 +37,7 @@ const Form = ({ currentId, setCurrentId }) => {
 	useEffect(() => {
 		// edit 14d: Populate fields with data of post the user wants to edt (the postToUpdate)
 		if (postToUpdate) setPostData(postToUpdate);
-	}, [postToUpdate, location]); // With location: Force to rerender after logout
+	}, [postToUpdate, currentId]); // here ERROR: with location edit is working, wiith currentId search diispllay iss working
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -76,14 +73,25 @@ const Form = ({ currentId, setCurrentId }) => {
 	// }
 
 	const clear = () => {
-		setCurrentId(null);
-		setPostData({
-			// creator: "",
-			title: "",
-			message: "",
-			tags: "",
-			selectedFile: "",
-		});
+		// CAUTION! This is my construction. Delays rerender so that updated post has time to get in store first
+		setTimeout(() => {
+			setPostData({
+				// creator: "",
+				title: "",
+				message: "",
+				tags: "",
+				selectedFile: "",
+			});
+			setCurrentId(null);
+		}, "600");
+		// setPostData({
+		// 	// creator: "",
+		// 	title: "",
+		// 	message: "",
+		// 	tags: "",
+		// 	selectedFile: "",
+		// });
+		// setCurrentId(null);
 	};
 
 	return (
@@ -161,6 +169,7 @@ const Form = ({ currentId, setCurrentId }) => {
 							setPostData({ ...postData, selectedFile: base64 })
 						}
 					/>
+					{/* <input type="file" name="image" id="image"></input> */}
 				</Box>
 				<Button
 					variant="contained"
