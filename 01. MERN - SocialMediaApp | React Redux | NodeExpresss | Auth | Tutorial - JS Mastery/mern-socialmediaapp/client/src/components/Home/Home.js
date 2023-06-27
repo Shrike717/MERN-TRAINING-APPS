@@ -36,26 +36,32 @@ function Home() {
 	// console.log(tags);
 
 	const dispatch = useDispatch(); // Redux 8. Create hook
-	const location = useLocation(); // Needed to force rerender of form after logout
 	const query = useQuery(); // Text Search 3a: Initialising as hook
 	const navigate = useNavigate(); // Text Search 3b: Initialising as hook
 	const page = query.get("page") || 1; // Text Search 4: Reads URL and checks for page param. If yes populates variable.
 	const searchQuery = query.get("searchQuery") || ""; // // Text Search 5: Reads URL and checks for search query. If yes populates variable.
+	// console.log(searchQuery);
 
 	const user = JSON.parse(localStorage.getItem("profile"));
 
 	useEffect(() => {
 		// Redux 10. Setup useEffect
 		dispatch(getPosts()); // Redux 12. Evoke action in dispatch
-	}, [dispatch, location]);
+	}, [dispatch, currentId]);
 
 	// Text Search 9: Dispatches the search with searchTerm or tags when click on button or press enter
 	const searchPost = () => {
 		if (searchTerm.trim() || tags) {
 			// Text Search 12b: dispatch -> fetch search post
 			dispatch(getPostsBySearch({ searchTerm, tags: tags.join(",") }));
+			// Text Search 15 (coming from BE 14): We route to URL including searchQuery and tags in FE
+			navigate(
+				`/posts/search?searchQuery=${searchTerm || "none"}&tags=${
+					tags.join(",") || "none"
+				}`
+			);
 		} else {
-			navigate("/");
+			navigate.push("/");
 		}
 	};
 

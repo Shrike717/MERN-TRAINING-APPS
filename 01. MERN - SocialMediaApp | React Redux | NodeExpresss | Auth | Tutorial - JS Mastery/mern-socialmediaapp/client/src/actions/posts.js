@@ -4,6 +4,7 @@ import {
 	UPDATE,
 	DELETE,
 	LIKE,
+	FETCH_BY_SEARCH,
 } from "../constants/actionTypes";
 
 import * as api from "../api"; // Redux 13a. Importing everything from api file
@@ -22,9 +23,12 @@ export const getPosts = () => async (dispatch) => {
 // Text Search 10: Creating action for getting all posts matching search
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
 	try {
-		const { data } = await api.getPostsBySearch(searchQuery); // Axios request sending search query to BE triggert from here. Response gets saved
+		const {
+			data: { data },
+		} = await api.getPostsBySearch(searchQuery); // Axios request sending search query to BE triggert from here. Response gets saved
 
-		console.log(data);
+		// Text Search 16: Dispatching the response data to postsReducer
+		dispatch({ type: FETCH_BY_SEARCH, payload: data });
 	} catch (error) {
 		console.log(error);
 	}

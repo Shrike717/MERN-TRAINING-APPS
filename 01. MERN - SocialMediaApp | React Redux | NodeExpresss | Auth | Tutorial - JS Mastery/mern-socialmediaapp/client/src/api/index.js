@@ -19,7 +19,7 @@ export const fetchPosts = () => API.get("/posts");
 export const getPostsBySearch = (searchQuery) =>
 	API.get(
 		`/posts/search?searchQuery=${searchQuery.searchTerm || "none"}&tags=${
-			searchQuery.tags
+			searchQuery.tags || "none"
 		} `
 	);
 export const createPost = (newPost) => API.post("/posts", newPost); // Data from formfield sent to BE

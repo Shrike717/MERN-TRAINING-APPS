@@ -4,6 +4,7 @@ import {
 	UPDATE,
 	DELETE,
 	LIKE,
+	FETCH_BY_SEARCH,
 } from "../constants/actionTypes";
 
 // Redux 5. Create posts reducer:
@@ -12,6 +13,11 @@ const postsReducer = (posts = [], action) => {
 	switch (
 		action.type // i..e "CREATE"...
 	) {
+		case FETCH_ALL:
+			return action.payload; // Redux 14. Setting the return to action.payload = Updating the state in store
+
+		case FETCH_BY_SEARCH:
+			return action.payload; //  Text Search 17: Setting the return to action.payload = Updating the state in stor
 		case DELETE:
 			return posts.filter((post) => post._id !== action.payload); // Delete 5: Returns every post exept the deleted one
 		case UPDATE:
@@ -19,8 +25,7 @@ const postsReducer = (posts = [], action) => {
 			return posts.map((post) =>
 				post._id === action.payload._id ? action.payload : post
 			); // Edit 13: Mapping over posts, find updated post and change it. Otherwise returrn all otther posts
-		case FETCH_ALL:
-			return action.payload; // Redux 14. Setting the return to action.payload = Updating the state in store
+
 		case CREATE:
 			return [...posts, action.payload]; // Updating the state in store
 		default:
