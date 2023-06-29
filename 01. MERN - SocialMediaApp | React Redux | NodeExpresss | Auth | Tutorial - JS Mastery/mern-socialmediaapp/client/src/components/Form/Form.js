@@ -5,6 +5,9 @@ import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux"; // Edit 14a: Import useSelector
 import { createPost, updatePost } from "../../actions/posts"; // Edit 10: importing postCreate action
 
+// Test images
+import axios from "axios";
+
 const StyledPaper = styled(Paper)(({ theme }) => ({
 	"&.MuiPaper-root": {
 		paddingTop: theme.spacing(1.25),
@@ -25,6 +28,13 @@ const Form = ({ currentId, setCurrentId }) => {
 		tags: "",
 		selectedFile: "",
 	});
+
+	// PoS for image test:
+	const [file, setFile] = useState();
+	const [description, setDescription] = useState("");
+	// console.log(file);
+	// console.log(description);
+
 	// After Auth flow: User now neded to pass the user name of logged in user to the BE
 	const user = JSON.parse(localStorage.getItem("profile"));
 
@@ -39,6 +49,26 @@ const Form = ({ currentId, setCurrentId }) => {
 		if (postToUpdate) setPostData(postToUpdate);
 	}, [postToUpdate, currentId]); // here ERROR: with location edit is working, wiith currentId search diispllay iss working
 
+	// Test Images Base URL
+	const API = axios.create({ baseURL: "http://localhost:5000" });
+
+	// Submit fuuncion test image
+	const submit = async (event) => {
+		event.preventDefault();
+
+		// Send the file and description to the server
+		const formData = new FormData();
+		formData.append("image", file);
+		formData.append("description", description);
+		// formData.append("title", postData.title);
+		console.log(formData);
+
+		const result = await API.post("/api/images", formData, {
+			headers: { "Content-Type": "multipart/form-data" },
+		});
+		console.log(result.data);
+	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
@@ -52,25 +82,6 @@ const Form = ({ currentId, setCurrentId }) => {
 		}
 		clear();
 	};
-
-	// if (!user?.result?.name) {
-	// 	return (
-	// 		<StyledPaper elevation={2}>
-	// 			<Typography
-	// 				variant="h6"
-	// 				textAlign="center"
-	// 				fontWeight="600"
-	// 				sx={{ marginBottom: "5px" }}
-	// 			>
-	// 				Welcome to Memories!
-	// 			</Typography>
-	// 			<Typography variant="body1" align="center">
-	// 				Please sign in to create your own memories and like other
-	// 				memories.
-	// 			</Typography>
-	// 		</StyledPaper>
-	// 	);
-	// }
 
 	const clear = () => {
 		// CAUTION! This is my construction. Delays rerender so that updated post has time to get in store first
@@ -95,103 +106,122 @@ const Form = ({ currentId, setCurrentId }) => {
 	};
 
 	return (
-		<StyledPaper elevation={2}>
-			<form
-				autoComplete="off"
-				noValidate
-				sx={{
-					display: "flex",
-					flexWrap: "wrap",
-					justifyContent: "center",
-				}}
-				onSubmit={handleSubmit}
-			>
-				<Typography
-					variant="h6"
-					textAlign="center"
-					fontWeight="600"
-					sx={{ marginBottom: "5px" }}
+		<>
+			<StyledPaper elevation={2}>
+				<form
+					autoComplete="off"
+					noValidate
+					sx={{
+						display: "flex",
+						flexWrap: "wrap",
+						justifyContent: "center",
+					}}
+					onSubmit={handleSubmit}
 				>
-					{/* Edit 15: Dynamic change of Headline above form field */}
-					{currentId ? "Edit your memory" : "Create a memory"}
-				</Typography>
-				{/* <TextField
-					name="creator"
-					variant="outlined"
-					label="Creator"
-					fullWidth
-					value={postData.creator}
-					onChange={(e) =>
-						setPostData({ ...postData, creator: e.target.value })
-					}
-					sx={{ marginBottom: "10px", fontWeight: "600" }}
-				/> */}
-				<TextField
-					name="title"
-					variant="outlined"
-					label="Title"
-					fullWidth
-					value={postData.title}
-					onChange={(e) =>
-						setPostData({ ...postData, title: e.target.value })
-					}
-					sx={{ marginBottom: "10px" }}
-				/>
-				<TextField
-					name="message"
-					variant="outlined"
-					label="Message"
-					fullWidth
-					value={postData.message}
-					onChange={(e) =>
-						setPostData({ ...postData, message: e.target.value })
-					}
-					sx={{ marginBottom: "10px" }}
-				/>
-				<TextField
-					name="tags"
-					variant="outlined"
-					label="Tags"
-					fullWidth
-					value={postData.tags}
-					onChange={(e) =>
-						setPostData({
-							...postData,
-							tags: e.target.value.split(","), // Splitting tags for search later
-						})
-					}
-				/>
-				<Box sx={{ width: "97%", margin: "10px 0" }}>
-					<FileBase
-						type="file"
-						multiple={false}
-						onDone={({ base64 }) =>
-							setPostData({ ...postData, selectedFile: base64 })
+					<Typography
+						variant="h6"
+						textAlign="center"
+						fontWeight="600"
+						sx={{ marginBottom: "5px" }}
+					>
+						{/* Edit 15: Dynamic change of Headline above form field */}
+						{currentId ? "Edit your memory" : "Create a memory"}
+					</Typography>
+					<TextField
+						name="title"
+						variant="outlined"
+						label="Title"
+						fullWidth
+						value={postData.title}
+						onChange={(e) =>
+							setPostData({ ...postData, title: e.target.value })
+						}
+						sx={{ marginBottom: "10px" }}
+					/>
+					<TextField
+						name="message"
+						variant="outlined"
+						label="Message"
+						fullWidth
+						value={postData.message}
+						onChange={(e) =>
+							setPostData({
+								...postData,
+								message: e.target.value,
+							})
+						}
+						sx={{ marginBottom: "10px" }}
+					/>
+					<TextField
+						name="tags"
+						variant="outlined"
+						label="Tags"
+						fullWidth
+						value={postData.tags}
+						onChange={(e) =>
+							setPostData({
+								...postData,
+								tags: e.target.value.split(","), // Splitting tags for search later
+							})
 						}
 					/>
-					{/* <input type="file" name="image" id="image"></input> */}
-				</Box>
-				<Button
-					variant="contained"
-					color="primary"
-					size="large"
-					type="submit"
-					fullWidth
-					sx={{ marginBottom: "10px" }}
-				>
-					Submit
-				</Button>
-				<Button
-					variant="contained"
-					color="error"
-					size="small"
-					onClick={clear}
-					fullWidth
-				>
-					Clear
-				</Button>
-			</form>
-		</StyledPaper>
+					<Box sx={{ width: "97%", margin: "10px 0" }}>
+						<FileBase
+							type="file"
+							multiple={false}
+							onDone={({ base64 }) =>
+								setPostData({
+									...postData,
+									selectedFile: base64,
+								})
+							}
+						/>
+						{/* <input type="file" name="image" id="image"></input> */}
+					</Box>
+
+					<Button
+						variant="contained"
+						color="primary"
+						size="large"
+						type="submit"
+						fullWidth
+						sx={{ marginBottom: "10px" }}
+					>
+						Submit
+					</Button>
+					<Button
+						variant="contained"
+						color="error"
+						size="small"
+						onClick={clear}
+						fullWidth
+					>
+						Clear
+					</Button>
+				</form>
+			</StyledPaper>
+			<StyledPaper elevation={2} sx={{ marginTop: "10px" }}>
+				{/* Fields for image test */}
+				<form onSubmit={submit}>
+					<input
+						filename={file}
+						onChange={(e) => setFile(e.target.files[0])}
+						type="file"
+						accept="image/*"
+					></input>
+					<TextField
+						type="text"
+						name="tags"
+						variant="outlined"
+						label="Description"
+						fullWidth
+						value={description}
+						onChange={(e) => setDescription(e.target.value)}
+					/>
+					<button type="submit">Submit</button>
+				</form>
+			</StyledPaper>
+		</>
 	);
 };
 
