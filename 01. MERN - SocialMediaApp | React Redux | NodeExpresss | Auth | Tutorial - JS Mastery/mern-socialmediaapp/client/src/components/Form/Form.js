@@ -5,6 +5,8 @@ import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux"; // Edit 14a: Import useSelector
 import { createPost, updatePost } from "../../actions/posts"; // Edit 10: importing postCreate action
 
+import { createImage } from "../../actions/image";
+
 // Test images
 import axios from "axios";
 
@@ -49,10 +51,7 @@ const Form = ({ currentId, setCurrentId }) => {
 		if (postToUpdate) setPostData(postToUpdate);
 	}, [postToUpdate, currentId]); // here ERROR: with location edit is working, wiith currentId search diispllay iss working
 
-	// Test Images Base URL
-	const API = axios.create({ baseURL: "http://localhost:5000" });
-
-	// Submit fuuncion test image
+	// Submit funcion test image
 	const submit = async (event) => {
 		event.preventDefault();
 
@@ -61,12 +60,12 @@ const Form = ({ currentId, setCurrentId }) => {
 		formData.append("image", file);
 		formData.append("description", description);
 		// formData.append("title", postData.title);
-		console.log(formData);
+		console.log(
+			"1. This is formData object before dispatching in Form.js:",
+			...formData
+		);
 
-		const result = await API.post("/api/images", formData, {
-			headers: { "Content-Type": "multipart/form-data" },
-		});
-		console.log(result.data);
+		dispatch(createImage(formData));
 	};
 
 	const handleSubmit = (e) => {
