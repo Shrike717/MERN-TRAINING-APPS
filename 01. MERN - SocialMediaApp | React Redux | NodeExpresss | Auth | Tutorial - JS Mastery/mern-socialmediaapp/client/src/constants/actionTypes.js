@@ -9,3 +9,4 @@ export const AUTH = "AUTH";
 export const LOGOUT = "LOGOUT";
 
 export const CREATE_IMAGE = "CREATE_IMAGE";
+export const FETCH_ALL_IMAGES = "FETCH_ALL_IMAGES";

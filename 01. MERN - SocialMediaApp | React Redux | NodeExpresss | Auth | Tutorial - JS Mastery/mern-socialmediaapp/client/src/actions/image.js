@@ -1,6 +1,21 @@
-import { CREATE_IMAGE } from "../constants/actionTypes";
+import { CREATE_IMAGE, FETCH_ALL_IMAGES } from "../constants/actionTypes";
 
 import * as api from "../api";
+
+export const getImages = () => async (dispatch) => {
+	try {
+		const { data } = await api.fetchImages(); // Fetches all images from BE through axios call in api/index.js
+
+		console.log(
+			"This is the retrieved data from BE in action getImages",
+			data
+		);
+
+		dispatch({ type: FETCH_ALL_IMAGES, payload: data }); // Action that gets dispatched
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 export const createImage = (image) => async (dispatch) => {
 	console.log(
