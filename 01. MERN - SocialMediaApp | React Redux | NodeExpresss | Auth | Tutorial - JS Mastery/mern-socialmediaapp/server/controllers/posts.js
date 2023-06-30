@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+import fs from "fs";
+import path from "path";
+
 import PostMessage from "../models/postMessage.js";
 
 export const getPosts = async (req, res) => {
@@ -31,10 +34,15 @@ export const getPostsBySearch = async (req, res) => {
 export const createPost = async (req, res) => {
 	// console.log(req.userId);
 	const post = req.body;
-	console.log(req.body);
+	console.log("This is req.body in createPost controller", req.body);
+	const imageUrl = req.file.path;
+	console.log(imageUrl);
+	const tags = req.body.tags.split(","); // Splitting tags into array
 
 	const newPost = new PostMessage({
 		...post,
+		tags,
+		imageUrl,
 		creator: req.userId, // After Auth is in place we add the useId to creator property
 	});
 	try {
@@ -74,20 +82,26 @@ export const deletePost = async (req, res) => {
 	// Delete 2; Controller action. Then go to FE
 	// /posts/123 => is filling the value of { id }
 	const { id } = req.params; // Destructuring it
-	const _id = id; // Renaming it => Mongoosse syntax
+	const _id = id; // Renaming it => Mongoose syntax
+	let post;
 
 	// If not a valid MG _id send back error Message
 	if (!mongoose.Types.ObjectId.isValid(_id))
 		return res.status(404).send("No post with that id!");
 
 	try {
+		post = await PostMessage.findById(_id);
+		console.log("Found post in delete action:", post);
+
 		// Finding and deleting post from DB:
 		await PostMessage.findByIdAndRemove(_id);
 
-		res.status(200).json({ message: "Posst deleted successfully!" });
+		res.status(200).json({ message: "Post deleted successfully!" });
 	} catch (error) {
 		res.status(409).json({ message: error });
 	}
+	// Deleting image in images folder:
+	clearImage(post.imageUrl);
 };
 
 export const likePost = async (req, res) => {
@@ -129,4 +143,9 @@ export const likePost = async (req, res) => {
 	} catch (error) {
 		res.status(409).json({ message: error });
 	}
+};
+
+const clearImage = (filePath) => {
+	filePath = path.join(filePath);
+	fs.unlink(filePath, (err) => console.log(err));
 };

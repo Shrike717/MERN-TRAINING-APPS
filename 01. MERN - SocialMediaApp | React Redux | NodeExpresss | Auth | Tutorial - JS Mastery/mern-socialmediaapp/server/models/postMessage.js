@@ -7,7 +7,7 @@ const postSchema = mongoose.Schema(
 		name: String,
 		creator: String,
 		tags: [String],
-		selectedFile: String, // This will  be converted to string with react-file-base64
+		imageUrl: String,
 		likes: {
 			type: [String],
 			default: [],

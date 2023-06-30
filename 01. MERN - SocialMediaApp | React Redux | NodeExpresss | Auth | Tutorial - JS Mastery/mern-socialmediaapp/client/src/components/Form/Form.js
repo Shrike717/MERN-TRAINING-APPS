@@ -25,7 +25,7 @@ const Form = ({ currentId, setCurrentId }) => {
 		title: "",
 		message: "",
 		tags: "",
-		selectedFile: "",
+		// selectedFile: "",
 	});
 
 	// PoS for image test:
@@ -35,7 +35,7 @@ const Form = ({ currentId, setCurrentId }) => {
 		tags: "",
 	});
 	const [file, setFile] = useState();
-	console.log(imageData);
+	// console.log(imageData);
 
 	// After Auth flow: User now neded to pass the user name of logged in user to the BE
 	const user = JSON.parse(localStorage.getItem("profile"));
@@ -51,30 +51,18 @@ const Form = ({ currentId, setCurrentId }) => {
 		if (postToUpdate) setPostData(postToUpdate);
 	}, [postToUpdate, currentId]); // here ERROR: with location edit is working, wiith currentId search diispllay iss working
 
-	// Submit funcion test image
-	const submit = async (event) => {
-		event.preventDefault();
+	const handleSubmit = (e) => {
+		e.preventDefault();
 
 		// Form Data with multiple fields
 		const formData = new FormData();
 
 		//Basic form info
-		formData.append("title", imageData.title);
-		formData.append("message", imageData.message);
-		formData.append("tags", imageData.tags);
+		formData.append("title", postData.title);
+		formData.append("message", postData.message);
+		formData.append("tags", postData.tags);
 		formData.append("image", file);
 		formData.append("name", user?.result?.name);
-
-		console.log(
-			"1. This is formData object before dispatching in Form.js:",
-			...formData
-		);
-
-		dispatch(createImage(formData));
-	};
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
 
 		if (currentId) {
 			// Edit 9: If we have a currentId we dispatch an updatePost action with id and updated post data. Oherwise createPost
@@ -82,7 +70,7 @@ const Form = ({ currentId, setCurrentId }) => {
 				updatePost(currentId, { ...postData, name: user?.result?.name }) // After Auth flow: Passing logged in user name to BE
 			);
 		} else {
-			dispatch(createPost({ ...postData, name: user?.result?.name })); // Calling the ceatePost action and sending the data from he form field
+			dispatch(createPost(formData)); // Calling the ceatePost action and sending the data from he form field
 		}
 		clear();
 	};
@@ -170,18 +158,13 @@ const Form = ({ currentId, setCurrentId }) => {
 						}
 					/>
 					<Box sx={{ width: "97%", margin: "10px 0" }}>
-						<FileBase
+						<input
+							filename={file}
+							onChange={(e) => setFile(e.target.files[0])}
 							type="file"
-							multiple={false}
-							onDone={({ base64 }) =>
-								setPostData({
-									...postData,
-									selectedFile: base64,
-								})
-							}
-						/>
+							accept="image/*"
+						></input>
 					</Box>
-
 					<Button
 						variant="contained"
 						color="primary"
@@ -200,71 +183,6 @@ const Form = ({ currentId, setCurrentId }) => {
 						fullWidth
 					>
 						Clear
-					</Button>
-				</form>
-			</StyledPaper>
-			<StyledPaper elevation={2} sx={{ marginTop: "10px" }}>
-				{/* Fields for image test */}
-				<form onSubmit={submit}>
-					<TextField
-						name="title"
-						variant="outlined"
-						label="Title"
-						fullWidth
-						value={imageData.title}
-						onChange={(e) =>
-							setImageData({
-								...imageData,
-								title: e.target.value,
-							})
-						}
-						sx={{ marginBottom: "10px" }}
-					/>
-					<TextField
-						type="text"
-						name="tags"
-						variant="outlined"
-						label="Message"
-						fullWidth
-						value={imageData.message}
-						onChange={(e) =>
-							setImageData({
-								...imageData,
-								message: e.target.value,
-							})
-						}
-						sx={{ marginBottom: "10px" }}
-					/>
-					<TextField
-						name="tags"
-						variant="outlined"
-						label="Tags"
-						fullWidth
-						value={imageData.tags}
-						onChange={(e) =>
-							setImageData({
-								...imageData,
-								tags: e.target.value.split(","), // Splitting tags for search later
-							})
-						}
-					/>
-					<Box sx={{ width: "97%", margin: "10px 0" }}>
-						<input
-							filename={file}
-							onChange={(e) => setFile(e.target.files[0])}
-							type="file"
-							accept="image/*"
-						></input>
-					</Box>
-					<Button
-						variant="contained"
-						color="primary"
-						size="large"
-						type="submit"
-						fullWidth
-						sx={{ marginBottom: "10px" }}
-					>
-						Submit
 					</Button>
 				</form>
 			</StyledPaper>
