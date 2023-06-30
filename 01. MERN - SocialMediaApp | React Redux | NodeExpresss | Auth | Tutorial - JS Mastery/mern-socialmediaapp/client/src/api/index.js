@@ -22,7 +22,12 @@ export const getPostsBySearch = (searchQuery) =>
 			searchQuery.tags || "none"
 		} `
 	);
-export const createPost = (newPost) => API.post("/posts", newPost); // Data from formfield sent to BE
+
+export const createPost = (newPost) =>
+	API.post("/posts", newPost, {
+		headers: { "Content-Type": "multipart/form-data" },
+	}); // Data from formfield sent to BE
+
 export const updatePost = (id, updatedPost) =>
 	API.patch(`/posts/${id}`, updatedPost); // Edit 11: Dynamic url with id and updatedPost data as body sent to BE
 export const deletePost = (id) => API.delete(`/posts/${id}`); // Delete 3: Dynamic url with id. Nothing else needed.

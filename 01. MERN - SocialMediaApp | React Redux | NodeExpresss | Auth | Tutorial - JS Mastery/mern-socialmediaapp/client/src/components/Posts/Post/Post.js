@@ -18,6 +18,8 @@ import { useLocation } from "react-router-dom";
 
 import { deletePost, likePost } from "../../../actions/posts"; // Delete 6c: importing deletePost action | Like 6a
 
+const BASE_URL = "http://localhost:5000/";
+
 const Post = ({ post, setCurrentId }) => {
 	// Edit 6: Destructure State Setter for currentId
 
@@ -79,7 +81,7 @@ const Post = ({ post, setCurrentId }) => {
 			}}
 		>
 			<CardMedia
-				image={post.selectedFile}
+				image={`${BASE_URL}${post.imageUrl}`}
 				title={post.title}
 				sx={{
 					height: 0,
@@ -112,7 +114,7 @@ const Post = ({ post, setCurrentId }) => {
 						color: "white",
 					}}
 				>
-					{/* Edit 8: Sending the currentId up to App component. State changes from null tto id */}
+					{/* Edit 8: Sending the currentId up to App component. State changes from null to id */}
 					<Button
 						size="small"
 						sx={{ color: "white" }}
