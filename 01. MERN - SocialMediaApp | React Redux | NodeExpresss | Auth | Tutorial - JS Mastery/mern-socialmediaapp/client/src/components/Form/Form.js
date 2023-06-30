@@ -7,9 +7,6 @@ import { createPost, updatePost } from "../../actions/posts"; // Edit 10: import
 
 import { createImage } from "../../actions/image";
 
-// Test images
-import axios from "axios";
-
 const StyledPaper = styled(Paper)(({ theme }) => ({
 	"&.MuiPaper-root": {
 		paddingTop: theme.spacing(1.25),
@@ -32,10 +29,13 @@ const Form = ({ currentId, setCurrentId }) => {
 	});
 
 	// PoS for image test:
+	const [imageData, setImageData] = useState({
+		title: "",
+		message: "",
+		tags: "",
+	});
 	const [file, setFile] = useState();
-	const [description, setDescription] = useState("");
-	// console.log(file);
-	// console.log(description);
+	console.log(imageData);
 
 	// After Auth flow: User now neded to pass the user name of logged in user to the BE
 	const user = JSON.parse(localStorage.getItem("profile"));
@@ -55,11 +55,16 @@ const Form = ({ currentId, setCurrentId }) => {
 	const submit = async (event) => {
 		event.preventDefault();
 
-		// Send the file and description to the server
+		// Form Data with multiple fields
 		const formData = new FormData();
+
+		//Basic form info
+		formData.append("title", imageData.title);
+		formData.append("message", imageData.message);
+		formData.append("tags", imageData.tags);
 		formData.append("image", file);
-		formData.append("description", description);
-		// formData.append("title", postData.title);
+		formData.append("name", user?.result?.name);
+
 		console.log(
 			"1. This is formData object before dispatching in Form.js:",
 			...formData
@@ -175,7 +180,6 @@ const Form = ({ currentId, setCurrentId }) => {
 								})
 							}
 						/>
-						{/* <input type="file" name="image" id="image"></input> */}
 					</Box>
 
 					<Button
@@ -202,22 +206,66 @@ const Form = ({ currentId, setCurrentId }) => {
 			<StyledPaper elevation={2} sx={{ marginTop: "10px" }}>
 				{/* Fields for image test */}
 				<form onSubmit={submit}>
-					<input
-						filename={file}
-						onChange={(e) => setFile(e.target.files[0])}
-						type="file"
-						accept="image/*"
-					></input>
+					<TextField
+						name="title"
+						variant="outlined"
+						label="Title"
+						fullWidth
+						value={imageData.title}
+						onChange={(e) =>
+							setImageData({
+								...imageData,
+								title: e.target.value,
+							})
+						}
+						sx={{ marginBottom: "10px" }}
+					/>
 					<TextField
 						type="text"
 						name="tags"
 						variant="outlined"
-						label="Description"
+						label="Message"
 						fullWidth
-						value={description}
-						onChange={(e) => setDescription(e.target.value)}
+						value={imageData.message}
+						onChange={(e) =>
+							setImageData({
+								...imageData,
+								message: e.target.value,
+							})
+						}
+						sx={{ marginBottom: "10px" }}
 					/>
-					<button type="submit">Submit</button>
+					<TextField
+						name="tags"
+						variant="outlined"
+						label="Tags"
+						fullWidth
+						value={imageData.tags}
+						onChange={(e) =>
+							setImageData({
+								...imageData,
+								tags: e.target.value.split(","), // Splitting tags for search later
+							})
+						}
+					/>
+					<Box sx={{ width: "97%", margin: "10px 0" }}>
+						<input
+							filename={file}
+							onChange={(e) => setFile(e.target.files[0])}
+							type="file"
+							accept="image/*"
+						></input>
+					</Box>
+					<Button
+						variant="contained"
+						color="primary"
+						size="large"
+						type="submit"
+						fullWidth
+						sx={{ marginBottom: "10px" }}
+					>
+						Submit
+					</Button>
 				</form>
 			</StyledPaper>
 		</>

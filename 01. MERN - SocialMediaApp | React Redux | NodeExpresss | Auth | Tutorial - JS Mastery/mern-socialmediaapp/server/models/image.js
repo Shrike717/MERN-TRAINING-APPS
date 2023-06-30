@@ -3,8 +3,16 @@ import mongoose from "mongoose";
 
 const imageSchema = mongoose.Schema(
 	{
-		description: String,
+		title: String,
+		message: String,
+		name: String,
+		creator: String,
+		tags: [String],
 		imageUrl: String,
+		likes: {
+			type: [String],
+			default: [],
+		},
 	},
 	{ timestamps: true }
 );

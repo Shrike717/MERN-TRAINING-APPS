@@ -31,6 +31,9 @@ export const likePost = (id) => API.patch(`/posts/${id}/likePost`); // Like 3: O
 export const signIn = (formData) => API.post("/user/signin", formData); // Man Auth 14: Signin credentials sent to BE
 export const signUp = (formData) => API.post("/user/signup", formData); // Man Auth 14: Signin credentials sent to BE
 
+// Test images
+export const fetchImages = () => API.get("/api/images");
+
 export const createImage = (newImage) =>
 	API.post("/api/images", newImage, {
 		headers: { "Content-Type": "multipart/form-data" },
