@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react"; // Edit 14c: import useEffect
+import { useRef } from "react"; // Needed for resetting file PoS
 import { Box, TextField, Button, Typography, Paper } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import FileBase from "react-file-base64";
+
 import { useDispatch, useSelector } from "react-redux"; // Edit 14a: Import useSelector
 import { createPost, updatePost } from "../../actions/posts"; // Edit 10: importing postCreate action
-
-import { createImage } from "../../actions/image";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
 	"&.MuiPaper-root": {
@@ -28,12 +27,6 @@ const Form = ({ currentId, setCurrentId }) => {
 		// selectedFile: "",
 	});
 
-	// PoS for image test:
-	const [imageData, setImageData] = useState({
-		title: "",
-		message: "",
-		tags: "",
-	});
 	const [file, setFile] = useState();
 	// console.log(imageData);
 
@@ -41,6 +34,7 @@ const Form = ({ currentId, setCurrentId }) => {
 	const user = JSON.parse(localStorage.getItem("profile"));
 
 	const dispatch = useDispatch(); // Initialising useDispatch hook
+	const inputFile = useRef(null); // Initialising ref hook to reset file input
 
 	const postToUpdate = useSelector((state) =>
 		currentId ? state.posts.find((p) => p._id === currentId) : null
@@ -49,7 +43,7 @@ const Form = ({ currentId, setCurrentId }) => {
 	useEffect(() => {
 		// edit 14d: Populate fields with data of post the user wants to edt (the postToUpdate)
 		if (postToUpdate) setPostData(postToUpdate);
-	}, [postToUpdate, currentId]); // here ERROR: with location edit is working, wiith currentId search diispllay iss working
+	}, [postToUpdate, currentId]); // here ERROR: with location edit is working, with currentId search display is working
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -77,24 +71,25 @@ const Form = ({ currentId, setCurrentId }) => {
 
 	const clear = () => {
 		// CAUTION! This is my construction. Delays rerender so that updated post has time to get in store first
-		setTimeout(() => {
-			setPostData({
-				// creator: "",
-				title: "",
-				message: "",
-				tags: "",
-				selectedFile: "",
-			});
-			setCurrentId(null);
-		}, "600");
-		// setPostData({
-		// 	// creator: "",
-		// 	title: "",
-		// 	message: "",
-		// 	tags: "",
-		// 	selectedFile: "",
-		// });
-		// setCurrentId(null);
+		// setTimeout(() => {
+		// 	setPostData({
+		// 		// creator: "",
+		// 		title: "",
+		// 		message: "",
+		// 		tags: "",
+		// 		selectedFile: "",
+		// 	});
+		// 	setCurrentId(null);
+		// }, "600");
+
+		setPostData({
+			// creator: "",
+			title: "",
+			message: "",
+			tags: "",
+		});
+		inputFile.current.value = null;
+		setCurrentId(null);
 	};
 
 	return (
@@ -159,6 +154,7 @@ const Form = ({ currentId, setCurrentId }) => {
 					/>
 					<Box sx={{ width: "97%", margin: "10px 0" }}>
 						<input
+							ref={inputFile}
 							filename={file}
 							onChange={(e) => setFile(e.target.files[0])}
 							type="file"
