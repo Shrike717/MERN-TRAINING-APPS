@@ -63,6 +63,7 @@ export const updatePost = async (req, res) => {
 	const { id } = req.params; // Destructuring it
 	const _id = id; // Renaming it => Mongoosse syntax
 	let post = req.body; // Extracting updated post from body
+	const tags = req.body.tags.split(","); // Splitting tags into array
 	let imageUrl;
 
 	if (req.file) {

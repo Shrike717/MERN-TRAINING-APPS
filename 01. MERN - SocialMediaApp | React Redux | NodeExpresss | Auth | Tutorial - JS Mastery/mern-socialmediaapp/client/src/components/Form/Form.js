@@ -64,6 +64,7 @@ const Form = ({ currentId, setCurrentId }) => {
 
 		if (!postToUpdate) {
 			formData.append("image", file); // If we don't have a currentId we need to add the file to formData
+			// This solution only works if image is not selected twice
 		} else if (postToUpdate.fileName === file?.name) {
 			formData.append("image", null); // User didn't change the file no file was uploaded
 		} else {
@@ -84,25 +85,26 @@ const Form = ({ currentId, setCurrentId }) => {
 
 	const clear = () => {
 		// CAUTION! This is my construction. Delays rerender so that updated post has time to get in store first
-		// setTimeout(() => {
-		// 	setPostData({
-		// 		// creator: "",
-		// 		title: "",
-		// 		message: "",
-		// 		tags: "",
-		// 		selectedFile: "",
-		// 	});
-		// 	setCurrentId(null);
-		// }, "600");
+		setTimeout(() => {
+			setPostData({
+				// creator: "",
+				title: "",
+				message: "",
+				tags: "",
+				selectedFile: "",
+			});
+			inputFile.current.value = null;
+			setCurrentId(null);
+		}, "600");
 
-		setPostData({
-			// creator: "",
-			title: "",
-			message: "",
-			tags: "",
-		});
-		inputFile.current.value = null;
-		setCurrentId(null);
+		// setPostData({
+		// 	// creator: "",
+		// 	title: "",
+		// 	message: "",
+		// 	tags: "",
+		// });
+		// inputFile.current.value = null;
+		// setCurrentId(null);
 	};
 
 	return (
