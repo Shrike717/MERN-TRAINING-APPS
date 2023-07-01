@@ -62,7 +62,15 @@ export const updatePost = async (req, res) => {
 	// /posts/123 => is filling the value of  { id }
 	const { id } = req.params; // Destructuring it
 	const _id = id; // Renaming it => Mongoosse syntax
-	const post = req.body; // Extracting updated post from body
+	let post = req.body; // Extracting updated post from body
+	let imageUrl;
+
+	if (req.file) {
+		// If a new file was picked, imageUrl will be filled
+		imageUrl = req.file.path;
+		post = { ...post, imageUrl };
+	}
+	console.log("This is imageUrl in updatePost controller", imageUrl);
 
 	// If not a valid MG _id send back error Message
 	if (!mongoose.Types.ObjectId.isValid(_id))
