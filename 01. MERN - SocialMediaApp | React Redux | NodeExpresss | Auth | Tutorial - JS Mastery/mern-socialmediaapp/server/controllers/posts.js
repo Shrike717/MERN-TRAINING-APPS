@@ -36,13 +36,14 @@ export const createPost = async (req, res) => {
 	const post = req.body;
 	console.log("This is req.body in createPost controller", req.body);
 	const imageUrl = req.file.path;
-	console.log(imageUrl);
+	const fileName = req.file.originalname;
 	const tags = req.body.tags.split(","); // Splitting tags into array
 
 	const newPost = new PostMessage({
 		...post,
 		tags,
 		imageUrl,
+		fileName,
 		creator: req.userId, // After Auth is in place we add the useId to creator property
 	});
 	try {
@@ -55,7 +56,8 @@ export const createPost = async (req, res) => {
 };
 
 export const updatePost = async (req, res) => {
-	console.log(req.body);
+	console.log("This is req.body in updatePost controller", req.body);
+	console.log("This is req.file in updatePost controller", req.file);
 	// Edit 2. Controller action. Then go  to FE
 	// /posts/123 => is filling the value of  { id }
 	const { id } = req.params; // Destructuring it
@@ -91,7 +93,7 @@ export const deletePost = async (req, res) => {
 
 	try {
 		post = await PostMessage.findById(_id);
-		console.log("Found post in delete action:", post);
+		// console.log("Found post in delete action:", post);
 
 		// Finding and deleting post from DB:
 		await PostMessage.findByIdAndRemove(_id);

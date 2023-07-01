@@ -8,6 +8,7 @@ const postSchema = mongoose.Schema(
 		creator: String,
 		tags: [String],
 		imageUrl: String,
+		fileName: String,
 		likes: {
 			type: [String],
 			default: [],

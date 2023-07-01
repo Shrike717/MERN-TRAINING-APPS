@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"; // Edit 14c: import useEffect
-import { useRef } from "react"; // Needed for resetting file PoS
+import { useRef } from "react"; // Needed for resetting file Input field
 import { Box, TextField, Button, Typography, Paper } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -24,6 +24,7 @@ const Form = ({ currentId, setCurrentId }) => {
 		title: "",
 		message: "",
 		tags: "",
+		fileName: "",
 		// selectedFile: "",
 	});
 
@@ -39,6 +40,10 @@ const Form = ({ currentId, setCurrentId }) => {
 	const postToUpdate = useSelector((state) =>
 		currentId ? state.posts.find((p) => p._id === currentId) : null
 	); // Edit 14b: Fetch the post that will be updated fron store
+	console.log(
+		"This is the post we want to update at beginning Form",
+		postToUpdate
+	);
 
 	useEffect(() => {
 		// edit 14d: Populate fields with data of post the user wants to edt (the postToUpdate)
@@ -55,13 +60,17 @@ const Form = ({ currentId, setCurrentId }) => {
 		formData.append("title", postData.title);
 		formData.append("message", postData.message);
 		formData.append("tags", postData.tags);
-		formData.append("image", file);
 		formData.append("name", user?.result?.name);
+
+		if (!postToUpdate) {
+			formData.append("image", file);
+		}
 
 		if (currentId) {
 			// Edit 9: If we have a currentId we dispatch an updatePost action with id and updated post data. Oherwise createPost
 			dispatch(
-				updatePost(currentId, { ...postData, name: user?.result?.name }) // After Auth flow: Passing logged in user name to BE
+				// updatePost(currentId, { ...postData, name: user?.result?.name }) // After Auth flow: Passing logged in user name to BE
+				updatePost(currentId, formData) // After Auth flow: Passing logged in user name to BE
 			);
 		} else {
 			dispatch(createPost(formData)); // Calling the ceatePost action and sending the data from he form field
