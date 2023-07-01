@@ -29,7 +29,7 @@ const Form = ({ currentId, setCurrentId }) => {
 	});
 
 	const [file, setFile] = useState();
-	// console.log(imageData);
+	console.log("This is the PoS file in Form", file);
 
 	// After Auth flow: User now neded to pass the user name of logged in user to the BE
 	const user = JSON.parse(localStorage.getItem("profile"));
@@ -63,7 +63,9 @@ const Form = ({ currentId, setCurrentId }) => {
 		formData.append("name", user?.result?.name);
 
 		if (!postToUpdate) {
-			formData.append("image", file);
+			formData.append("image", file); // If we don't have a currentId we need to add the file to formData
+		} else if (postToUpdate.fileName === file.name) {
+			formData.append("image", null); // User didn't change the file no file was uploaded
 		}
 
 		if (currentId) {
