@@ -28,8 +28,16 @@ export const createPost = (newPost) =>
 		headers: { "Content-Type": "multipart/form-data" },
 	}); // Data from formfield sent to BE
 
+// // Axios requuest before multer
+// export const updatePost = (id, updatedPost) =>
+// 	API.patch(`/posts/${id}`, updatedPost); // Edit 11: Dynamic url with id and updatedPost data as body sent to BE
+
+// Axios requuest with multer
 export const updatePost = (id, updatedPost) =>
-	API.patch(`/posts/${id}`, updatedPost); // Edit 11: Dynamic url with id and updatedPost data as body sent to BE
+	API.patch(`/posts/${id}`, updatedPost, {
+		headers: { "Content-Type": "multipart/form-data" },
+	}); // Edit 11: Dynamic url with id and updatedPost data as body sent to BE
+
 export const deletePost = (id) => API.delete(`/posts/${id}`); // Delete 3: Dynamic url with id. Nothing else needed.
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`); // Like 3: Only Id and route needed.
 
