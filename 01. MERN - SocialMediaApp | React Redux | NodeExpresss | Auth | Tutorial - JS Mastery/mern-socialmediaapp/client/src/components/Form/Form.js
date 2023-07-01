@@ -64,8 +64,10 @@ const Form = ({ currentId, setCurrentId }) => {
 
 		if (!postToUpdate) {
 			formData.append("image", file); // If we don't have a currentId we need to add the file to formData
-		} else if (postToUpdate.fileName === file.name) {
+		} else if (postToUpdate.fileName === file?.name) {
 			formData.append("image", null); // User didn't change the file no file was uploaded
+		} else {
+			formData.append("image", file);
 		}
 
 		if (currentId) {
