@@ -81,6 +81,7 @@ const Post = ({ post, setCurrentId }) => {
 			}}
 		>
 			<CardMedia
+				// image={post.selectedFile}
 				image={`${BASE_URL}${post.imageUrl}`}
 				title={post.title}
 				sx={{
