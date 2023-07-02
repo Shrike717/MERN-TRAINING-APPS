@@ -61,10 +61,14 @@ export const updatePost = async (req, res) => {
 	// Edit 2. Controller action. Then go  to FE
 	// /posts/123 => is filling the value of  { id }
 	const { id } = req.params; // Destructuring it
-	const _id = id; // Renaming it => Mongoosse syntax
+	const _id = id; // Renaming it => Mongoose syntax
 	let post = req.body; // Extracting updated post from body
 	const tags = req.body.tags.split(","); // Splitting tags into array
+	console.log("This are the tags in updatePost controller", tags);
 	let imageUrl;
+	let oldPost;
+
+	post = { ...post, tags }; // Setting tags as array
 
 	if (req.file) {
 		// If a new file was picked, imageUrl will be filled
@@ -78,6 +82,10 @@ export const updatePost = async (req, res) => {
 		return res.status(404).send("No post with that id!");
 
 	try {
+		// Getting the old post from DB:
+		oldPost = await PostMessage.findById(_id);
+		console.log("Found post in update action:", oldPost);
+
 		// Finding, updating an recieving (new: true) post again.
 		const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, {
 			new: true,
@@ -87,6 +95,8 @@ export const updatePost = async (req, res) => {
 	} catch (error) {
 		res.status(409).json({ message: error });
 	}
+	// Updating image in images folder:
+	clearImage(oldPost.imageUrl);
 };
 
 export const deletePost = async (req, res) => {
