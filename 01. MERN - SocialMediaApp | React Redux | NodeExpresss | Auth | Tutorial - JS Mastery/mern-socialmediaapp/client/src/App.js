@@ -19,7 +19,7 @@ import Images from "./components/Images/Images";
 
 function App() {
 	const user = JSON.parse(localStorage.getItem("profile")); // Needed to only see /auth when not logged in
-	console.log(user);
+	// console.log(user);
 
 	return (
 		// Google 2. and 3.: Getting clientId and wrapping App in GoogleOAuthProvider

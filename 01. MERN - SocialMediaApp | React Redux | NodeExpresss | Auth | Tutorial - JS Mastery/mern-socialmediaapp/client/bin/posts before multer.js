@@ -5,9 +5,9 @@ import {
 	DELETE,
 	LIKE,
 	FETCH_BY_SEARCH,
-} from "../constants/actionTypes";
+} from "../src/constants/actionTypes";
 
-import * as api from "../api"; // Redux 13a. Importing everything from api file
+import * as api from "../src/api"; // Redux 13a. Importing everything from api file
 
 // Redux 13b. Creating Action Creators:
 export const getPosts = () => async (dispatch) => {

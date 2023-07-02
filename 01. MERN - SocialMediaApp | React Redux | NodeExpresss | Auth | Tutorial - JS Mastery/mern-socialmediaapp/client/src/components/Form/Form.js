@@ -29,7 +29,7 @@ const Form = ({ currentId, setCurrentId }) => {
 	});
 
 	const [file, setFile] = useState();
-	console.log("This is the PoS file in Form", file);
+	// console.log("This is the PoS file in Form", file);
 
 	const [touched, setTouched] = useState(false); // State to check if file input is touched
 
@@ -42,20 +42,20 @@ const Form = ({ currentId, setCurrentId }) => {
 	const postToUpdate = useSelector((state) =>
 		currentId ? state.posts.find((p) => p._id === currentId) : null
 	); // Edit 14b: Fetch the post that will be updated fron store
-	console.log(
-		"This is the post we want to update at beginning Form",
-		postToUpdate
-	);
-
-	const handleFileInputTouched = () => {
-		setTouched(true);
-	};
-	// console.log("This is the PoS touched in Form", touched);
+	// console.log(
+	// 	"This is the post we want to update at beginning Form",
+	// 	postToUpdate
+	// );
 
 	useEffect(() => {
 		// edit 14d: Populate fields with data of post the user wants to edt (the postToUpdate)
 		if (postToUpdate) setPostData(postToUpdate);
 	}, [postToUpdate, currentId]); // here ERROR: with location edit is working, with currentId search display is working
+
+	const handleFileInputTouched = () => {
+		setTouched(true);
+	};
+	// console.log("This is the PoS touched in Form", touched);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -70,12 +70,11 @@ const Form = ({ currentId, setCurrentId }) => {
 		formData.append("name", user?.result?.name);
 
 		if (!postToUpdate) {
-			formData.append("image", file); // If we don't have a currentId we need to add the file to formData
-			// This solution only works if image is not selected twice
+			formData.append("image", file); // If we don't have a currentId we need to add the file to formData. New post
 		} else if (postToUpdate && touched === false) {
-			formData.append("image", null); // User didn't change the file no file was uploaded
+			formData.append("image", null); // Edit: User didn't change the file: no file was uploaded
 		} else {
-			formData.append("image", file);
+			formData.append("image", file); // Edit: User did change the file: New file was uploaded
 		}
 
 		if (currentId) {
