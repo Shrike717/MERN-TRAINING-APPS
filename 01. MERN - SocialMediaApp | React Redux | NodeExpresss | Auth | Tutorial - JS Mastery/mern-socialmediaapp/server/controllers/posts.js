@@ -34,7 +34,7 @@ export const getPostsBySearch = async (req, res) => {
 export const createPost = async (req, res) => {
 	// console.log(req.userId);
 	const post = req.body;
-	console.log("This is req.body in createPost controller", req.body);
+	// console.log("This is req.body in createPost controller", req.body);
 	const imageUrl = req.file.path;
 	const fileName = req.file.originalname;
 	const tags = req.body.tags.split(","); // Splitting tags into array
@@ -56,15 +56,15 @@ export const createPost = async (req, res) => {
 };
 
 export const updatePost = async (req, res) => {
-	console.log("This is req.body in updatePost controller", req.body);
-	console.log("This is req.file in updatePost controller", req.file);
+	// console.log("This is req.body in updatePost controller", req.body);
+	// console.log("This is req.file in updatePost controller", req.file);
+
 	// Edit 2. Controller action. Then go  to FE
 	// /posts/123 => is filling the value of  { id }
 	const { id } = req.params; // Destructuring it
 	const _id = id; // Renaming it => Mongoose syntax
 	let post = req.body; // Extracting updated post from body
 	const tags = req.body.tags.split(","); // Splitting tags into array
-	console.log("This are the tags in updatePost controller", tags);
 	let imageUrl;
 	let oldPost;
 
@@ -75,7 +75,7 @@ export const updatePost = async (req, res) => {
 		imageUrl = req.file.path;
 		post = { ...post, imageUrl };
 	}
-	console.log("This is imageUrl in updatePost controller", imageUrl);
+	// console.log("This is imageUrl in updatePost controller", imageUrl);
 
 	// If not a valid MG _id send back error Message
 	if (!mongoose.Types.ObjectId.isValid(_id))
@@ -84,7 +84,7 @@ export const updatePost = async (req, res) => {
 	try {
 		// Getting the old post from DB:
 		oldPost = await PostMessage.findById(_id);
-		console.log("Found post in update action:", oldPost);
+		// console.log("Found post in update action:", oldPost);
 
 		// Finding, updating an recieving (new: true) post again.
 		const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, {
@@ -129,7 +129,7 @@ export const likePost = async (req, res) => {
 	// Like 2; Controller action. Then go to FE
 	// /posts/123 => is filling the value of { id }
 	const { id } = req.params; // Destructuring it
-	const _id = id; // Renaming it => Mongoosse syntax
+	const _id = id; // Renaming it => Mongoose syntax
 
 	// With auth flow: Check if user is authenticated. Request is then populated in auth middleware:
 	if (!req.userId) return res.json({ message: "Unauthenticated" });

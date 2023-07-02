@@ -24,7 +24,7 @@ const postsReducer = (posts = [], action) => {
 		case LIKE: // Like 5:
 			return posts.map((post) =>
 				post._id === action.payload._id ? action.payload : post
-			); // Edit 13: Mapping over posts, find updated post and change it. Otherwise returrn all otther posts
+			); // Edit 13: Mapping over posts, find updated post and change it. Otherwise returrn all other posts
 
 		case CREATE:
 			return [...posts, action.payload]; // Updating the state in store
