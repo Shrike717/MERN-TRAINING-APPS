@@ -31,6 +31,8 @@ const Form = ({ currentId, setCurrentId }) => {
 	const [file, setFile] = useState();
 	console.log("This is the PoS file in Form", file);
 
+	const [touched, setTouched] = useState(false); // State to check if file input is touched
+
 	// After Auth flow: User now neded to pass the user name of logged in user to the BE
 	const user = JSON.parse(localStorage.getItem("profile"));
 
@@ -44,6 +46,11 @@ const Form = ({ currentId, setCurrentId }) => {
 		"This is the post we want to update at beginning Form",
 		postToUpdate
 	);
+
+	const handleFileInputTouched = () => {
+		setTouched(true);
+	};
+	// console.log("This is the PoS touched in Form", touched);
 
 	useEffect(() => {
 		// edit 14d: Populate fields with data of post the user wants to edt (the postToUpdate)
@@ -65,7 +72,7 @@ const Form = ({ currentId, setCurrentId }) => {
 		if (!postToUpdate) {
 			formData.append("image", file); // If we don't have a currentId we need to add the file to formData
 			// This solution only works if image is not selected twice
-		} else if (postToUpdate.fileName === file?.name) {
+		} else if (postToUpdate && touched === false) {
 			formData.append("image", null); // User didn't change the file no file was uploaded
 		} else {
 			formData.append("image", file);
@@ -95,6 +102,7 @@ const Form = ({ currentId, setCurrentId }) => {
 			});
 			inputFile.current.value = null;
 			setCurrentId(null);
+			setTouched(false);
 		}, "600");
 
 		// setPostData({
@@ -171,9 +179,10 @@ const Form = ({ currentId, setCurrentId }) => {
 						<input
 							ref={inputFile}
 							filename={file}
-							onChange={(e) => setFile(e.target.files[0])}
 							type="file"
 							accept="image/*"
+							onChange={(e) => setFile(e.target.files[0])}
+							onClick={handleFileInputTouched}
 						></input>
 					</Box>
 					<Button
