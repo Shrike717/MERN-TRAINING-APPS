@@ -71,6 +71,8 @@ const Post = ({ post, setCurrentId }) => {
 
 	return (
 		<Card
+			raised
+			elevation={6}
 			sx={{
 				display: "flex",
 				flexDirection: "column",

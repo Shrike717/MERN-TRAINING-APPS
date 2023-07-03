@@ -12,6 +12,10 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 
+	/*BG Grey */
+	/* background-color: #f7f8fc; */
+
+	/* BG old gradients */
 	/* background: linear-gradient(120deg, #ff00c7 0%, #51003f 100%),
 		linear-gradient(120deg, #0030ad 0%, #00071a 100%),
 		linear-gradient(180deg, #000346 0%, #ff0000 100%),
@@ -19,6 +23,7 @@ body {
 		radial-gradient(100% 165% at 100% 100%, #ff00a8 0%, #00ff47 100%),
 		radial-gradient(100% 150% at 0% 0%, #fff500 0%, #51d500 100%); */
 
+	/* BG rgba cross browser gradients */
 	background: linear-gradient(
 			120deg,
 			rgba(255, 0, 199, 0),
