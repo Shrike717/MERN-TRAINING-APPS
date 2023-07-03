@@ -21,13 +21,14 @@ const Posts = ({ setCurrentId }) => {
 			spacing={{ mobile: 2, tablet: 2, laptop: 3 }}
 			sx={{
 				display: "flex",
-				alignItems: "center",
+				// alignItems: "center"
+				alignItems: "stretch",
 			}}
 		>
 			{posts.map((post) => {
 				return (
 					// No Grid item anymore => Grid version 2
-					<Grid key={post._id} mobile={12} tablet={6}>
+					<Grid key={post._id} mobile={12} tablet={6} lg={3}>
 						{/* Edit 7: Pass State Setter for currentId */}
 						<Post post={post} setCurrentId={setCurrentId} />
 					</Grid>

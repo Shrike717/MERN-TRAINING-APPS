@@ -84,7 +84,9 @@ function Navbar() {
 						Memories
 					</Typography>
 				</Link>
-				<img src={memories} alt="memories" height="50" />
+				<Link to={"/"}>
+					<img src={memories} alt="memories" height="50" />
+				</Link>
 			</Box>
 			<Toolbar
 				sx={{
