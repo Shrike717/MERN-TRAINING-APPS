@@ -44,9 +44,10 @@ function Home() {
 
 	const user = JSON.parse(localStorage.getItem("profile"));
 
+	//This was used before finishing Pagination logic
 	useEffect(() => {
 		// Redux 10. Setup useEffect
-		dispatch(getPosts()); // Redux 12. Evoke action in dispatch
+		// dispatch(getPosts()); // Redux 12. Evoke action in dispatch
 	}, [dispatch, currentId]);
 
 	// Text Search 9: Dispatches the search with searchTerm or tags when click on button or press enter
@@ -102,14 +103,14 @@ function Home() {
 					spacing={{ mobile: 2, tablet: 2, laptop: 3 }}
 				>
 					{/* No more Grid items => Grid 2 */}
-					<Grid mobile={12} sm={12} md={8}>
+					<Grid mobile={12} sm={12} md={9}>
 						{/* Edit 5. Give State Setter for currentId as prop */}
 						<Posts setCurrentId={setCurrentId} />
 					</Grid>
-					<Grid mobile={12} sm={12} md={4}>
+					<Grid mobile={12} sm={12} md={3}>
 						{!user?.result?.name ? (
 							<>
-								<LoginMessage sx={{ marginBottom: "10px" }} />
+								<LoginMessage />
 								{/* Text Search 6: Building the Input fields for text search and tag search*/}
 								<AppBar
 									position="static"
@@ -152,6 +153,16 @@ function Home() {
 										Search
 									</Button>
 								</AppBar>
+								<Paper
+									elevation={6}
+									sx={{
+										borderRadius: 1,
+										marginTop: "1rem",
+										padding: "16px",
+									}}
+								>
+									<Pagination page={page} />
+								</Paper>
 							</>
 						) : (
 							<>
@@ -209,7 +220,7 @@ function Home() {
 										padding: "16px",
 									}}
 								>
-									<Pagination />
+									<Pagination page={page} />
 								</Paper>
 							</>
 						)}

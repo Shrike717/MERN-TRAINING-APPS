@@ -14,7 +14,7 @@ API.interceptors.request.use((req) => {
 	return req;
 });
 
-export const fetchPosts = () => API.get("/posts");
+export const fetchPosts = (page) => API.get(`/posts?page=${page}`);
 // Text Search 11: Sending dynamically generated url with searchQuery and tags to BE
 export const getPostsBySearch = (searchQuery) =>
 	API.get(

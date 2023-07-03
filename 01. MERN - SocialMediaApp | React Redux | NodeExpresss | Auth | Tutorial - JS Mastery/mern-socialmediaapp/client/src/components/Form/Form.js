@@ -39,13 +39,22 @@ const Form = ({ currentId, setCurrentId }) => {
 	const dispatch = useDispatch(); // Initialising useDispatch hook
 	const inputFile = useRef(null); // Initialising ref hook to reset file input
 
-	const postToUpdate = useSelector((state) =>
-		currentId ? state.posts.find((p) => p._id === currentId) : null
-	); // Edit 14b: Fetch the post that will be updated fron store
+	const posts = useSelector((state) => state.posts);
 	// console.log(
-	// 	"This is the post we want to update at beginning Form",
-	// 	postToUpdate
+	// 	"This is state.posts in Form Component",
+	// 	currentId ? posts.posts.find((p) => p._id === currentId) : null
 	// );
+	const postToUpdate = currentId
+		? posts.posts.find((p) => p._id === currentId)
+		: null;
+
+	// const postToUpdate = useSelector((posts) =>
+	// 	currentId ? posts.posts.find((p) => p._id === currentId) : null
+	// ); // Edit 14b: Fetch the post that will be updated fron store
+	// // console.log(
+	// // 	"This is the post we want to update at beginning Form",
+	// // 	postToUpdate
+	// // );
 
 	useEffect(() => {
 		// edit 14d: Populate fields with data of post the user wants to edt (the postToUpdate)

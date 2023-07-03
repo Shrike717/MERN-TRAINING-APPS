@@ -5,10 +5,25 @@ import path from "path";
 import PostMessage from "../models/postMessage.js";
 
 export const getPosts = async (req, res) => {
-	try {
-		const postMessages = await PostMessage.find();
+	const page = req.query.page || 1;
 
-		res.status(200).json(postMessages);
+	try {
+		const LIMIT = 4; // Number of posts per page.
+		// Getting index of first post on every page.
+		const startIndex = (Number(page) - 1) * LIMIT; // Example: startndex of page 3 would be: 4 * ((3)-1) = 11
+		const total = await PostMessage.find().countDocuments({}); // Total number of posts in DB. Needed to know how many pages are there.
+
+		// Gets posts, sorting newest first, skipping previous pages and loading only needed amount of posts per page
+		const posts = await PostMessage.find()
+			.sort({ createdAt: -1 })
+			.skip(startIndex)
+			.limit(LIMIT);
+
+		res.status(200).json({
+			data: posts,
+			currentPage: Number(page),
+			totalNumberOfPages: Math.ceil(total / LIMIT),
+		});
 	} catch (error) {
 		res.status(404).json({ message: error });
 	}

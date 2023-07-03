@@ -10,10 +10,14 @@ import {
 import * as api from "../api"; // Redux 13a. Importing everything from api file
 
 // Redux 13b. Creating Action Creators:
-export const getPosts = () => async (dispatch) => {
+export const getPosts = (page) => async (dispatch) => {
 	try {
-		const { data } = await api.fetchPosts(); // Fetches all posts from BE through axios call in api/index.js
+		const { data } = await api.fetchPosts(page); // Fetches all posts from BE through axios call in api/index.js
 
+		// console.log(
+		// 	"This is data from post action getPosts coming back from BE",
+		// 	data
+		// );
 		dispatch({ type: FETCH_ALL, payload: data }); // Action that gets dispatched
 	} catch (error) {
 		console.log(error);
@@ -38,7 +42,10 @@ export const createPost = (post) => async (dispatch) => {
 	try {
 		const { data } = await api.createPost(post); // Axios request sending new post to BE triggert from here. Response gets saved
 
-		// console.log("This is data from post action coming back from BE", data);
+		console.log(
+			"This is data from createPost in action coming back from BE",
+			data
+		);
 
 		dispatch({ type: CREATE, payload: data }); // Action that gets dispatched. Sends response data to postsReducer
 	} catch (error) {
@@ -51,6 +58,10 @@ export const updatePost = (id, post) => async (dispatch) => {
 	try {
 		const { data } = await api.updatePost(id, post); // Axios request sending new post to BE triggert from here. Response gets saved
 
+		console.log(
+			"This is data from post action updatePosts coming back from BE",
+			data
+		);
 		dispatch({ type: UPDATE, payload: data }); // Action that gets dispatched. Sends response data to postsReducer
 	} catch (error) {
 		console.log(error);
