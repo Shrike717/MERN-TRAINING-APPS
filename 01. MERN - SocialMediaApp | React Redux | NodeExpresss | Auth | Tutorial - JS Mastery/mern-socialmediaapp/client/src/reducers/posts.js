@@ -17,7 +17,7 @@ const postsReducer = (state = [], action) => {
 			return {
 				...state,
 				posts: action.payload.data,
-				currentPage: action.payload.current_page,
+				currentPage: action.payload.currentPage,
 				totalNumberOfPages: action.payload.totalNumberOfPages,
 			}; // Redux 14. Setting the return to action.payload = Updating the state in store
 
@@ -45,8 +45,9 @@ const postsReducer = (state = [], action) => {
 
 		case CREATE:
 			console.log(
-				"This is the state in reducer CREEATE before stored in store",
-				state
+				"This is the state in reducer CREATE before stored in store",
+				state,
+				action.payload
 			);
 			return { ...state, posts: action.payload }; // Updating the state in store
 		default:

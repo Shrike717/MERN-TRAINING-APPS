@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"; // Redux 9. Import useEffect | Edit 3. impprt useState
 import { useNavigate, useLocation } from "react-router-dom"; // Text Search 1: Navigate for Renavigate to certain pages; Location to know which site we're on
 import { useDispatch } from "react-redux"; // Redux 7. Import this hook
+import { useSelector } from "react-redux"; // Test reload after creating pos
 
 import {
 	Container,
@@ -19,7 +20,7 @@ import Posts from "../Posts/Posts";
 import Form from "../Form/Form";
 import Pagination from "../Pagination/Pagination";
 
-import { getPosts, getPostsBySearch } from "../../actions/posts"; // Redux 11. Import action file to dispatch. Text Search 12a: Import getPostsBySearch
+import { getPostsBySearch } from "../../actions/posts"; // Redux 11. Import action file to dispatch. Text Search 12a: Import getPostsBySearch
 import LoginMessage from "../Auth/LoginMessage";
 
 // Text Search 2: Util function to know on which page we are currrently on and which searchTerm are we looking for.
@@ -39,16 +40,12 @@ function Home() {
 	const query = useQuery(); // Text Search 3a: Initialising as hook
 	const navigate = useNavigate(); // Text Search 3b: Initialising as hook
 	const page = query.get("page") || 1; // Text Search 4: Reads URL and checks for page param. If yes populates variable.
-	const searchQuery = query.get("searchQuery") || ""; // // Text Search 5: Reads URL and checks for search query. If yes populates variable.
-	// console.log(searchQuery);
+	const searchQuery = query.get("searchQuery") || ""; // Text Search 5: Reads URL and checks for search query. If yes populates variable.
+	// console.log("This is searchQuery  from Home component", searchQuery);
 
 	const user = JSON.parse(localStorage.getItem("profile"));
 
-	//This was used before finishing Pagination logic
-	useEffect(() => {
-		// Redux 10. Setup useEffect
-		// dispatch(getPosts()); // Redux 12. Evoke action in dispatch
-	}, [dispatch, currentId]);
+	const posts = useSelector((state) => state.posts.posts); // Test reload after creating post
 
 	// Text Search 9: Dispatches the search with searchTerm or tags when click on button or press enter
 	const searchPost = () => {
@@ -62,7 +59,7 @@ function Home() {
 				}`
 			);
 		} else {
-			navigate.push("/");
+			navigate("/");
 		}
 	};
 
@@ -82,6 +79,12 @@ function Home() {
 	const handleDeleteChip = (tagToDelete, tagIndex) => {
 		setTags(tags.filter((tag) => tag !== tagToDelete));
 	};
+
+	//This was used before finishing Pagination logic
+	useEffect(() => {
+		// Redux 10. Setup useEffect
+		// dispatch(getPosts()); // Redux 12. Evoke action in dispatch (Befor pagination)
+	}, [dispatch, currentId, posts]);
 
 	return (
 		<Grow in>
