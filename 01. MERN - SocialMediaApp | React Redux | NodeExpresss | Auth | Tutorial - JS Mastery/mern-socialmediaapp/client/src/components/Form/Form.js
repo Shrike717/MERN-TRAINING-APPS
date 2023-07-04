@@ -4,7 +4,7 @@ import { Box, TextField, Button, Typography, Paper } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import { useDispatch, useSelector } from "react-redux"; // Edit 14a: Import useSelector
-import { createPost, updatePost } from "../../actions/posts"; // Edit 10: importing postCreate action
+import { getPosts, createPost, updatePost } from "../../actions/posts"; // Edit 10: importing postCreate action
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
 	"&.MuiPaper-root": {
@@ -94,6 +94,7 @@ const Form = ({ currentId, setCurrentId }) => {
 			);
 		} else {
 			dispatch(createPost(formData)); // Calling the ceatePost action and sending the data from he form field
+			dispatch(getPosts()); // This forces posts to rerender after new post creation
 		}
 		clear();
 	};

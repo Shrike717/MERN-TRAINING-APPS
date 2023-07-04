@@ -42,10 +42,10 @@ export const createPost = (post) => async (dispatch) => {
 	try {
 		const { data } = await api.createPost(post); // Axios request sending new post to BE triggert from here. Response gets saved
 
-		console.log(
-			"This is data from createPost in action coming back from BE",
-			data
-		);
+		// console.log(
+		// 	"This is data from createPost in action coming back from BE",
+		// 	data
+		// );
 
 		dispatch({ type: CREATE, payload: data }); // Action that gets dispatched. Sends response data to postsReducer
 	} catch (error) {
@@ -58,10 +58,10 @@ export const updatePost = (id, post) => async (dispatch) => {
 	try {
 		const { data } = await api.updatePost(id, post); // Axios request sending new post to BE triggert from here. Response gets saved
 
-		console.log(
-			"This is data from post action updatePosts coming back from BE",
-			data
-		);
+		// console.log(
+		// 	"This is data from post action updatePosts coming back from BE",
+		// 	data
+		// );
 		dispatch({ type: UPDATE, payload: data }); // Action that gets dispatched. Sends response data to postsReducer
 	} catch (error) {
 		console.log(error);

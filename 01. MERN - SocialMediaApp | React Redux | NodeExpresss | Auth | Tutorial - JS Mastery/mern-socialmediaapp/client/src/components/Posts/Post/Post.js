@@ -16,7 +16,7 @@ import moment from "moment";
 import { useDispatch } from "react-redux"; // Delete 6a: importing useDispatch
 import { useLocation } from "react-router-dom";
 
-import { deletePost, likePost } from "../../../actions/posts"; // Delete 6c: importing deletePost action | Like 6a
+import { getPosts, deletePost, likePost } from "../../../actions/posts"; // Delete 6c: importing deletePost action | Like 6a
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -31,6 +31,13 @@ const Post = ({ post, setCurrentId }) => {
 	const user = JSON.parse(localStorage.getItem("profile"));
 
 	useEffect(() => {}, [location]); // Forces Post component to rerender after logout
+
+	const deletePostHandler = async () => {
+		try {
+			await dispatch(deletePost(post._id));
+			await dispatch(getPosts()); // Forcing paginated rerrender of posts after deleting a post
+		} catch (error) {}
+	};
 
 	// Util component wih logic for the like functionality:
 	const Likes = () => {
@@ -178,7 +185,7 @@ const Post = ({ post, setCurrentId }) => {
 					<Button
 						size="small"
 						color="primary"
-						onClick={() => dispatch(deletePost(post._id))} // Delete 6c: Dispatching the action on Delete button
+						onClick={deletePostHandler} // Delete 6c: Dispatching the action on Delete button
 					>
 						<DeleteIcon
 							fontSize="small"
