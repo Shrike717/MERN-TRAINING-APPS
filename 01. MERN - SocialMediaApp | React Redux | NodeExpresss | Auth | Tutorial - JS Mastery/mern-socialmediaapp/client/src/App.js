@@ -43,7 +43,7 @@ function App() {
 									)
 								}
 							/>
-							<Route path="/image" exact element={<Images />} />
+							{/* <Route path="/image" exact element={<Images />} /> */}
 							<Route
 								path="/"
 								exact

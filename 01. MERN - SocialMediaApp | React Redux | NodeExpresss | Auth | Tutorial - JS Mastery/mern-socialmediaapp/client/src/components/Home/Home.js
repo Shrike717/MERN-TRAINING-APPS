@@ -156,16 +156,18 @@ function Home() {
 										Search
 									</Button>
 								</AppBar>
-								<Paper
-									elevation={6}
-									sx={{
-										borderRadius: 1,
-										marginTop: "1rem",
-										padding: "16px",
-									}}
-								>
-									<Pagination page={page} />
-								</Paper>
+								{!searchQuery && !tags.length && (
+									<Paper
+										elevation={6}
+										sx={{
+											borderRadius: 1,
+											marginTop: "1rem",
+											padding: "16px",
+										}}
+									>
+										<Pagination page={page} />
+									</Paper>
+								)}
 							</>
 						) : (
 							<>
@@ -215,16 +217,18 @@ function Home() {
 									currentId={currentId}
 									setCurrentId={setCurrentId}
 								/>
-								<Paper
-									elevation={6}
-									sx={{
-										borderRadius: 1,
-										marginTop: "1rem",
-										padding: "16px",
-									}}
-								>
-									<Pagination page={page} />
-								</Paper>
+								{!searchQuery && !tags.length && (
+									<Paper
+										elevation={6}
+										sx={{
+											borderRadius: 1,
+											marginTop: "1rem",
+											padding: "16px",
+										}}
+									>
+										<Pagination page={page} />
+									</Paper>
+								)}
 							</>
 						)}
 					</Grid>

@@ -5,6 +5,8 @@ import {
 	DELETE,
 	LIKE,
 	FETCH_BY_SEARCH,
+	START_LOADING,
+	END_LOADING,
 } from "../constants/actionTypes";
 
 import * as api from "../api"; // Redux 13a. Importing everything from api file
@@ -12,6 +14,7 @@ import * as api from "../api"; // Redux 13a. Importing everything from api file
 // Redux 13b. Creating Action Creators:
 export const getPosts = (page) => async (dispatch) => {
 	try {
+		dispatch({ type: START_LOADING });
 		const { data } = await api.fetchPosts(page); // Fetches all posts from BE through axios call in api/index.js
 
 		// console.log(
@@ -19,6 +22,7 @@ export const getPosts = (page) => async (dispatch) => {
 		// 	data
 		// );
 		dispatch({ type: FETCH_ALL, payload: data }); // Action that gets dispatched
+		dispatch({ type: END_LOADING });
 	} catch (error) {
 		console.log(error);
 	}
@@ -27,12 +31,14 @@ export const getPosts = (page) => async (dispatch) => {
 // Text Search 10: Creating action for getting all posts matching search
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
 	try {
+		dispatch({ type: START_LOADING });
 		const {
 			data: { data },
 		} = await api.getPostsBySearch(searchQuery); // Axios request sending search query to BE triggert from here. Response gets saved
 
 		// Text Search 16: Dispatching the response data to postsReducer
 		dispatch({ type: FETCH_BY_SEARCH, payload: data });
+		dispatch({ type: END_LOADING });
 	} catch (error) {
 		console.log(error);
 	}
@@ -40,6 +46,7 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
 
 export const createPost = (post) => async (dispatch) => {
 	try {
+		dispatch({ type: START_LOADING });
 		const { data } = await api.createPost(post); // Axios request sending new post to BE triggert from here. Response gets saved
 
 		// console.log(
@@ -48,6 +55,7 @@ export const createPost = (post) => async (dispatch) => {
 		// );
 
 		dispatch({ type: CREATE, payload: data }); // Action that gets dispatched. Sends response data to postsReducer
+		dispatch({ type: END_LOADING });
 	} catch (error) {
 		console.log(error);
 	}
