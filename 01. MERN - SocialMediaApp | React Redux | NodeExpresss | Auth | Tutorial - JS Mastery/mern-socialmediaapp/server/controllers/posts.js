@@ -8,7 +8,7 @@ export const getPosts = async (req, res) => {
 	const page = req.query.page || 1;
 
 	try {
-		const LIMIT = 4; // Number of posts per page.
+		const LIMIT = 6; // Number of posts per page.
 		// Getting index of first post on every page.
 		const startIndex = (Number(page) - 1) * LIMIT; // Example: startndex of page 3 would be: 4 * ((3)-1) = 11
 		const total = await PostMessage.find().countDocuments({}); // Total number of posts in DB. Needed to know how many pages are there.
@@ -78,6 +78,7 @@ export const updatePost = async (req, res) => {
 	// /posts/123 => is filling the value of  { id }
 	const { id } = req.params; // Destructuring it
 	const _id = id; // Renaming it => Mongoose syntax
+
 	let post = req.body; // Extracting updated post from body
 	const tags = req.body.tags.split(","); // Splitting tags into array
 	let imageUrl;
@@ -85,10 +86,20 @@ export const updatePost = async (req, res) => {
 
 	post = { ...post, tags }; // Setting tags as array
 
+	try {
+		// Getting the old post from DB:
+		oldPost = await PostMessage.findById(_id);
+		// console.log("This is oldPost in updatePost controller", oldPost);
+	} catch (error) {
+		res.status(409).json({ message: error });
+	}
+
 	if (req.file) {
-		// If a new file was picked, imageUrl will be filled
+		// If a new file was picked, imageUrl will be filled. Only in this case, we need to clear the old image.
 		imageUrl = req.file.path;
 		post = { ...post, imageUrl };
+		// Updating image in images folder:
+		clearImage(oldPost.imageUrl);
 	}
 	// console.log("This is imageUrl in updatePost controller", imageUrl);
 
@@ -97,10 +108,6 @@ export const updatePost = async (req, res) => {
 		return res.status(404).send("No post with that id!");
 
 	try {
-		// Getting the old post from DB:
-		oldPost = await PostMessage.findById(_id);
-		// console.log("Found post in update action:", oldPost);
-
 		// Finding, updating an recieving (new: true) post again.
 		const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, {
 			new: true,
@@ -110,8 +117,6 @@ export const updatePost = async (req, res) => {
 	} catch (error) {
 		res.status(409).json({ message: error });
 	}
-	// Updating image in images folder:
-	clearImage(oldPost.imageUrl);
 };
 
 export const deletePost = async (req, res) => {

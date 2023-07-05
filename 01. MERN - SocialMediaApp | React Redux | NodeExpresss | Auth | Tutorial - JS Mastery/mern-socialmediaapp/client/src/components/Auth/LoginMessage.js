@@ -13,7 +13,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 
 function LoginMessage() {
 	return (
-		<StyledPaper elevation={2} sx={{ marginBottom: "10px" }}>
+		<StyledPaper elevation={2} sx={{ marginBottom: "1rem" }}>
 			<Typography
 				variant="h6"
 				textAlign="center"
