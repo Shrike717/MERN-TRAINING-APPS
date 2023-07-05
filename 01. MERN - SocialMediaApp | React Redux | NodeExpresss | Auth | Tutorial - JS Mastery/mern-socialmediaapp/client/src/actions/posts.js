@@ -7,9 +7,26 @@ import {
 	FETCH_BY_SEARCH,
 	START_LOADING,
 	END_LOADING,
+	FETCH_POST,
 } from "../constants/actionTypes";
 
 import * as api from "../api"; // Redux 13a. Importing everything from api file
+
+export const getPost = (postId) => async (dispatch) => {
+	try {
+		dispatch({ type: START_LOADING });
+		const { data } = await api.fetchPost(postId); // Fetches all posts from BE through axios call in api/index.js
+
+		// console.log(
+		// 	"This is data from post action getPost coming back from BE",
+		// 	data
+		// );
+		dispatch({ type: FETCH_POST, payload: data }); // Action that gets dispatched
+		dispatch({ type: END_LOADING });
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 // Redux 13b. Creating Action Creators:
 export const getPosts = (page) => async (dispatch) => {

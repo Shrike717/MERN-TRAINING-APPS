@@ -29,6 +29,18 @@ export const getPosts = async (req, res) => {
 	}
 };
 
+export const getPost = async (req, res) => {
+	const { id } = req.params; // Destructuring it
+	const _id = id; // Renaming it => Mongoose syntax
+
+	try {
+		const post = await PostMessage.findById(_id);
+		res.status(200).json(post);
+	} catch (error) {
+		res.status(404).json({ message: error });
+	}
+};
+
 // Text Search 14: Controller action to fetch matching posts
 export const getPostsBySearch = async (req, res) => {
 	const { searchQuery, tags } = req.query;
