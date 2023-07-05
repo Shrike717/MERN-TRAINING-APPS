@@ -49,7 +49,9 @@ function Home() {
 
 	// Text Search 9: Dispatches the search with searchTerm or tags when click on button or press enter
 	const searchPost = () => {
-		if (searchTerm.trim() || tags) {
+		if (!searchTerm && tags.length === 0) {
+			navigate("/posts");
+		} else if (searchTerm.trim() || tags) {
 			// Text Search 12b: dispatch -> fetch search post
 			dispatch(getPostsBySearch({ searchTerm, tags: tags.join(",") }));
 			// Text Search 15 (coming from BE 14): We route to URL including searchQuery and tags in FE
@@ -58,8 +60,6 @@ function Home() {
 					tags.join(",") || "none"
 				}`
 			);
-		} else {
-			navigate("/");
 		}
 	};
 

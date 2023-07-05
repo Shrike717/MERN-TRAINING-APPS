@@ -32,10 +32,10 @@ const postsReducer = (state = [], action) => {
 			}; // Delete 5: Returns every post exept the deleted one
 		case UPDATE:
 		case LIKE: // Like 5:
-			console.log(
-				"This is the state in reducer UPDATE before stored in store",
-				state
-			);
+			// console.log(
+			// 	"This is the state in reducer UPDATE before stored in store",
+			// 	state
+			// );
 			return {
 				...state,
 				posts: state.posts.map((post) =>
@@ -44,11 +44,11 @@ const postsReducer = (state = [], action) => {
 			}; // Edit 13: Mapping over posts, find updated post and change it. Otherwise returrn all other posts
 
 		case CREATE:
-			console.log(
-				"This is the state in reducer CREATE before stored in store",
-				state,
-				action.payload
-			);
+			// console.log(
+			// 	"This is the state in reducer CREATE before stored in store",
+			// 	state,
+			// 	action.payload
+			// );
 			return { ...state, posts: action.payload }; // Updating the state in store
 		default:
 			return state;

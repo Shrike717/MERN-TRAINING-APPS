@@ -1,6 +1,6 @@
 import React from "react";
 
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Box } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 
 import { useSelector } from "react-redux"; // Redux 15a: Importing useSelector hook
@@ -13,7 +13,9 @@ const Posts = ({ setCurrentId }) => {
 	// console.log(posts);
 
 	return !posts?.length ? (
-		<CircularProgress />
+		<Box fullwidth justifyContent="center" sx={{ display: "flex" }}>
+			<CircularProgress />
+		</Box>
 	) : (
 		<Grid
 			container
@@ -28,7 +30,8 @@ const Posts = ({ setCurrentId }) => {
 			{posts.map((post) => {
 				return (
 					// No Grid item anymore => Grid version 2
-					<Grid key={post._id} mobile={12} tablet={6} lg={3}>
+					// Setting number of cards n row
+					<Grid key={post._id} mobile={12} tablet={6} lg={4}>
 						{/* Edit 7: Pass State Setter for currentId */}
 						<Post post={post} setCurrentId={setCurrentId} />
 					</Grid>

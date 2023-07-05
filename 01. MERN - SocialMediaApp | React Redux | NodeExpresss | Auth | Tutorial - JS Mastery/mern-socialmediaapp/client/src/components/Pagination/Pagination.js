@@ -46,13 +46,67 @@ function Paginate({ page }) {
 			page={Number(page) || 1} // Current page. Now dynamic
 			variant="outlined"
 			color="primary"
-			renderItem={(item) => (
-				<Link to={`/posts?page=${item.page}`}>
-					<PaginationItem {...item} />
-				</Link>
-			)}
+			renderItem={(item) => {
+				if (item.page <= totalNumberOfPages) {
+					// Hides next button on last page. Not optimal but better than nothing.
+					return (
+						<Link to={`/posts?page=${item.page}`}>
+							<PaginationItem {...item} />
+						</Link>
+					);
+				}
+			}}
 		/>
 	);
 }
 
 export default Paginate;
+
+// function Paginate({page}) {
+//     const dispatch = useDispatch();
+//     const query = useQuery(); // Initialising as hook
+
+//     const searchQuery = query.get("searchQuery") || "";
+
+//      const { totalNumberOfPages } = useSelector((state) => state.posts);
+
+//      useEffect(() => {
+// 		if (!searchQuery) {
+// 			// To prevent reload of pagination page after search was fired
+// 			dispatch(getPosts(page));
+// 		}
+// 	}, [page]);
+
+//     const handleChange = (event, value) => {
+//         <Link to={`/posts?page=${item.page}`}>
+//         <PaginationItem {...item} />
+//     </Link>
+//     };
+
+//     return (
+
+//         <Pagination count={totalNumberOfPages} page={Number(page) || 1} onChange={handleChange} />
+
+//     );
+// }
+
+// export default Paginate;
+
+// import * as React from 'react';
+// import Typography from '@mui/material/Typography';
+// import Pagination from '@mui/material/Pagination';
+// import Stack from '@mui/material/Stack';
+
+// export default function PaginationControlled() {
+//   const [page, setPage] = React.useState(1);
+//   const handleChange = (event, value) => {
+//     setPage(value);
+//   };
+
+//   return (
+//     <Stack spacing={2}>
+//       <Typography>Page: {page}</Typography>
+//       <Pagination count={10} page={page} onChange={handleChange} />
+//     </Stack>
+//   );
+// }

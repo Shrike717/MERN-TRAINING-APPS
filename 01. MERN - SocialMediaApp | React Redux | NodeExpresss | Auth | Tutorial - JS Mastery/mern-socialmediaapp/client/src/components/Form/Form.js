@@ -149,7 +149,7 @@ const Form = ({ currentId, setCurrentId }) => {
 					<TextField
 						name="title"
 						variant="outlined"
-						label="Title"
+						label="Title:"
 						fullWidth
 						value={postData.title}
 						onChange={(e) =>
@@ -160,7 +160,7 @@ const Form = ({ currentId, setCurrentId }) => {
 					<TextField
 						name="message"
 						variant="outlined"
-						label="Message"
+						label="Message:"
 						fullWidth
 						value={postData.message}
 						onChange={(e) =>
@@ -174,7 +174,7 @@ const Form = ({ currentId, setCurrentId }) => {
 					<TextField
 						name="tags"
 						variant="outlined"
-						label="Tags"
+						label="Tags: Separate by commas"
 						fullWidth
 						value={postData.tags}
 						onChange={(e) =>

@@ -19,7 +19,7 @@ import Images from "./components/Images/Images";
 
 function App() {
 	const user = JSON.parse(localStorage.getItem("profile")); // Needed to only see /auth when not logged in
-	// console.log("This is the user at the beginning of the App component", user);
+	console.log("This is the user at the beginning of the App component", user);
 
 	return (
 		// Google 2. and 3.: Getting clientId and wrapping App in GoogleOAuthProvider
@@ -32,6 +32,18 @@ function App() {
 					<Container maxWidth="xl">
 						<Navbar />
 						<Routes>
+							<Route
+								path="/auth"
+								exact
+								element={
+									!user ? (
+										<Auth />
+									) : (
+										<Navigate replace to="/posts" /> // Ensures that logged in user can't reach /auth manually. NOT working correctly after timeout
+									)
+								}
+							/>
+							<Route path="/image" exact element={<Images />} />
 							<Route
 								path="/"
 								exact
@@ -49,18 +61,6 @@ function App() {
 								exact
 								element={<PostDetails />}
 							/>
-							<Route
-								path="/auth"
-								exact
-								element={
-									!user ? (
-										<Auth />
-									) : (
-										<Navigate replace to="/posts" /> // Ensures that logged in user can't reach /auth manually. NOT working correctly after timeout
-									)
-								}
-							/>
-							<Route path="/image" exact element={<Images />} />
 						</Routes>
 					</Container>
 				</ThemeProvider>
