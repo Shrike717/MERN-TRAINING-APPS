@@ -14,10 +14,10 @@ function useQuery() {
 
 function Paginate({ page }) {
 	const { totalNumberOfPages } = useSelector((state) => state.posts);
-	// console.log(
-	// 	"This is total pages in Pagination Component",
-	// 	totalNumberOfPages
-	// );
+	console.log(
+		"This is total pages in Pagination Component",
+		totalNumberOfPages
+	);
 
 	const dispatch = useDispatch();
 	const query = useQuery(); // Initialising as hook
@@ -26,7 +26,7 @@ function Paginate({ page }) {
 	// console.log("This is search query from pagination component", searchQuery);
 
 	useEffect(() => {
-		if (!searchQuery) {
+		if (!searchQuery && page > 0) {
 			// To prevent reload of pagination page after search was fired
 			dispatch(getPosts(page));
 		}
@@ -47,8 +47,14 @@ function Paginate({ page }) {
 			variant="outlined"
 			color="primary"
 			renderItem={(item) => {
+				// return ( // Try to solve firing next button on last page. Not working
+				// 	<Link to={`/posts?page=${item.page}`}>
+				// 		<PaginationItem {...item} />
+				// 	</Link>
+				// );
+
 				if (item.page <= totalNumberOfPages) {
-					// Hides next button on last page. Not optimal but better than nothing.
+					// Hides next button on last page. Not optimal but better than nothing
 					return (
 						<Link to={`/posts?page=${item.page}`}>
 							<PaginationItem {...item} />

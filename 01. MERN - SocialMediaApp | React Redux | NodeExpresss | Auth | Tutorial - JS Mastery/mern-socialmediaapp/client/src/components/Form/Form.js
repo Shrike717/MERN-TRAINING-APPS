@@ -94,7 +94,7 @@ const Form = ({ currentId, setCurrentId }) => {
 			);
 		} else {
 			dispatch(createPost(formData)); // Calling the ceatePost action and sending the data from he form field
-			dispatch(getPosts()); // This forces posts to rerender after new post creation
+			dispatch(getPosts()); // This forces posts to rerender after new post creation. Not working after login
 		}
 		clear();
 	};

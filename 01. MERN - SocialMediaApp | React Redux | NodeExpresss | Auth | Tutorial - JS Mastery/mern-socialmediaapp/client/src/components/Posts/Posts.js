@@ -9,11 +9,13 @@ import Post from "./Post/Post";
 
 const Posts = ({ setCurrentId }) => {
 	// Edit 6: Destructure State Setter for currentId
-	const { posts } = useSelector((state) => state.posts); // Redux 15b: Initialising hook to fetch the data from redux store
+	const { posts, isLoading } = useSelector((state) => state.posts); // Redux 15b: Initialising hook to fetch the data from redux store
 	// console.log(posts);
 
-	return !posts?.length ? (
-		<Box fullwidth justifyContent="center" sx={{ display: "flex" }}>
+	if (!posts.length && !isLoading) return "No posts to display";
+
+	return isLoading ? (
+		<Box justifyContent="center" sx={{ display: "flex" }}>
 			<CircularProgress />
 		</Box>
 	) : (
