@@ -14,7 +14,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
 import { useDispatch } from "react-redux"; // Delete 6a: importing useDispatch
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 import { getPosts, deletePost, likePost } from "../../../actions/posts"; // Delete 6c: importing deletePost action | Like 6a
 
@@ -24,13 +24,17 @@ const Post = ({ post, setCurrentId }) => {
 	// Edit 6: Destructure State Setter for currentId
 
 	const dispatch = useDispatch(); // Delete 6b: initialising dispach hook
-
 	const location = useLocation();
+	const navigate = useNavigate();
 
 	// After Auth flow: Loggd in User now needed for conditional rendering of likes, edit and delete buttons
 	const user = JSON.parse(localStorage.getItem("profile"));
 
 	useEffect(() => {}, [location]); // Forces Post component to rerender after logout
+
+	const openPost = () => {
+		navigate(`/posts/${post._id}`);
+	};
 
 	const deletePostHandler = async () => {
 		try {
@@ -89,81 +93,90 @@ const Post = ({ post, setCurrentId }) => {
 				position: "relative",
 			}}
 		>
-			<CardMedia
-				// image={post.selectedFile}
-				image={`${BASE_URL}${post.imageUrl}`}
-				title={post.title}
-				sx={{
-					height: 0,
-					paddingTop: "56.25%",
-					backgroundColor: "rgba(0, 0, 0, 0.3)",
-					backgroundBlendMode: "darken",
-				}}
-			/>
-			<Box
-				sx={{
-					position: "absolute",
-					top: "20px",
-					left: "20px",
-					color: "white",
-				}}
+			<Link
+				to={`/posts/${post._id}`}
+				style={{ textDecoration: "none", color: "black" }}
+				onClick={openPost}
 			>
-				<Typography variant="h6">{post.name}</Typography>
-				<Typography variant="body2">
-					{moment(post.createdAt).locale("en").fromNow()}
-				</Typography>
-			</Box>
-			{/* Only creator sees element when logged in */}
-			{(user?.result?.sub === post?.creator ||
-				user?.result?._id === post?.creator) && (
+				<CardMedia
+					// image={post.selectedFile}
+					image={`${BASE_URL}${post.imageUrl}`}
+					title={post.title}
+					sx={{
+						height: 0,
+						paddingTop: "56.25%",
+						backgroundColor: "rgba(0, 0, 0, 0.3)",
+						backgroundBlendMode: "darken",
+					}}
+				/>
 				<Box
 					sx={{
 						position: "absolute",
-						top: "25px",
-						right: "20px",
+						top: "20px",
+						left: "20px",
 						color: "white",
 					}}
 				>
-					{/* Edit 8: Sending the currentId up to App component. State changes from null to id */}
-					<Button
-						size="small"
-						sx={{ color: "white" }}
-						onClick={() => setCurrentId(post._id)}
-					>
-						<MoreHorizIcon />
-					</Button>
+					<Typography variant="h6">{post.name}</Typography>
+					<Typography variant="body2">
+						{moment(post.createdAt).locale("en").fromNow()}
+					</Typography>
 				</Box>
-			)}
-			<Box
-				sx={{
-					display: "flex",
-					justifyContent: "space-between",
-					margin: "20px 20px 8px 20px",
-				}}
-			>
-				<Typography sx={{ color: "#525252" }} variant="body2">
-					{post.tags.map((tag) => `#${tag} `)}
-				</Typography>
-			</Box>
-			<CardContent sx={{ paddingTop: "0px", paddingBottom: "10px" }}>
-				<Typography
-					variant="body1"
-					sx={{ fontWeight: 600, paddingBottom: "10px" }}
-				>
-					{post.title}
-				</Typography>
-				<Typography
+				{/* Only creator sees element when logged in */}
+				{(user?.result?.sub === post?.creator ||
+					user?.result?._id === post?.creator) && (
+					<Box
+						sx={{
+							position: "absolute",
+							top: "25px",
+							right: "20px",
+							color: "white",
+						}}
+					>
+						{/* Edit 8: Sending the currentId up to App component. State changes from null to id */}
+						<Button
+							size="small"
+							sx={{ color: "white" }}
+							onClick={(e) => {
+								// e.stopPropagation();
+								setCurrentId(post._id);
+							}}
+						>
+							<MoreHorizIcon />
+						</Button>
+					</Box>
+				)}
+				<Box
 					sx={{
-						color: "#525252",
-						height: "60px",
-						overflow: "scroll",
+						display: "flex",
+						justifyContent: "space-between",
+						margin: "20px 20px 8px 20px",
 					}}
-					component="p"
-					variant="body2"
 				>
-					{post.message}
-				</Typography>
-			</CardContent>
+					<Typography sx={{ color: "#525252" }} variant="body2">
+						{post.tags.map((tag) => `#${tag} `)}
+					</Typography>
+				</Box>
+				<CardContent sx={{ paddingTop: "0px", paddingBottom: "10px" }}>
+					<Typography
+						variant="body1"
+						sx={{ fontWeight: 600, paddingBottom: "10px" }}
+					>
+						{post.title}
+					</Typography>
+					<Typography
+						sx={{
+							color: "#525252",
+							height: "60px",
+							overflow: "scroll",
+						}}
+						component="p"
+						variant="body2"
+					>
+						{post.message}
+					</Typography>
+				</CardContent>
+			</Link>
 			<CardActions
 				sx={{
 					padding: "0 16px 8px 16px",

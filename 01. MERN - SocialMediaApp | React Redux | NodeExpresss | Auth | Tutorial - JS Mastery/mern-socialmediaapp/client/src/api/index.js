@@ -23,6 +23,8 @@ export const getPostsBySearch = (searchQuery) =>
 		} `
 	);
 
+export const fetchPost = (postId) => API.get(`/posts/${postId}`);
+
 export const createPost = (newPost) =>
 	API.post("/posts", newPost, {
 		headers: { "Content-Type": "multipart/form-data" },

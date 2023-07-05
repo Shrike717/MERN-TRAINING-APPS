@@ -15,7 +15,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
 import Auth from "./components/Auth/Auth";
 import PostDetails from "./components/PostDetails/PostDetails";
-import Images from "./components/Images/Images";
+import Image from "./components/Images/Images";
 
 function App() {
 	const user = JSON.parse(localStorage.getItem("profile")); // Needed to only see /auth when not logged in
@@ -43,7 +43,7 @@ function App() {
 									)
 								}
 							/>
-							{/* <Route path="/image" exact element={<Images />} /> */}
+							<Route path="/image" exact element={<Image />} />
 							<Route
 								path="/"
 								exact

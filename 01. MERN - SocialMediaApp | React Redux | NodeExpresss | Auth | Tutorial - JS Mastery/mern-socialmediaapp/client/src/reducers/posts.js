@@ -1,5 +1,6 @@
 import {
 	FETCH_ALL,
+	FETCH_POST,
 	CREATE,
 	UPDATE,
 	DELETE,
@@ -35,6 +36,8 @@ const postsReducer = (state = { isLoading: true, posts: [] }, action) => {
 
 		case FETCH_BY_SEARCH:
 			return { ...state, posts: action.payload }; //  Text Search 17: Setting the return to action.payload = Updating the state in stor
+		case FETCH_POST:
+			return { ...state, post: action.payload }; //
 		case DELETE:
 			return {
 				...state,
