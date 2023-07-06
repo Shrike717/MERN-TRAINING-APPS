@@ -44,7 +44,7 @@ const Form = ({ currentId, setCurrentId }) => {
 	const posts = useSelector((state) => state.posts);
 	// console.log(
 	// 	"This is state.posts in Form Component",
-	// 	currentId ? posts.posts.find((p) => p._id === currentId) : null
+	// 	posts.posts
 	// );
 	const postToUpdate = currentId
 		? posts.posts.find((p) => p._id === currentId)
@@ -95,7 +95,7 @@ const Form = ({ currentId, setCurrentId }) => {
 				updatePost(currentId, formData) // After Auth flow: Passing logged in user name to BE
 			);
 		} else {
-			dispatch(createPost(formData)); // Calling the ceatePost action and sending the data from he form field
+			dispatch(createPost(formData, navigate)); // Calling the ceatePost action and sending the data from he form field
 		}
 		clear();
 	};
