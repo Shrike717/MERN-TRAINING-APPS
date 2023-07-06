@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
 
 import { getPost, getPostsBySearch } from "../../actions/posts";
@@ -18,13 +18,15 @@ import { themeApp } from "../../appStyles";
 const BASE_URL = "http://localhost:5000/";
 
 function PostDetails() {
-	const { post, posts, isLoading } = useSelector((state) => state.posts);
+	const { post, isLoading } = useSelector((state) => state.posts);
+	const posts = useSelector((state) => state.posts);
 	const dispatch = useDispatch();
 	const location = useLocation();
+	const navigate = useNavigate();
 	const { id } = useParams();
 	// console.log(
-	// 	"This is the postId in PostDetail component before dispatching:",
-	// 	id
+	// 	"This is the posts arra in PostDetail component before dispatching:",
+	// 	posts
 	// );
 
 	useEffect(() => {
@@ -58,7 +60,10 @@ function PostDetails() {
 	}
 
 	// Filters out the post that is featured. Should not be in recommendedPosts. Keeps all other posts.
-	const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
+	const recommendedPosts = posts.posts.filter(({ _id }) => _id !== post._id);
+
+	// Opens selected post from the recommendedPosts array.
+	const openPost = (_id) => navigate(`/posts/${_id}`);
 
 	return (
 		<>
@@ -170,7 +175,51 @@ function PostDetails() {
 									imageUrl,
 									_id,
 								}) => {
-									return <Box>{title}</Box>;
+									return (
+										<Box
+											key={_id}
+											style={{
+												margin: "20px",
+												cursor: "pointer",
+											}}
+											onClick={() => openPost(_id)}
+										>
+											<Typography
+												variant="h6"
+												gutterBottom
+											>
+												{title}
+											</Typography>
+											<Typography
+												variant="subtitle2"
+												gutterBottom
+											>
+												{name}
+											</Typography>
+											<Typography
+												variant="subtitle2"
+												gutterBottom
+												sx={{
+													height: "60px",
+													overflow: "scroll",
+												}}
+											>
+												{message}
+											</Typography>
+											<Typography
+												variant="subtitle1"
+												gutterBottom
+											>
+												Likes: &nbsp;
+												{likes.length}
+											</Typography>
+											<CardMedia
+												component="img"
+												image={`${BASE_URL}${imageUrl}`}
+												width="200px"
+											></CardMedia>
+										</Box>
+									);
 								}
 							)}
 						</Box>

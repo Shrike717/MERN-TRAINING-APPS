@@ -61,7 +61,7 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
 	}
 };
 
-export const createPost = (post) => async (dispatch) => {
+export const createPost = (post, navigate) => async (dispatch) => {
 	try {
 		dispatch({ type: START_LOADING });
 		const { data } = await api.createPost(post); // Axios request sending new post to BE triggert from here. Response gets saved
@@ -72,6 +72,7 @@ export const createPost = (post) => async (dispatch) => {
 		// );
 
 		dispatch({ type: CREATE, payload: data }); // Action that gets dispatched. Sends response data to postsReducer
+		// navigate(`/posts/${data._id}`); // Redirect not working
 		dispatch({ type: END_LOADING });
 	} catch (error) {
 		console.log(error);
