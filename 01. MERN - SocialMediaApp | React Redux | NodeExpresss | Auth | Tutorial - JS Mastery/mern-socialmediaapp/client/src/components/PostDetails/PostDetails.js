@@ -24,12 +24,7 @@ function PostDetails() {
 	const { id } = useParams();
 	// console.log(
 	// 	"This is the postId in PostDetail component before dispatching:",
-	// 	postId
-	// );
-	// const params = useParams();
-	// console.log(
-	// 	"This is are the params in PostDetail component before dispatching:",
-	// 	params
+	// 	id
 	// );
 
 	useEffect(() => {
@@ -69,22 +64,40 @@ function PostDetails() {
 				},
 			}}
 		>
-			<Box sx={{ borderRadius: "20px", margin: "10px", flex: 1 }}>
-				<Typography variant="h3" component="h2">
-					{post.title}
+			<Box
+				sx={{
+					borderRadius: "20px",
+					margin: "1rem 1rem 1rem 2rem",
+					flex: 1,
+				}}
+			>
+				<Typography
+					variant="h5"
+					component="h2"
+					sx={{ marginBottom: "1rem", fontSize: "1.7rem" }}
+				>
+					<strong>{post.title}</strong>
 				</Typography>
 				<Typography
 					gutterBottom
-					variant="h6"
+					variant="body1"
 					color="textSecondary"
 					component="h2"
+					sx={{ marginBottom: "1rem" }}
 				>
 					{post.tags.map((tag) => `#${tag} `)}
 				</Typography>
-				<Typography gutterBottom variant="body1" component="p">
+				<Typography
+					gutterBottom
+					variant="body1"
+					component="p"
+					sx={{ marginBottom: "1rem" }}
+				>
 					{post.message}
 				</Typography>
-				<Typography variant="h6">Created by: {post.name}</Typography>
+				<Typography variant="body1" sx={{}}>
+					Created by: {post.name}
+				</Typography>
 				<Typography variant="body1">
 					{moment(post.createdAt).fromNow()}
 				</Typography>
@@ -101,9 +114,9 @@ function PostDetails() {
 			<CardMedia
 				component="img"
 				image={`${BASE_URL}${post.imageUrl}`}
-				alt={post.title}
+				title={post.title}
 				sx={{
-					borderRadius: "20px",
+					borderRadius: "2rem",
 					padding: "20px",
 					objectFit: "cover",
 					width: "50%",
@@ -115,48 +128,6 @@ function PostDetails() {
 				}}
 			></CardMedia>
 		</Paper>
-
-		// <div className={classes.card}>
-		// 	<div className={classes.section}>
-		// 		<Typography variant="h3" component="h2">
-		// 			{post.title}
-		// 		</Typography>
-		// 		<Typography
-		// 			gutterBottom
-		// 			variant="h6"
-		// 			color="textSecondary"
-		// 			component="h2"
-		// 		>
-		// 			{post.tags.map((tag) => `#${tag} `)}
-		// 		</Typography>
-		// 		<Typography gutterBottom variant="body1" component="p">
-		// 			{post.message}
-		// 		</Typography>
-		// 		<Typography variant="h6">Created by: {post.name}</Typography>
-		// 		<Typography variant="body1">
-		// 			{moment(post.createdAt).fromNow()}
-		// 		</Typography>
-		// 		<Divider style={{ margin: "20px 0" }} />
-		// 		<Typography variant="body1">
-		// 			<strong>Realtime Chat - coming soon!</strong>
-		// 		</Typography>
-		// 		<Divider style={{ margin: "20px 0" }} />
-		// 		<Typography variant="body1">
-		// 			<strong>Comments - coming soon!</strong>
-		// 		</Typography>
-		// 		<Divider style={{ margin: "20px 0" }} />
-		// 	</div>
-		// 	<div className={classes.imageSection}>
-		// 		<img
-		// 			className={classes.media}
-		// 			src={
-		// 				post.selectedFile ||
-		// 				"https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
-		// 			}
-		// 			alt={post.title}
-		// 		/>
-		// 	</div>
-		// </div>
 	);
 }
 

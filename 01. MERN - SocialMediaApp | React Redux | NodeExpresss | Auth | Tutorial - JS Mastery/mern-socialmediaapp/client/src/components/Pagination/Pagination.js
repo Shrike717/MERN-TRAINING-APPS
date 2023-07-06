@@ -14,10 +14,10 @@ function useQuery() {
 
 function Paginate({ page }) {
 	const { totalNumberOfPages } = useSelector((state) => state.posts);
-	console.log(
-		"This is total pages in Pagination Component",
-		totalNumberOfPages
-	);
+	// console.log(
+	// 	"This is total pages in Pagination Component",
+	// 	totalNumberOfPages
+	// );
 
 	const dispatch = useDispatch();
 	const query = useQuery(); // Initialising as hook

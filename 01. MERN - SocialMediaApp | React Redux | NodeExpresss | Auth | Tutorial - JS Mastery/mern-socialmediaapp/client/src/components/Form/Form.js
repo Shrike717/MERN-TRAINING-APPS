@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"; // Edit 14c: import useEffect
 import { useRef } from "react"; // Needed for resetting file Input field
+import { useNavigate } from "react-router-dom";
 import { Box, TextField, Button, Typography, Paper } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -38,6 +39,7 @@ const Form = ({ currentId, setCurrentId }) => {
 
 	const dispatch = useDispatch(); // Initialising useDispatch hook
 	const inputFile = useRef(null); // Initialising ref hook to reset file input
+	const navigate = useNavigate();
 
 	const posts = useSelector((state) => state.posts);
 	// console.log(
@@ -94,7 +96,6 @@ const Form = ({ currentId, setCurrentId }) => {
 			);
 		} else {
 			dispatch(createPost(formData)); // Calling the ceatePost action and sending the data from he form field
-			dispatch(getPosts()); // This forces posts to rerender after new post creation. Not working after login
 		}
 		clear();
 	};
@@ -112,7 +113,8 @@ const Form = ({ currentId, setCurrentId }) => {
 			inputFile.current.value = null;
 			setCurrentId(null);
 			setTouched(false);
-		}, "600");
+			navigate("/"); // Forces posts to rerender. Not the bbest solution because of deelay
+		}, "200");
 
 		// setPostData({
 		// 	// creator: "",

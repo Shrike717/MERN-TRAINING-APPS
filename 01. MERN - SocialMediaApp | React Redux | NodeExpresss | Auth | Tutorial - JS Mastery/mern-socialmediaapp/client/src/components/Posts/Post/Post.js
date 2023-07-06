@@ -93,6 +93,31 @@ const Post = ({ post, setCurrentId }) => {
 				position: "relative",
 			}}
 		>
+			{" "}
+			{/* Only creator sees element when logged in */}
+			{(user?.result?.sub === post?.creator ||
+				user?.result?._id === post?.creator) && (
+				<Box
+					sx={{
+						position: "absolute",
+						top: "25px",
+						right: "20px",
+						color: "white",
+					}}
+				>
+					{/* Edit 8: Sending the currentId up to App component. State changes from null to id */}
+					<Button
+						size="small"
+						sx={{ color: "white" }}
+						onClick={(e) => {
+							// e.stopPropagation();
+							setCurrentId(post._id);
+						}}
+					>
+						<MoreHorizIcon />
+					</Button>
+				</Box>
+			)}
 			<Link
 				to={`/posts/${post._id}`}
 				style={{ textDecoration: "none", color: "black" }}
@@ -122,30 +147,7 @@ const Post = ({ post, setCurrentId }) => {
 						{moment(post.createdAt).locale("en").fromNow()}
 					</Typography>
 				</Box>
-				{/* Only creator sees element when logged in */}
-				{(user?.result?.sub === post?.creator ||
-					user?.result?._id === post?.creator) && (
-					<Box
-						sx={{
-							position: "absolute",
-							top: "25px",
-							right: "20px",
-							color: "white",
-						}}
-					>
-						{/* Edit 8: Sending the currentId up to App component. State changes from null to id */}
-						<Button
-							size="small"
-							sx={{ color: "white" }}
-							onClick={(e) => {
-								// e.stopPropagation();
-								setCurrentId(post._id);
-							}}
-						>
-							<MoreHorizIcon />
-						</Button>
-					</Box>
-				)}
+
 				<Box
 					sx={{
 						display: "flex",
