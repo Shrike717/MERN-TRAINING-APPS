@@ -161,6 +161,7 @@ function PostDetails() {
 						<Box
 							sx={{
 								display: "flex",
+								justifyContent: "space-between",
 								[themeApp.breakpoints.down("sm")]: {
 									flexDirection: "column",
 								},
@@ -214,6 +215,10 @@ function PostDetails() {
 												{likes.length}
 											</Typography>
 											<CardMedia
+												sx={{
+													width: "100%",
+													height: "50%",
+												}}
 												component="img"
 												image={`${BASE_URL}${imageUrl}`}
 												width="200px"
