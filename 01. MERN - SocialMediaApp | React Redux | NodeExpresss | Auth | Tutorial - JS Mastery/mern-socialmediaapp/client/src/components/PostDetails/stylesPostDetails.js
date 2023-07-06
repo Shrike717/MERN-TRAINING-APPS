@@ -16,9 +16,9 @@ export default makeStyles((theme) => ({
 	// 	},
 	// },
 	// section: {
-	// 	borderRadius: "20px",
-	// 	margin: "10px",
-	// 	flex: 1,
+	// borderRadius: "20px",
+	// margin: "10px",
+	// flex: 1,
 	// },
 	// imageSection: {
 	// 	marginLeft: "20px",
@@ -26,12 +26,12 @@ export default makeStyles((theme) => ({
 	// 		marginLeft: 0,
 	// 	},
 	// },
-	recommendedPosts: {
-		display: "flex",
-		[theme.breakpoints.down("sm")]: {
-			flexDirection: "column",
-		},
-	},
+	// recommendedPosts: {
+	// 	display: "flex",
+	// 	[theme.breakpoints.down("sm")]: {
+	// 		flexDirection: "column",
+	// 	},
+	// },
 	// loadingPaper: {
 	// 	display: "flex",
 	// 	justifyContent: "center",
