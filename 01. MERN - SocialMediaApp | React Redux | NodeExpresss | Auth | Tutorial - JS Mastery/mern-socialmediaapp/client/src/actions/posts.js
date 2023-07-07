@@ -71,8 +71,9 @@ export const createPost = (post, navigate) => async (dispatch) => {
 		// 	data
 		// );
 
+		// navigate(`/posts/${data._id}`); // Redirect not workings
+
 		dispatch({ type: CREATE, payload: data }); // Action that gets dispatched. Sends response data to postsReducer
-		// navigate(`/posts/${data._id}`); // Redirect not working
 		dispatch({ type: END_LOADING });
 	} catch (error) {
 		console.log(error);
