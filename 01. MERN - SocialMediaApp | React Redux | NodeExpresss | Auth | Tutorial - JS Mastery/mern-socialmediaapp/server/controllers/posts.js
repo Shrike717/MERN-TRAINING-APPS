@@ -198,6 +198,24 @@ export const likePost = async (req, res) => {
 	}
 };
 
+export const commentPost = async (req, res) => {
+	const { id } = req.params; // Destructuring it
+	const _id = id; // Renaming it => Mongoose syntax
+	const { comment } = req.body; // Extracting comment from body
+
+	// First fetching post from DB to put the comment on:
+	const post = await PostMessage.findById(_id);
+
+	post.comments.push(comment); // Adds comment to post.comments array
+
+	// And finally we update it and store it in updatedPost variable
+	const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, {
+		new: true,
+	});
+
+	res.status(200).json(updatedPost);
+};
+
 const clearImage = (filePath) => {
 	filePath = path.join(filePath);
 	fs.unlink(filePath, (err) => console.log(err));
