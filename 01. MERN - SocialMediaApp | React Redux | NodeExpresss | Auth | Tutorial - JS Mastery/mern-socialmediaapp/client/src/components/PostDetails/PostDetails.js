@@ -5,6 +5,8 @@ import moment from "moment";
 
 import { getPost, getPostsBySearch } from "../../actions/posts";
 
+import CommentSection from "./CommentSection";
+
 import {
 	Box,
 	Paper,
@@ -133,14 +135,12 @@ function PostDetails() {
 						<Typography variant="body1">
 							{moment(post.createdAt).fromNow()}
 						</Typography>
-						<Divider style={{ margin: "20px 0" }} />
-						<Typography variant="body1">
+						{/* <Divider style={{ margin: "20px 0" }} /> */}
+						{/* <Typography variant="body1">
 							<strong>Realtime Chat - coming soon!</strong>
-						</Typography>
+						</Typography> */}
 						<Divider style={{ margin: "20px 0" }} />
-						<Typography variant="body1">
-							<strong>Comments - coming soon!</strong>
-						</Typography>
+						<CommentSection post={post} />
 						<Divider style={{ margin: "20px 0" }} />
 					</Box>
 					<CardMedia
@@ -152,7 +152,7 @@ function PostDetails() {
 							padding: "20px",
 							objectFit: "cover",
 							width: "50%",
-							maxHeight: "600px",
+							maxHeight: "500px",
 							marginLeft: "20px",
 							[themeApp.breakpoints.down("sm")]: {
 								marginLeft: 0,
@@ -174,6 +174,7 @@ function PostDetails() {
 						<Divider />
 						<Box
 							sx={{
+								// flex: "1 1 1px",
 								display: "flex",
 								justifyContent: "space-between",
 								[themeApp.breakpoints.down("sm")]: {
