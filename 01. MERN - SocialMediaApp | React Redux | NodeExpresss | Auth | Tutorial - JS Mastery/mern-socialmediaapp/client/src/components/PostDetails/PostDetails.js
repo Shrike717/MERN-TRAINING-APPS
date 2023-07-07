@@ -23,16 +23,27 @@ function PostDetails() {
 	const dispatch = useDispatch();
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { id } = useParams();
-	// console.log(
-	// 	"This is the posts arra in PostDetail component before dispatching:",
-	// 	posts
-	// );
+	let { id } = useParams();
 
+	// This is the id from the URL.
+	console.log("This is the id from the URL in PostDetails beginning:", id);
+
+	console.log(
+		"This is the POST arra in PostDetail component before dispatching:",
+		post
+	);
+
+	console.log(
+		"This is the POSTS arra in PostDetail component before dispatching:",
+		posts
+	);
+
+	// Gets featured post from DB when id changes
 	useEffect(() => {
 		dispatch(getPost(id));
 	}, [id]);
 
+	// Gets all posts with same tags from DB when post changes. This popuulates posts.
 	useEffect(() => {
 		dispatch(
 			getPostsBySearch({ search: "none", tags: post?.tags.join(",") })
@@ -60,7 +71,10 @@ function PostDetails() {
 	}
 
 	// Filters out the post that is featured. Should not be in recommendedPosts. Keeps all other posts.
-	const recommendedPosts = posts.posts.filter(({ _id }) => _id !== post._id);
+	const recommendedPosts = posts.posts
+		.filter(({ _id }) => _id !== post._id)
+		.sort((a, b) => 0.5 - Math.random()) // As we show only 3 recPosts: Quick and dirty shuffle to not show always the same posts:
+		.slice(0, 3); // My idea: 3 is the number of recommended posts. Otherwise a slider wouuld be needed
 
 	// Opens selected post from the recommendedPosts array.
 	const openPost = (_id) => navigate(`/posts/${_id}`);

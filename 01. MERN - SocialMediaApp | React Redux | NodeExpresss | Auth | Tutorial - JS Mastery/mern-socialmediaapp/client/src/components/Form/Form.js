@@ -113,7 +113,7 @@ const Form = ({ currentId, setCurrentId }) => {
 			inputFile.current.value = null;
 			setCurrentId(null);
 			setTouched(false);
-			navigate("/"); // Forces posts to rerender. Not the bbest solution because of deelay
+			navigate("/"); // Forces posts to rerender. Not the bbest solution because of delay
 		}, "200");
 
 		// setPostData({
