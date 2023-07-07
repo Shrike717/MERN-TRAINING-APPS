@@ -8,6 +8,7 @@ import {
 	updatePost, // Edit 1b: Importing controller action
 	deletePost, // Delete 1b: Importing controller action
 	likePost, // Like 1b: Importing controller action
+	commentPost,
 } from "../controllers/posts.js";
 import auth from "../middleware/auth.js";
 
@@ -22,5 +23,6 @@ router.post("/", auth, createPost);
 router.patch("/:id", auth, updatePost); // Edit 1a: Route
 router.delete("/:id", auth, deletePost); // Delete 1a: Route
 router.patch("/:id/likePost", auth, likePost); // Like 1a: Route
+router.post("/:id/commentPost", auth, commentPost); // Comment route
 
 export default router;

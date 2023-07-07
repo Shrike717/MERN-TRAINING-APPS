@@ -28,7 +28,7 @@ function PostDetails() {
 	let { id } = useParams();
 
 	// This is the id from the URL.
-	console.log("This is the id from the URL in PostDetails beginning:", id);
+	// console.log("This is the id from the URL in PostDetails beginning:", id);
 
 	console.log(
 		"This is the POST arra in PostDetail component before dispatching:",

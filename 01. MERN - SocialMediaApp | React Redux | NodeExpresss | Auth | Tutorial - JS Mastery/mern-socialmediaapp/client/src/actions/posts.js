@@ -4,6 +4,7 @@ import {
 	UPDATE,
 	DELETE,
 	LIKE,
+	COMMENT,
 	FETCH_BY_SEARCH,
 	START_LOADING,
 	END_LOADING,
@@ -112,6 +113,22 @@ export const likePost = (id) => async (dispatch) => {
 		const { data } = await api.likePost(id); // Axios request sending Id to BE triggert from here. Response gets saved
 
 		dispatch({ type: LIKE, payload: data }); // Action that gets dispatched. Sends response data to postsReducer
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const commentPost = (comment, id) => async (dispatch) => {
+	try {
+		const { data } = await api.commentPost(comment, id); // Axios request sending comment andId to BE triggert from here. Response gets saved
+
+		console.log(
+			"This is data from commentPost action coming back from BE",
+			data
+		);
+
+		dispatch({ type: COMMENT, payload: data }); // Action that gets dispatched. Sends response data to postsReducer
+		return data.comments;
 	} catch (error) {
 		console.log(error);
 	}
