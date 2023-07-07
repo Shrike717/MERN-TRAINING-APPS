@@ -33,11 +33,20 @@ export default makeStyles((theme) => ({
 	// 	},
 	// },
 	// loadingPaper: {
-	// 	display: "flex",
-	// 	justifyContent: "center",
+	// display: "flex",
+	// justifyContent: "center",
 	// 	alignItems: "center",
 	// 	padding: "20px",
 	// 	borderRadius: "15px",
 	// 	height: "39vh",
 	// },
-}));
+	// commentsOuterContainer: {
+	// 	display: "flex",
+	// 	justifyContent: "space-between",
+	// },
+    // commentsInnerContainer: {
+    //     height: "200px",
+    //     overflowY: "auto", // Makes div scrollable
+    //     marginRight: "30px",
+    // },
+));
