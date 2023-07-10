@@ -6,16 +6,25 @@ import { commentPost } from "../../actions/posts";
 
 function CommentSection({ post }) {
 	const user = JSON.parse(localStorage.getItem("profile")); // Needed to send  wiith a comment
-	const [comments, setComments] = useState([1, 2, 3, 4, 5]);
+	const [comments, setComments] = useState(post?.comments); // Getting the comments from this post
 	const [comment, setComment] = useState("");
 
 	const dispatch = useDispatch();
+	// const commentRef = useRef();
 
-	const handleClickComment = () => {
-		// Setting comment with useername
+	const handleClickComment = async () => {
+		// Setting comment with username
 		const finalComment = `${user.result.name}: ${comment}`;
 
-		dispatch(commentPost(finalComment, post._id));
+		const newComments = await dispatch(commentPost(finalComment, post._id));
+
+		setComments(newComments);
+		setComment("");
+
+		// commentRef.current.scrollIntoView({
+		// 	behaviour: "smoothScroll",
+		// 	inline: "center",
+		// });
 	};
 	return (
 		<Box>
@@ -23,28 +32,32 @@ function CommentSection({ post }) {
 				<Box
 					sx={{
 						height: "200px",
-						overflowY: "auto", // Makes div scrollable
+						overflowY: "auto", // Makes div scrollable.. Disable Apple hiding scrollbars
 						marginRight: "30px",
+						width: "50%",
 					}}
 				>
 					<Typography variant="h6" gutterBottom>
 						Comments:
 					</Typography>
-					{comments.map((comment, index) => {
+					{[...comments].reverse().map((comment, index) => {
+						// console.log(comments);
 						return (
 							<Typography
 								key={index}
-								variant="subtitle1"
+								variant="subtitle2"
 								gutterBottom
 							>
-								Comment {index + 1}
+								<strong>{comment.split(":")[0]}:</strong>
+								{comment.split(":")[1]}
 							</Typography>
 						);
 					})}
+					{/* <Box ref={commentRef} /> */}
 				</Box>
 				{user?.result?.name && (
 					<Box
-						style={{ width: "70%" }}
+						style={{ width: "50%" }}
 						sx={{ display: "flex", flexDirection: "column" }}
 					>
 						<Typography variant="h6" gutterBottom>

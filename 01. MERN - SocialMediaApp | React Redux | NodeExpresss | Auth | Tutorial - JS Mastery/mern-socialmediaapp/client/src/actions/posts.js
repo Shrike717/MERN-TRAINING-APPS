@@ -128,7 +128,7 @@ export const commentPost = (comment, id) => async (dispatch) => {
 		);
 
 		dispatch({ type: COMMENT, payload: data }); // Action that gets dispatched. Sends response data to postsReducer
-		return data.comments;
+		return data.comments; // We also return the newest comment thats coming in
 	} catch (error) {
 		console.log(error);
 	}

@@ -75,7 +75,7 @@ function PostDetails() {
 	// Filters out the post that is featured. Should not be in recommendedPosts. Keeps all other posts.
 	const recommendedPosts = posts.posts
 		.filter(({ _id }) => _id !== post._id)
-		.sort((a, b) => 0.5 - Math.random()) // As we show only 3 recPosts: Quick and dirty shuffle to not show always the same posts:
+		// .sort((a, b) => 0.5 - Math.random()) // As we show only 3 recPosts: Quick and dirty shuffle to not show always the same posts:
 		.slice(0, 3); // My idea: 3 is the number of recommended posts. Otherwise a slider wouuld be needed
 
 	// Opens selected post from the recommendedPosts array.
@@ -174,7 +174,6 @@ function PostDetails() {
 						<Divider />
 						<Box
 							sx={{
-								// flex: "1 1 1px",
 								display: "flex",
 								justifyContent: "space-between",
 								[themeApp.breakpoints.down("sm")]: {
