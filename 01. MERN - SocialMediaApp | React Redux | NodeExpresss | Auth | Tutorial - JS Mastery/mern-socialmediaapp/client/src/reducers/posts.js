@@ -5,6 +5,7 @@ import {
 	UPDATE,
 	DELETE,
 	LIKE,
+	COMMENT,
 	FETCH_BY_SEARCH,
 	START_LOADING,
 	END_LOADING,
@@ -57,7 +58,18 @@ const postsReducer = (state = { isLoading: true, posts: [] }, action) => {
 					post._id === action.payload._id ? action.payload : post
 				),
 			}; // Edit 13: Mapping over posts, find updated post and change it. Otherwise returrn all other posts
-
+		case COMMENT:
+			return {
+				...state,
+				posts: state.posts.map((post) => {
+					if (post._id === action.payload._id) {
+						// Change the post hat just received a comment:
+						return action.payload;
+					}
+					//  Return all the other posts normally
+					return post;
+				}),
+			};
 		case CREATE:
 			// console.log(
 			// 	"This is the state in reducer CREATE before stored in store",

@@ -170,7 +170,7 @@ const Post = ({ post, setCurrentId }) => {
 						sx={{
 							color: "#525252",
 							height: "60px",
-							overflow: "scroll",
+							overflow: "auto",
 						}}
 						component="p"
 						variant="body2"
@@ -199,7 +199,7 @@ const Post = ({ post, setCurrentId }) => {
 					user?.result?._id === post?.creator) && (
 					<Button
 						size="small"
-						color="primary"
+						color="error"
 						onClick={deletePostHandler} // Delete 6c: Dispatching the action on Delete button
 					>
 						<DeleteIcon
