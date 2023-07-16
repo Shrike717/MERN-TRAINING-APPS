@@ -1,15 +1,20 @@
+import React, { useState } from "react";
+
 import { Box, IconButton, Badge, Tooltip, Avatar } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
 import { useValue } from "../../context/ContextProvider";
 
-import React from "react";
+import UserMenu from "../UserMenu";
 
 const UserIcons = () => {
 	const {
 		state: { currentUser },
 	} = useValue();
+
+	// This state defines the anchor element of the UserMenu. In this case Avatar
+	const [anchorUserMenu, setAnchorUserMenu] = useState(null);
 
 	return (
 		<Box>
@@ -24,12 +29,14 @@ const UserIcons = () => {
 				</Badge>
 			</IconButton>
 			<Tooltip title="Open User Settings">
-				<IconButton>
+				{/* The onClick sets the anchor for UserMenu to the Avatar Icon */}
+				<IconButton onClick={(e) => setAnchorUserMenu(e.currentTarget)}>
 					<Avatar src={currentUser?.photoUrl} alt={currentUser?.name}>
 						{currentUser?.name?.charAt(0).toUpperCase()}
 					</Avatar>
 				</IconButton>
 			</Tooltip>
+			<UserMenu {...{ anchorUserMenu, setAnchorUserMenu }} />
 		</Box>
 	);
 };

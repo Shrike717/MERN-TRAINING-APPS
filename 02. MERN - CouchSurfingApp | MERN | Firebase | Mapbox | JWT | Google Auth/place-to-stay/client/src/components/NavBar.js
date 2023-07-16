@@ -62,6 +62,7 @@ const NavBar = () => {
 						<Button
 							color="inherit"
 							startIcon={<Lock />}
+							// The onClick sets the currentUser to a user object so it becomes true. Then UserIcons will be shown
 							onClick={() =>
 								dispatch({ type: UPDATE_USER, payload: user })
 							}
