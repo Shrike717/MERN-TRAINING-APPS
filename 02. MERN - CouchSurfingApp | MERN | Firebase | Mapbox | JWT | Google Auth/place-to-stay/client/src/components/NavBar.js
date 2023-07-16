@@ -11,7 +11,22 @@ import {
 import { Container } from "@mui/system";
 import { Menu, Lock } from "@mui/icons-material";
 
+import { useValue } from "../context/ContextProvider";
+
+import photoUrl from "../1_User_Profile.jpg";
+import UserIcons from "./user/UserIcons";
+import { UPDATE_USER } from "../constants/actionTypes";
+
+// Dummy user for testing login state:
+const user = { name: "test", photoUrl };
+
 const NavBar = () => {
+	// Extracting the current user from state wth hook useValue:
+	const {
+		state: { currentUser },
+		dispatch,
+	} = useValue();
+
 	return (
 		<AppBar>
 			<Container maxWidth="lg">
@@ -43,9 +58,19 @@ const NavBar = () => {
 					>
 						YRW
 					</Typography>
-					<Button color="inherit" startIcon={<Lock />}>
-						Login
-					</Button>
+					{!currentUser ? (
+						<Button
+							color="inherit"
+							startIcon={<Lock />}
+							onClick={() =>
+								dispatch({ type: UPDATE_USER, payload: user })
+							}
+						>
+							Login
+						</Button>
+					) : (
+						<UserIcons />
+					)}
 				</Toolbar>
 			</Container>
 		</AppBar>
