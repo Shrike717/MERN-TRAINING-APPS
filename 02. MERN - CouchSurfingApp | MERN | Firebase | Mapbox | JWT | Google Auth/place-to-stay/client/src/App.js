@@ -1,10 +1,14 @@
 import React from "react";
 import NavBar from "./components/NavBar";
+import Login from "./components/user/Login";
 
 const App = () => {
-	return <NavBar />;
-
-	// return <div>App</div>;
+	return (
+		<>
+			<Login />
+			<NavBar />;
+		</>
+	);
 };
 
 export default App;

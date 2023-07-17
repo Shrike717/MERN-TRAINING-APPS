@@ -15,7 +15,7 @@ import { useValue } from "../context/ContextProvider";
 
 import photoUrl from "../1_User_Profile.jpg";
 import UserIcons from "./user/UserIcons";
-import { UPDATE_USER } from "../constants/actionTypes";
+import { UPDATE_USER, OPEN_LOGIN } from "../constants/actionTypes";
 
 // Dummy user for testing login state:
 const user = { name: "test", photoUrl };
@@ -63,9 +63,7 @@ const NavBar = () => {
 							color="inherit"
 							startIcon={<Lock />}
 							// The onClick sets the currentUser to a user object so it becomes true. Then UserIcons will be shown
-							onClick={() =>
-								dispatch({ type: UPDATE_USER, payload: user })
-							}
+							onClick={() => dispatch({ type: OPEN_LOGIN })}
 						>
 							Login
 						</Button>

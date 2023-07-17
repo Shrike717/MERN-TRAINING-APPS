@@ -5,6 +5,7 @@ import reducer from "./reducer";
 // contains all our public values:
 const initialState = {
 	currentUser: null,
+	openLogin: false,
 };
 
 //
