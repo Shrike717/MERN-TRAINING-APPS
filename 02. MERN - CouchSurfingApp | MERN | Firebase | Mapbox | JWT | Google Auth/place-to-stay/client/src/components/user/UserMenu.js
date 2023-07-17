@@ -2,9 +2,9 @@ import { Settings } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ListItemIcon, MenuItem, Menu } from "@mui/material";
 
-import { useValue } from "../context/ContextProvider";
+import { useValue } from "../../context/ContextProvider";
 
-import { UPDATE_USER } from "../constants/actionTypes";
+import { UPDATE_USER } from "../../constants/actionTypes";
 
 const UserMenu = ({ anchorUserMenu, setAnchorUserMenu }) => {
 	const { dispatch } = useValue();
@@ -15,6 +15,7 @@ const UserMenu = ({ anchorUserMenu, setAnchorUserMenu }) => {
 	return (
 		<Menu
 			anchorEl={anchorUserMenu}
+			// Opens when anchorUserMenu is true
 			open={Boolean(anchorUserMenu)}
 			onClose={handleCloseUserMenu}
 			onClick={handleCloseUserMenu}

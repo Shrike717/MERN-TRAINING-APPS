@@ -6,7 +6,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 
 import { useValue } from "../../context/ContextProvider";
 
-import UserMenu from "../UserMenu";
+import UserMenu from "./UserMenu";
 
 const UserIcons = () => {
 	const {
