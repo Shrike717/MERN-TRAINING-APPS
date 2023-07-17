@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
 	Button,
 	Dialog,
@@ -35,6 +35,10 @@ const Login = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 	};
+
+	useEffect(() => {
+		isRegister ? setTitle("Register") : setTitle("Login");
+	}, [isRegister]);
 
 	return (
 		<Dialog open={openLogin} onClose={handleClose}>
@@ -101,6 +105,15 @@ const Login = () => {
 					</Button>
 				</DialogActions>
 			</form>
+			<DialogActions
+				sx={{ justifyContent: "left", p: "5px 24px" }}
+				onClick={() => setIsRegister(!isRegister)}
+			>
+				{isRegister
+					? "Do you have an account? Sign in:"
+					: "You don't have an account? Create one now:"}
+				<Button>{isRegister ? "Login" : "Register"}</Button>
+			</DialogActions>
 		</Dialog>
 	);
 };
