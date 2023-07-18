@@ -13,8 +13,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 
 import { useValue } from "../../context/ContextProvider";
-import { CLOSE_LOGIN } from "../../constants/actionTypes";
+import {
+	CLOSE_LOGIN,
+	START_LOADING,
+	END_LOADING,
+	UPDATE_ALERT,
+} from "../../constants/actionTypes";
 import PasswordField from "./PasswordField";
+import GoogleOneTapLogin from "./GoogleOneTapLogin";
 
 const Login = () => {
 	const {
@@ -34,6 +40,25 @@ const Login = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		// Testing Loading:
+		dispatch({ type: START_LOADING });
+		setTimeout(() => {
+			dispatch({ type: END_LOADING });
+		}, 6000);
+
+		// Testing Notification:
+		const password = passwordRef.current.value;
+		const confirmPassword = confirmPasswordRef.current.value;
+		if (password !== confirmPassword) {
+			dispatch({
+				type: UPDATE_ALERT,
+				payload: {
+					open: true,
+					severity: "error",
+					message: "Passwords do not match",
+				},
+			});
+		}
 	};
 
 	useEffect(() => {
@@ -95,7 +120,7 @@ const Login = () => {
 						/>
 					)}
 				</DialogContent>
-				<DialogActions>
+				<DialogActions sx={{ px: "19px" }}>
 					<Button
 						type="submit"
 						variant="contained"
@@ -113,6 +138,9 @@ const Login = () => {
 					? "Do you have an account? Sign in:"
 					: "You don't have an account? Create one now:"}
 				<Button>{isRegister ? "Login" : "Register"}</Button>
+			</DialogActions>
+			<DialogActions sx={{ justifyContent: "center", py: "24px" }}>
+				<GoogleOneTapLogin />
 			</DialogActions>
 		</Dialog>
 	);
