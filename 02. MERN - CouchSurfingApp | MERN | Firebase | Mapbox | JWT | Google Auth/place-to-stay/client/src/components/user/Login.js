@@ -101,7 +101,7 @@ const Login = () => {
 						/>
 					)}
 					<TextField
-						autoFocus={!isRegister}
+						autoFocus={!isRegister} // Not working for some reason
 						margin="normal"
 						variant="standard"
 						id="email"

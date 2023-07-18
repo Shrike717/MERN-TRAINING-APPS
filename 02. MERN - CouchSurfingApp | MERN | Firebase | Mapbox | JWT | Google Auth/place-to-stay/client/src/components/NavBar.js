@@ -13,12 +13,8 @@ import { Menu, Lock } from "@mui/icons-material";
 
 import { useValue } from "../context/ContextProvider";
 
-import photoUrl from "../1_User_Profile.jpg";
 import UserIcons from "./user/UserIcons";
-import { UPDATE_USER, OPEN_LOGIN } from "../constants/actionTypes";
-
-// Dummy user for testing login state:
-const user = { name: "test", photoUrl };
+import { OPEN_LOGIN } from "../constants/actionTypes";
 
 const NavBar = () => {
 	// Extracting the current user from state wth hook useValue:
