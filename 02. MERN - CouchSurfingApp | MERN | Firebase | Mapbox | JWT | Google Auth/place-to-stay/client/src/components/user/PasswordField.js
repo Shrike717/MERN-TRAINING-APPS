@@ -14,14 +14,13 @@ const PasswordField = ({
 		setShowPassword(!showPassword);
 	};
 
-	// With preventDefault the focus will sstay on password field and is not switching to following button when visibility icon is clicked
+	// With preventDefault the focus will stay on password field and is not switching to following button when visibility icon is clicked
 	const handleMouseDown = (e) => {
 		e.preventDefault();
 	};
 
 	return (
 		<TextField
-			autoFocus
 			margin="normal"
 			variant="standard"
 			id={id}
