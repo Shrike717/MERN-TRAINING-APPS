@@ -2,10 +2,12 @@ import { createContext, useContext, useReducer } from "react";
 
 import reducer from "./reducer";
 
-// contains all our public values:
+// Contains all our global public values:
 const initialState = {
 	currentUser: null,
 	openLogin: false,
+	loading: false,
+	alert: { open: false, severity: "info", message: "" },
 };
 
 //
