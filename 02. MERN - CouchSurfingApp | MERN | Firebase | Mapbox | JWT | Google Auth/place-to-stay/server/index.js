@@ -1,6 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 
+import roomRouter from "./routes/roomRouter.js";
+
 dotenv.config();
 
 const port = process.env.PORT || 5000;
@@ -23,6 +25,9 @@ app.use((req, res, next) => {
 
 // built-in middleware function in Express. It parses incoming requests with JSON payloads and is based on body-parser.
 app.use(express.json({ limit: "10mb" })); // Limit not o be blank or to big. Dangger of DoS attacks.
+
+// MW Routes:
+app.use("/room", roomRouter);
 
 // MW main link welcome message
 app.use("/", (req, res) => res.json({ message: "Welcome to our API" }));
