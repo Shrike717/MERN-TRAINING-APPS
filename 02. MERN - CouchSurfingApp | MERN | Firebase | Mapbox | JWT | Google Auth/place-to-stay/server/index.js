@@ -1,7 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
 
 import roomRouter from "./routes/roomRouter.js";
+import userRouter from "./routes/userRouter.js";
 
 dotenv.config();
 
@@ -27,6 +29,7 @@ app.use((req, res, next) => {
 app.use(express.json({ limit: "10mb" })); // Limit not o be blank or to big. Dangger of DoS attacks.
 
 // MW Routes:
+app.use("/user", userRouter);
 app.use("/room", roomRouter);
 
 // MW main link welcome message
@@ -40,6 +43,7 @@ app.use((req, res) =>
 const startServer = async () => {
 	try {
 		// Connext to MGDB
+		await mongoose.connect(process.env.MONGO_CONNECT);
 		app.listen(port, () =>
 			console.log(
 				`Server listening on port: ${port} --------------------------------------`
