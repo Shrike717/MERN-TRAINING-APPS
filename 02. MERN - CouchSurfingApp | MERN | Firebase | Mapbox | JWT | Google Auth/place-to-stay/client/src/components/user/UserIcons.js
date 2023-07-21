@@ -7,8 +7,10 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useValue } from "../../context/ContextProvider";
 
 import UserMenu from "./UserMenu";
+import useCheckToken from "../../hooks/useCheckToken";
 
 const UserIcons = () => {
+	useCheckToken(); // Checks expiry date of token
 	const {
 		state: { currentUser },
 	} = useValue();

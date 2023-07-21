@@ -5,9 +5,11 @@ import { ListItemIcon, MenuItem, Menu } from "@mui/material";
 import { useValue } from "../../context/ContextProvider";
 
 import { UPDATE_USER, UPDATE_ALERT, POST } from "../../constants/actionTypes";
+import useCheckToken from "../../hooks/useCheckToken";
 
 // This is the user menu when click on avatar in navbar
 const UserMenu = ({ anchorUserMenu, setAnchorUserMenu }) => {
+	useCheckToken(); // Checks expiry date of token
 	const {
 		dispatch,
 		state: { currentUser },
@@ -31,6 +33,9 @@ const UserMenu = ({ anchorUserMenu, setAnchorUserMenu }) => {
 			const data = await response.json();
 			console.log(data);
 			if (!data.success) {
+				// If something went wrong with the authorization we log the user out
+				if (response.status === 401)
+					dispatch({ type: UPDATE_USER, payload: null });
 				throw new Error(data.message);
 			}
 		} catch (error) {

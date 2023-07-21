@@ -66,6 +66,7 @@ const Login = () => {
 	}, [isRegister]);
 
 	return (
+		// Opens Login form when openLogin gets true
 		<Dialog open={openLogin} onClose={handleClose}>
 			<DialogTitle>
 				{title}
