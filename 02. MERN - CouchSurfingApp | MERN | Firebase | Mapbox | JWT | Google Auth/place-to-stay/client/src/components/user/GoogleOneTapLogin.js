@@ -13,10 +13,10 @@ const GoogleOneTapLogin = () => {
 	const { dispatch } = useValue();
 
 	const googleSuccess = async (res) => {
-		// console.log(res);
 		const token = res?.credential; // Extracting token
 		const decodedToken = jwt_decode(token); // Decoding token
 		const { sub: id, email, name, picture: photoUrl } = decodedToken; // Destructure what we need
+		// console.log(decodedToken);
 		dispatch({
 			type: UPDATE_USER,
 			payload: { id, email, name, photoUrl, token, google: true }, // Updating state wih this infos
