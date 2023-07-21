@@ -29,6 +29,7 @@ const reducer = (state, action) => {
 		// Checks if a user is looged in or logged out
 
 		case UPDATE_USER:
+			localStorage.setItem("currentUser", JSON.stringify(action.payload)); // set current user in localStorage
 			return { ...state, currentUser: action.payload };
 
 		default:
