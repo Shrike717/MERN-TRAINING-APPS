@@ -13,15 +13,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 
 import { useValue } from "../../context/ContextProvider";
-import {
-	CLOSE_LOGIN,
-	START_LOADING,
-	END_LOADING,
-	UPDATE_ALERT,
-} from "../../constants/actionTypes";
+import { CLOSE_LOGIN, UPDATE_ALERT } from "../../constants/actionTypes";
 import PasswordField from "./PasswordField";
 import GoogleOneTapLogin from "./GoogleOneTapLogin";
-import { register } from "../actions/user";
+import { register, login } from "../actions/user";
 
 const Login = () => {
 	const {
@@ -45,6 +40,7 @@ const Login = () => {
 		const email = emailRef.current.value;
 		const password = passwordRef.current.value;
 		// Send login rquest if state is not register and return
+		if (!isRegister) return login({ email, password }, dispatch);
 
 		// If it is register:
 		const name = nameRef.current.value;
