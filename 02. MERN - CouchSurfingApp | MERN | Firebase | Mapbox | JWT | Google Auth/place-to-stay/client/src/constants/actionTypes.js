@@ -1,4 +1,5 @@
 export const UPDATE_USER = "UPDATE_USER";
+export const UPDATE_PROFILE = "UPDATE_PROFILE";
 export const OPEN_LOGIN = "OPEN_LOGIN";
 export const CLOSE_LOGIN = "CLOSE_LOGIN";
 export const START_LOADING = "START_LOADING";

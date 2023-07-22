@@ -77,3 +77,21 @@ export const login = tryCatch(async (req, res) => {
 		result: { id, name, email: emailToLowerCase, photoUrl, token },
 	});
 });
+
+// Update the user profile:
+export const updateProfile = tryCatch(async (req, res) => {
+	// DB returns new  updated user
+	const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body, {
+		new: true,
+	});
+	// Now extracting some fields to send back to FE
+	const { _id: id, name, photoUrl } = updatedUser;
+
+	// To do: Update all room records added by this user
+
+	// Then creating the token:
+	const token = jwt.sign({ id, name, photoUrl }, process.env.JWT_SECRET, {
+		expiresIn: "1h",
+	});
+	res.status(200).json({ success: true, result: { name, photoUrl, token } });
+});
