@@ -5,6 +5,7 @@ import {
 	UPDATE_ALERT,
 	START_LOADING,
 	END_LOADING,
+	UPDATE_PROFILE,
 } from "../constants/actionTypes";
 
 //  the state is managed by a reducer. The reducer function contains all of the state update logic
@@ -26,8 +27,12 @@ const reducer = (state, action) => {
 		// Notifications / Alerts
 		case UPDATE_ALERT:
 			return { ...state, alert: action.payload };
-		// Checks if a user is looged in or logged out
 
+		// Updates user profile
+		case UPDATE_PROFILE:
+			return { ...state, profile: action.payload };
+
+		// Checks if a user is looged in or logged out
 		case UPDATE_USER:
 			localStorage.setItem("currentUser", JSON.stringify(action.payload)); // set current user in localStorage
 			return { ...state, currentUser: action.payload };

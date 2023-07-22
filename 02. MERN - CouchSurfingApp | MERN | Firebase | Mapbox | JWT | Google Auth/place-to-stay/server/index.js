@@ -33,7 +33,7 @@ app.use("/user", userRouter);
 app.use("/room", roomRouter);
 
 // MW main link welcome message
-app.use("/", (req, res) => res.json({ message: "Welcome to our API" }));
+app.get("/", (req, res) => res.json({ message: "Welcome to our API" }));
 // In case client accesses non available link:
 app.use((req, res) =>
 	res.status(404).json({ success: false, message: "Not found." })

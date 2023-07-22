@@ -1,4 +1,5 @@
 import { OAuth2Client } from "google-auth-library";
+import jwt from "jsonwebtoken";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -22,8 +23,13 @@ const auth = async (req, res, next) => {
 			};
 		} else {
 			// TODO: Verify our custom JWT token
+			const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+			// Extracting truusted information from the JWT token
+			const { id, name, photoUrl } = decodedToken;
+			// If  token is verified we include user to request.
+			req.user = { id, name, photoUrl };
 		}
-		next();
+		next(); // If everything is succeessfull req goes to controller actions
 	} catch (error) {
 		console.log(error);
 		res.status(401).json({
