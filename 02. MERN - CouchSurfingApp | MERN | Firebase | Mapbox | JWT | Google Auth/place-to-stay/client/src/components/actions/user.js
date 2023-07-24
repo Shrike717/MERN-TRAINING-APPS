@@ -1,4 +1,6 @@
-// Here we store  all user related functionality for communicating wiith BE:
+// Here we store all user related functionality - like api calls - for communicating with BE:
+
+import { v4 as uuidv4 } from "uuid"; // Creain unique names for user avatar images
 
 import {
 	CLOSE_LOGIN,
@@ -6,9 +8,12 @@ import {
 	START_LOADING,
 	UPDATE_ALERT,
 	UPDATE_USER,
+	UPDATE_PROFILE,
+	PATCH,
 } from "../../constants/actionTypes";
 
 import fetchData from "./utils/fetchData";
+import uploadFile from "../../firebase/uploadFile"; // Sends file to Firebase and gets bback the photoUrl
 
 const url = process.env.REACT_APP_SERVER_URL + "/user";
 
@@ -26,7 +31,7 @@ export const register = async (user, dispatch) => {
 	// If we receive an object in result we update the user:
 	if (result) {
 		dispatch({ type: UPDATE_USER, payload: result });
-		dispatch({ type: CLOSE_LOGIN }); // Close the sign p modal
+		dispatch({ type: CLOSE_LOGIN }); // Close the sign up modal
 		dispatch({
 			type: UPDATE_ALERT,
 			payload: {
@@ -55,6 +60,68 @@ export const login = async (user, dispatch) => {
 	if (result) {
 		dispatch({ type: UPDATE_USER, payload: result });
 		dispatch({ type: CLOSE_LOGIN }); // Close the sign p modal
+	}
+
+	dispatch({ type: END_LOADING });
+};
+
+export const updateProfile = async (currentUser, updatedFields, dispatch) => {
+	dispatch({ type: START_LOADING });
+
+	const { name, file } = updatedFields;
+	let body = { name };
+	// If there is a file we upload it to  firebase. try-catch: when failing we don't want to continue
+	try {
+		if (file) {
+			// Creating unique filename. Extracting the file extension at the end
+			const imageName = uuidv4() + "." + file?.name?.split(".").pop();
+			// Uploading it to firebase and getting back the photoUrl if image on firebase:
+			const photoUrl = await uploadFile(
+				file,
+				`profile/${currentUser?.id}/${imageName}`
+			);
+			body = { ...body, photoUrl }; // Adding this photoUrl to the body. Now body ha name and photoUrl
+		}
+		//Sending body and token to BE. Getting back updated name, photoUrl and new token for updated user
+		const result = await fetchData(
+			{
+				url: url + "/updateProfile",
+				method: PATCH,
+				body,
+				token: currentUser.token,
+			},
+			dispatch
+		);
+		if (result) {
+			// Updating currentUser object in local storage with new name, photoUrl and new token
+			dispatch({
+				type: UPDATE_USER,
+				payload: { ...currentUser, ...result },
+			});
+			dispatch({
+				type: UPDATE_ALERT,
+				payload: {
+					open: true,
+					severity: "success",
+					message: "Your profile has been updated successfully.",
+				},
+			});
+			// Closing update modal and store new url in profile object in state
+			dispatch({
+				type: UPDATE_PROFILE,
+				payload: { open: false, file: null, photoUrl: result.photoUrl },
+			});
+		}
+	} catch (error) {
+		console.log(error);
+		dispatch({
+			type: UPDATE_ALERT,
+			payload: {
+				open: true,
+				severity: "error",
+				message: error.message,
+			},
+		});
 	}
 
 	dispatch({ type: END_LOADING });

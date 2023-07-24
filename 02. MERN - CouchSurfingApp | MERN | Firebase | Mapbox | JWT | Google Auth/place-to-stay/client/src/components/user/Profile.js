@@ -15,6 +15,7 @@ import SendIcon from "@mui/icons-material/Send";
 
 import { useValue } from "../../context/ContextProvider";
 import { UPDATE_PROFILE } from "../../constants/actionTypes";
+import { updateProfile } from "../actions/user";
 
 const Profile = () => {
 	// We need currentUser aswell for name and photoUrl
@@ -35,7 +36,7 @@ const Profile = () => {
 		const file = e.target.files[0]; // Extracting first file from event
 		if (file) {
 			const photoUrl = URL.createObjectURL(file);
-			// If we have aa file we update the profile state
+			// If we have a file we update the profile state and add the file and the above created photoUrl
 			dispatch({
 				type: UPDATE_PROFILE,
 				payload: { ...profile, file, photoUrl: photoUrl },
@@ -45,6 +46,9 @@ const Profile = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		const name = nameRef.current.value;
+		// Passing the name and the image to the updateProfile function in user actions:
+		updateProfile(currentUser, { name, file: profile.file }, dispatch);
 	};
 	return (
 		// Opens Login form when openLogin gets true

@@ -7,3 +7,4 @@ export const END_LOADING = "END_LOADING";
 export const UPDATE_ALERT = "UPDATE_ALERT";
 
 export const POST = "POST";
+export const PATCH = "PATCH";
