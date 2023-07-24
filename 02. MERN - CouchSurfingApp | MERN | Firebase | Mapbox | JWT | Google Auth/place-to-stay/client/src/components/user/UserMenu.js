@@ -35,23 +35,26 @@ const UserMenu = ({ anchorUserMenu, setAnchorUserMenu }) => {
 				onClose={handleCloseUserMenu}
 				onClick={handleCloseUserMenu}
 			>
-				<MenuItem
-					onClick={() =>
-						dispatch({
-							type: UPDATE_PROFILE,
-							payload: {
-								open: true,
-								file: null,
-								photoUrl: currentUser?.photoUrl,
-							},
-						})
-					}
-				>
-					<ListItemIcon>
-						<Settings fontSize="small" />
-					</ListItemIcon>
-					Profile
-				</MenuItem>
+				{!currentUser.google && ( // Only showing Profile menu if user is not logged in with google
+					<MenuItem
+						onClick={() =>
+							dispatch({
+								type: UPDATE_PROFILE,
+								payload: {
+									open: true,
+									file: null,
+									photoUrl: currentUser?.photoUrl,
+								},
+							})
+						}
+					>
+						<ListItemIcon>
+							<Settings fontSize="small" />
+						</ListItemIcon>
+						Profile
+					</MenuItem>
+				)}
+
 				<MenuItem
 					onClick={() =>
 						dispatch({ type: UPDATE_USER, payload: null })
