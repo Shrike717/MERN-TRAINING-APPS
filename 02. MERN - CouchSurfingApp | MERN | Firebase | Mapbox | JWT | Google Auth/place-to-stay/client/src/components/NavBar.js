@@ -24,51 +24,55 @@ const NavBar = () => {
 	} = useValue();
 
 	return (
-		<AppBar>
-			<Container maxWidth="lg">
-				<Toolbar disableGutters>
-					<Box sx={{ mr: 1 }}>
-						<IconButton size="large" color="inherit">
-							<Menu />
-						</IconButton>
-					</Box>
-					<Typography // Big screen
-						variant="h6"
-						component="h1"
-						noWrap
-						sx={{
-							flexGrow: 1,
-							display: { xs: "none", md: "flex" },
-						}}
-					>
-						You Are Welcome
-					</Typography>
-					<Typography // Small screen
-						variant="h6"
-						component="h1"
-						noWrap
-						sx={{
-							flexGrow: 1,
-							display: { xs: "flex", md: "none" },
-						}}
-					>
-						YRW
-					</Typography>
-					{!currentUser ? (
-						<Button
-							color="inherit"
-							startIcon={<Lock />}
-							// The onClick sets the currentUser to a user object so it becomes true. Then UserIcons will be shown
-							onClick={() => dispatch({ type: OPEN_LOGIN })}
+		<>
+			<AppBar>
+				<Container maxWidth="lg">
+					<Toolbar disableGutters>
+						<Box sx={{ mr: 1 }}>
+							<IconButton size="large" color="inherit">
+								<Menu />
+							</IconButton>
+						</Box>
+						<Typography // Big screen
+							variant="h6"
+							component="h1"
+							noWrap
+							sx={{
+								flexGrow: 1,
+								display: { xs: "none", md: "flex" },
+							}}
 						>
-							Login
-						</Button>
-					) : (
-						<UserIcons />
-					)}
-				</Toolbar>
-			</Container>
-		</AppBar>
+							You Are Welcome
+						</Typography>
+						<Typography // Small screen
+							variant="h6"
+							component="h1"
+							noWrap
+							sx={{
+								flexGrow: 1,
+								display: { xs: "flex", md: "none" },
+							}}
+						>
+							YRW
+						</Typography>
+						{!currentUser ? (
+							<Button
+								color="inherit"
+								startIcon={<Lock />}
+								// The onClick sets the currentUser to a user object so it becomes true. Then UserIcons will be shown
+								onClick={() => dispatch({ type: OPEN_LOGIN })}
+							>
+								Login
+							</Button>
+						) : (
+							<UserIcons />
+						)}
+					</Toolbar>
+				</Container>
+			</AppBar>
+			{/* This forces the components to be shown. Otherwise they woulb be hidden under the NavBar cause it is absolute */}
+			<Toolbar></Toolbar>
+		</>
 	);
 };
 
