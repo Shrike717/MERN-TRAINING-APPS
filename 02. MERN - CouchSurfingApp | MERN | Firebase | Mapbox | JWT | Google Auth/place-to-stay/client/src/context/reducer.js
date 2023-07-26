@@ -6,6 +6,7 @@ import {
 	START_LOADING,
 	END_LOADING,
 	UPDATE_PROFILE,
+	UPDATE_IMAGES,
 } from "../constants/actionTypes";
 
 //  the state is managed by a reducer. The reducer function contains all of the state update logic
@@ -36,6 +37,13 @@ const reducer = (state, action) => {
 		case UPDATE_USER:
 			localStorage.setItem("currentUser", JSON.stringify(action.payload)); // set current user in localStorage
 			return { ...state, currentUser: action.payload };
+
+		// Updates the images
+		case UPDATE_IMAGES:
+			return {
+				...state.images, // This are the old other images
+				images: [...state.images, action.payload],
+			}; // payload is the url received from firebase
 
 		default:
 			throw new Error("No matched actions");
