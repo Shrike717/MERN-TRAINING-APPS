@@ -85,7 +85,7 @@ const AddRoom = () => {
 					color="inherit"
 					disabled={!activeStep} // If active step is 0 this will be true. Disabled
 					onClick={
-						() => setActiveStep((activeStep) => activeStep - 1) // This increases the active step by 1
+						() => setActiveStep((activeStep) => activeStep - 1) // This decreases the active step by 1
 					}
 				>
 					Back
