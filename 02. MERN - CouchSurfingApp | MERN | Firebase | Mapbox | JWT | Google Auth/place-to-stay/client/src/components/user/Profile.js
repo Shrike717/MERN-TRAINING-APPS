@@ -15,7 +15,7 @@ import SendIcon from "@mui/icons-material/Send";
 
 import { useValue } from "../../context/ContextProvider";
 import { UPDATE_PROFILE } from "../../constants/actionTypes";
-import { updateProfile } from "../actions/user";
+import { updateProfile } from "../../actions/user";
 
 const Profile = () => {
 	// We need currentUser aswell for name and photoUrl
