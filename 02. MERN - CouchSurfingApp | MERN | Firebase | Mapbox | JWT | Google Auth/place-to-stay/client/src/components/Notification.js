@@ -9,6 +9,7 @@ const Notification = () => {
 		state: { alert },
 		dispatch,
 	} = useValue();
+	// console.log(alert);
 
 	const handleClose = (event, reason) => {
 		if (reason === "clickaway") return;

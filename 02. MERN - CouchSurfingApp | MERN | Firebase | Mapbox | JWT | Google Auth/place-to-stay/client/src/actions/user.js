@@ -10,10 +10,10 @@ import {
 	UPDATE_USER,
 	UPDATE_PROFILE,
 	PATCH,
-} from "../../constants/actionTypes";
+} from "../constants/actionTypes";
 
 import fetchData from "./utils/fetchData";
-import uploadFile from "../../firebase/uploadFile"; // Sends file to Firebase and gets bback the photoUrl
+import uploadFile from "../firebase/uploadFile"; // Sends file to Firebase and gets bback the photoUrl
 
 const url = process.env.REACT_APP_SERVER_URL + "/user";
 

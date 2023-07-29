@@ -11,13 +11,14 @@ import {
 
 import AddLocation from "./addLocation/AddLocation";
 import AddDetails from "./addDetails/AddDetails";
-import AddImages from "./addImags/AddImages";
+import AddImages from "./addImages/AddImages";
 
+// This component contains the stepper
 const AddRoom = () => {
 	const [activeStep, setActiveStep] = useState(0);
 	const [steps, setSteps] = useState([
 		{ label: "Location", completed: false },
-		{ label: "Detaiils", completed: false },
+		{ label: "Details", completed: false },
 		{ label: "Images", completed: false },
 	]);
 

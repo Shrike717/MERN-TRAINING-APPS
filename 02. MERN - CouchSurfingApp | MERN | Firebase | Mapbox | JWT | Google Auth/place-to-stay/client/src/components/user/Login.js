@@ -16,7 +16,7 @@ import { useValue } from "../../context/ContextProvider";
 import { CLOSE_LOGIN, UPDATE_ALERT } from "../../constants/actionTypes";
 import PasswordField from "./PasswordField";
 import GoogleOneTapLogin from "./GoogleOneTapLogin";
-import { register, login } from "../actions/user";
+import { register, login } from "../../actions/user";
 
 const Login = () => {
 	const {
@@ -45,6 +45,7 @@ const Login = () => {
 		// If it is register:
 		const name = nameRef.current.value;
 		const confirmPassword = confirmPasswordRef.current.value;
+		// FE validation:
 		if (password !== confirmPassword)
 			return dispatch({
 				type: UPDATE_ALERT,

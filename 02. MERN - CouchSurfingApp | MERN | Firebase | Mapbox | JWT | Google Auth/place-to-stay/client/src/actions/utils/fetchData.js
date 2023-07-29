@@ -1,8 +1,4 @@
-import {
-	POST,
-	UPDATE_ALERT,
-	UPDATE_USER,
-} from "../../../constants/actionTypes";
+import { POST, UPDATE_ALERT, UPDATE_USER } from "../../constants/actionTypes";
 
 const fetchData = async (
 	{ url, method = POST, token = "", body = null },
