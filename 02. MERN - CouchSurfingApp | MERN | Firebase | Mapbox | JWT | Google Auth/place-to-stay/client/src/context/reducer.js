@@ -7,6 +7,8 @@ import {
 	END_LOADING,
 	UPDATE_PROFILE,
 	UPDATE_IMAGES,
+	DELETE_IMAGE,
+	UPDATE_DETAILS,
 } from "../constants/actionTypes";
 
 //  the state is managed by a reducer. The reducer function contains all of the state update logic
@@ -45,14 +47,21 @@ const reducer = (state, action) => {
 				images: [...state.images, action.payload],
 			}; // payload is the url received from firebase
 
-		// Delleting images
-		case "DELETE_IMAGE":
+		// Deleting images
+		case DELETE_IMAGE:
 			// The imageUrl which should be deleted is filtered ou. All other images pass
 			return {
 				...state,
 				images: state.images.filter(
 					(image) => image !== action.payload
 				),
+			};
+		// Updating the details of a room
+		case UPDATE_DETAILS:
+			// Wee are returning all of the state, then details are the old state of the details and then we add the payload ass an object.
+			return {
+				...state,
+				details: { ...state.details, ...action.payload },
 			};
 
 		default:
@@ -61,43 +70,3 @@ const reducer = (state, action) => {
 };
 
 export default reducer;
-
-// Code Tuutorial
-// const reducer = (state, action) => {
-// 	switch (action.type) {
-// 		case "OPEN_LOGIN":
-// 			return { ...state, openLogin: true };
-// 		case "CLOSE_LOGIN":
-// 			return { ...state, openLogin: false };
-
-// 		case "START_LOADING":
-// 			return { ...state, loading: true };
-// 		case "END_LOADING":
-// 			return { ...state, loading: false };
-
-// 		case "UPDATE_ALERT":
-// 			return { ...state, alert: action.payload };
-
-// 		case "UPDATE_PROFILE":
-// 			return { ...state, profile: action.payload };
-
-// 		case "UPDATE_USER":
-// 			localStorage.setItem("currentUser", JSON.stringify(action.payload));
-// 			return { ...state, currentUser: action.payload };
-
-// 		case "UPDATE_IMAGES":
-// 			return { ...state, images: [...state.images, action.payload] };
-// case "DELETE_IMAGE":
-// 	return {
-// 		...state,
-// 		images: state.images.filter(
-// 			(image) => image !== action.payload
-// 		),
-// 	};
-
-// 		default:
-// 			throw new Error("No matched action!");
-// 	}
-// };
-
-// export default reducer;
