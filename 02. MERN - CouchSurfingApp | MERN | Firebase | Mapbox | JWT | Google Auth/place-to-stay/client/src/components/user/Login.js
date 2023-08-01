@@ -39,7 +39,7 @@ const Login = () => {
 		//  Storing user input:
 		const email = emailRef.current.value;
 		const password = passwordRef.current.value;
-		// Send login rquest if state is not register and return
+		// Send login rquest if state is not register and return:
 		if (!isRegister) return login({ email, password }, dispatch);
 
 		// If it is register:

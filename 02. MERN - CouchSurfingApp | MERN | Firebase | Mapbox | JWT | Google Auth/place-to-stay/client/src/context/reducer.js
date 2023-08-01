@@ -45,6 +45,16 @@ const reducer = (state, action) => {
 				images: [...state.images, action.payload],
 			}; // payload is the url received from firebase
 
+		// Delleting images
+		case "DELETE_IMAGE":
+			// The imageUrl which should be deleted is filtered ou. All other images pass
+			return {
+				...state,
+				images: state.images.filter(
+					(image) => image !== action.payload
+				),
+			};
+
 		default:
 			throw new Error("No matched actions");
 	}
@@ -77,13 +87,13 @@ export default reducer;
 
 // 		case "UPDATE_IMAGES":
 // 			return { ...state, images: [...state.images, action.payload] };
-// 		case "DELETE_IMAGE":
-// 			return {
-// 				...state,
-// 				images: state.images.filter(
-// 					(image) => image !== action.payload
-// 				),
-// 			};
+// case "DELETE_IMAGE":
+// 	return {
+// 		...state,
+// 		images: state.images.filter(
+// 			(image) => image !== action.payload
+// 		),
+// 	};
 
 // 		default:
 // 			throw new Error("No matched action!");
