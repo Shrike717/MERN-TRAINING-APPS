@@ -8,17 +8,35 @@ import {
 } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 
+import { DELETE_IMAGE } from "../../../constants/actionTypes";
+import deleteFile from "../../../firebase/deleteFile";
+
 const ImagesList = () => {
-	// Importing the already uuploaded images from state.
+	// Importing the already uploaded images from state.
 	//  currenUser is needed for the id which is included in the image path. Needed to delete images
 	const {
-		state: { images, currrentUser },
+		state: { images, currentUser },
 		dispatch,
 	} = useValue();
 
-	// async because wee communicate with firbase
-	const handleDelete = async (image) => {};
+	// async because we communicate with firebase. Arg is the image path to image in firebase
+	const handleDelete = async (image) => {
+		dispatch({ type: DELETE_IMAGE, payload: image }); // Sending imageUrl
+
+		// This is a image url coming back from firebase ...rooms%2F64c4df21b6f9dd30f1be1fba%2F2f0d6695-61e7-4ffa-9ca3-b3f01d25329b.jpg4. This is the image url coming back from firebase https://firebasestorage.googleapis.com/v0/b/place-to-stay-359d7.appspot.com/o/rooms%2F64c4df21b6f9dd30f1be1fba%2F2f0d6695-61e7-4ffa-9ca3-b3f01d25329b.jpg?alt=media&token=84566605-d7b5-430e-8298-d71fbf330399
+		// First we split after user id + 2F, then after ?
+		const imageName = image
+			?.split(`${currentUser?.id}%2F`)[1]
+			?.split("?")[0];
+		try {
+			// Here we are passing the extracted image path to deleteFile function
+			await deleteFile(`rooms/${currentUser?.id}/${imageName}`);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 	return (
+		// Showing the uploaded images
 		<ImageList
 			rowHeight={250}
 			sx={{
@@ -38,7 +56,7 @@ const ImagesList = () => {
 						loading="lazy"
 						style={{ height: "100%" }}
 					/>
-					{/* Is oon top of the image  so closing icoon can  be added */}
+					{/* Is on top of the image  so closing icon can  be added */}
 					<ImageListItemBar
 						position="top"
 						sx={{
@@ -61,73 +79,3 @@ const ImagesList = () => {
 };
 
 export default ImagesList;
-
-// //  Code Tutorial
-// import { Cancel } from "@mui/icons-material";
-// import {
-// 	IconButton,
-// 	ImageList,
-// 	ImageListItem,
-// 	ImageListItemBar,
-// } from "@mui/material";
-// import React from "react";
-// import { useValue } from "../../src/context/ContextProvider";
-// // import deleteFile from "../../../firebase/deleteFile";
-
-// const ImagesList = () => {
-// 	const {
-// 		state: { images, currentUser },
-// 		dispatch,
-// 	} = useValue();
-
-// 	const handleDelete = async (image) => {
-// 		dispatch({ type: "DELETE_IMAGE", payload: image });
-// 		const imageName = image
-// 			?.split(`${currentUser?.id}%2F`)[1]
-// 			?.split("?")[0];
-// 		try {
-// 			// await deleteFile(`rooms/${currentUser?.id}/${imageName}`);
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	};
-// 	return (
-// 		<ImageList
-// 			rowHeight={250}
-// 			sx={{
-// 				"&.MuiImageList-root": {
-// 					gridTemplateColumns:
-// 						"repeat(auto-fill, minmax(250px, 1fr))!important",
-// 				},
-// 			}}
-// 		>
-// 			{images.map((image, index) => (
-// 				<ImageListItem key={index} cols={1} rows={1}>
-// 					<img
-// 						src={image}
-// 						alt="rooms"
-// 						loading="lazy"
-// 						style={{ height: "100%" }}
-// 					/>
-// 					<ImageListItemBar
-// 						position="top"
-// 						sx={{
-// 							background:
-// 								"linear-gradient(to bottom, rgba(0,0,0,0.7)0%, rgba(0,0,0,0.3)70%, rgba(0,0,0,0)100%)",
-// 						}}
-// 						actionIcon={
-// 							<IconButton
-// 								sx={{ color: "white" }}
-// 								onClick={() => handleDelete(image)}
-// 							>
-// 								<Cancel />
-// 							</IconButton>
-// 						}
-// 					></ImageListItemBar>
-// 				</ImageListItem>
-// 			))}
-// 		</ImageList>
-// 	);
-// };
-
-// export default ImagesList;
