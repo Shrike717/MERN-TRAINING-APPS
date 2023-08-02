@@ -11,6 +11,7 @@ import {
 
 import { useValue } from "../../../context/ContextProvider";
 import { UPDATE_DETAILS } from "../../../constants/actionTypes";
+import InfoField from "./InfoField";
 
 const AddDetails = () => {
 	// Extracting the details state:
@@ -47,7 +48,7 @@ const AddDetails = () => {
 		<Stack
 			sx={{
 				alignItems: "center",
-				"&. MuiTextField-root": { width: "100%", maxWidth: 500, m: 1 },
+				"& .MuiTextField-root": { width: "100%", maxWidth: 500, m: 1 },
 			}}
 		>
 			<FormControl>
@@ -88,6 +89,20 @@ const AddDetails = () => {
 					)}
 				</RadioGroup>
 			</FormControl>
+			{/* Showing InfoField component twice. One for title, one for description */}
+			<InfoField
+				mainProps={{ name: "title", label: "Title", value: title }}
+				minLength={5}
+			/>
+			<InfoField
+				mainProps={{
+					name: "description",
+					label: "Description",
+					value: description,
+				}}
+				minLength={10}
+				optionalProps={{ multiline: true, rows: 4 }}
+			/>
 		</Stack>
 	);
 };
