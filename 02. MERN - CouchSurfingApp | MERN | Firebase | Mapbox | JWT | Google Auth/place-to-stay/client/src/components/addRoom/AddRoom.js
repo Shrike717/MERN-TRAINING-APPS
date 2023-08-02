@@ -17,9 +17,9 @@ import AddImages from "./addImages/AddImages";
 
 // This component contains the stepper
 const AddRoom = () => {
-	// Retrieving images from state to check wether the last images step is completed or not
+	// Retrieving the state to check wether the steps are completed or not
 	const {
-		state: { images },
+		state: { images, details },
 	} = useValue();
 
 	// This state sets a step as active. Blue step
@@ -64,7 +64,7 @@ const AddRoom = () => {
 	};
 
 	// This checks whether images have been uploaded and the step therefore is completed.
-	// Fires eevery time the images array in state changes
+	// Fires every time the images array in state changes
 	useEffect(() => {
 		// Checks if there are uploaded images
 		if (images.length) {
@@ -81,6 +81,25 @@ const AddRoom = () => {
 			}
 		}
 	}, [images]);
+
+	// This checks whether details have been filled in and the step therefore is completed.
+	// Fires every time the details object in state changes
+	useEffect(() => {
+		// Checks if there are uploaded images
+		if (details.title.length > 4 && details.description.length > 9) {
+			// Checks if the second step details completed state is still false
+			if (!steps[1].completed) {
+				// In this case we set it to true
+				setComplete(1, true);
+			}
+		} else {
+			// In case there are NO details we check if the completed state is already true
+			if (steps[1].completed) {
+				// In this case we set it back to false again
+				setComplete(1, false);
+			}
+		}
+	}, [details]);
 
 	// This function changes the complete - state of the steps.
 	// The index is the index of the images object inside the steps state. The status can be true or false
