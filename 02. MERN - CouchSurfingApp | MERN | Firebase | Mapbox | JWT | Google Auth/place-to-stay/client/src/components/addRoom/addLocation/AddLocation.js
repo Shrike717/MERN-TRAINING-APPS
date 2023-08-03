@@ -1,7 +1,11 @@
 import React from "react";
 import { Box } from "@mui/material";
 
-import ReactMapGL, { Marker, NavigationControl } from "react-map-gl"; // This is the map component
+import ReactMapGL, {
+	GeolocateControl,
+	Marker,
+	NavigationControl,
+} from "react-map-gl"; // This is the map component
 import "mapbox-gl/dist/mapbox-gl.css"; // Importing the mapbox-gl styles
 
 import { useValue } from "../../../context/ContextProvider";
@@ -45,8 +49,22 @@ const AddLocation = () => {
 						})
 					}
 				/>
-				{/* This is the control to zooom in and out */}
+				{/* This is the control to zoom in and out */}
 				<NavigationControl position="bottom-right" />
+				{/* This is the icon left top to show user position from ip */}
+				<GeolocateControl
+					position="top-left"
+					trackUserLocation
+					onGeolocate={(e) =>
+						dispatch({
+							type: UPDATE_LOCATION,
+							payload: {
+								lng: e.coords.longitude,
+								lat: e.coords.latitude,
+							},
+						})
+					}
+				/>
 			</ReactMapGL>
 		</Box>
 	);
