@@ -1,7 +1,7 @@
 import React from "react";
 import { Box } from "@mui/material";
 
-import ReactMapGL, { Marker } from "react-map-gl"; // This is the map component
+import ReactMapGL, { Marker, NavigationControl } from "react-map-gl"; // This is the map component
 import "mapbox-gl/dist/mapbox-gl.css"; // Importing the mapbox-gl styles
 
 import { useValue } from "../../../context/ContextProvider";
@@ -45,6 +45,8 @@ const AddLocation = () => {
 						})
 					}
 				/>
+				{/* This is the control to zooom in and out */}
+				<NavigationControl position="bottom-right" />
 			</ReactMapGL>
 		</Box>
 	);
