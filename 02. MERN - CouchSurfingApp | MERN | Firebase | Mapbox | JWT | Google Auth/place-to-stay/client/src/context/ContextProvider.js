@@ -12,6 +12,7 @@ const initialState = {
 	profile: { open: false, file: null, photoUrl: "" },
 	images: [],
 	details: { title: "", description: "", price: 0 },
+	location: { lng: 0, lat: 0 },
 };
 
 // Initiialising the context
