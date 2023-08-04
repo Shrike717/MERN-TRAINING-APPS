@@ -19,7 +19,7 @@ import AddImages from "./addImages/AddImages";
 const AddRoom = () => {
 	// Retrieving the state to check wether the steps are completed or not
 	const {
-		state: { images, details },
+		state: { location, details, images },
 	} = useValue();
 
 	// This state sets a step as active. Blue step
@@ -63,24 +63,24 @@ const AddRoom = () => {
 		return steps.findIndex((step) => !step.completed);
 	};
 
-	// This checks whether images have been uploaded and the step therefore is completed.
-	// Fires every time the images array in state changes
+	// This checks whether a location has been set and the step therefore is completed.
+	// Fires every time the location object in state changes
 	useEffect(() => {
-		// Checks if there are uploaded images
-		if (images.length) {
-			// Checks if the third step images completed state is still false
-			if (!steps[2].completed) {
+		// Checks if either lng or lat is NOT 0
+		if (location.lng || location.lat) {
+			// Checks if the first step location completed state is still false
+			if (!steps[0].completed) {
 				// In this case we set it to true
-				setComplete(2, true);
+				setComplete(0, true);
 			}
 		} else {
-			// In case there are NO images we check if the completed state is already true
-			if (steps[2].completed) {
+			// In case there is NO location (both 0) we check if the completed state is already true
+			if (steps[0].completed) {
 				// In this case we set it back to false again
-				setComplete(2, false);
+				setComplete(0, false);
 			}
 		}
-	}, [images]);
+	}, [location]);
 
 	// This checks whether details have been filled in and the step therefore is completed.
 	// Fires every time the details object in state changes
@@ -100,6 +100,25 @@ const AddRoom = () => {
 			}
 		}
 	}, [details]);
+
+	// This checks whether images have been uploaded and the step therefore is completed.
+	// Fires every time the images array in state changes
+	useEffect(() => {
+		// Checks if there are uploaded images
+		if (images.length) {
+			// Checks if the third step images completed state is still false
+			if (!steps[2].completed) {
+				// In this case we set it to true
+				setComplete(2, true);
+			}
+		} else {
+			// In case there are NO images we check if the completed state is already true
+			if (steps[2].completed) {
+				// In this case we set it back to false again
+				setComplete(2, false);
+			}
+		}
+	}, [images]);
 
 	// This function changes the complete - state of the steps.
 	// The index is the index of the images object inside the steps state. The status can be true or false
