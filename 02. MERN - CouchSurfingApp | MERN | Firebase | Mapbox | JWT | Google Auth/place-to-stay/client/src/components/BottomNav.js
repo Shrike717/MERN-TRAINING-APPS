@@ -11,6 +11,7 @@ import AddLocationIcon from "@mui/icons-material/AddLocation";
 import ClusterMap from "./map/ClusterMap";
 import Room from "./rooms/Rooms";
 import AddRoom from "./addRoom/AddRoom";
+import Protected from "./protected/Protected";
 
 const BottomNav = () => {
 	// This is the state controlling which page/component is shown in the main section of our site
@@ -28,7 +29,13 @@ const BottomNav = () => {
 					// This is a switch inside JSX. Shows component when click on icon
 					0: <ClusterMap />,
 					1: <Room />,
-					2: <AddRoom setPage={setValue} />, // We pass the setter function to change the component from there as prop
+					2: (
+						// We wrap components which should be protected. These are the children of the  Protected component
+						<Protected>
+							{/* We pass the setter function to change the component from there as prop */}
+							<AddRoom setPage={setValue} />,
+						</Protected>
+					),
 				}[value]
 			}
 			<Paper
