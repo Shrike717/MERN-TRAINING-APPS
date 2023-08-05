@@ -8,6 +8,7 @@ import {
 	Button,
 	Box,
 } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
 
 import { useValue } from "../../context/ContextProvider";
 
@@ -30,6 +31,8 @@ const AddRoom = () => {
 		{ label: "Details", completed: false },
 		{ label: "Images", completed: false },
 	]);
+	// This is the state to show the Submit button after completing all steps
+	const [showSubmit, setShowSubmit] = useState(false);
 
 	const handleNext = () => {
 		// Checks if active step is not the last step
@@ -60,6 +63,8 @@ const AddRoom = () => {
 	};
 	const findUnfinished = () => {
 		// If we are on the last step we have to find the index of any step which is not completed yet
+		// It returns -1 if it couuldn't find any unfinished steps. This means all are completed
+		// console.log(steps.findIndex((step) => !step.completed));
 		return steps.findIndex((step) => !step.completed);
 	};
 
@@ -132,6 +137,20 @@ const AddRoom = () => {
 		});
 	};
 
+	// This useEffect checks if all the steps are completed and then shows suubmit button
+	useEffect(() => {
+		// If all steps are completed, findUnfinished() will return -1
+		if (findUnfinished() === -1) {
+			// We set the showSubmit state to true
+			if (!showSubmit) setShowSubmit(true);
+		} else {
+			// Otherwise we set the showSubmit state to false
+			if (showSubmit) setShowSubmit(false);
+		}
+	}, [steps]);
+
+	const handleSubmit = () => {};
+
 	return (
 		<Container sx={{ my: 4 }}>
 			<Stepper
@@ -148,7 +167,7 @@ const AddRoom = () => {
 					</Step>
 				))}
 			</Stepper>
-			<Box>
+			<Box sx={{ pb: 7 }}>
 				{
 					// This is a switch in JSX. Shows the component for every step.
 					{
@@ -157,27 +176,39 @@ const AddRoom = () => {
 						2: <AddImages />,
 					}[activeStep]
 				}
+
+				<Stack
+					direction="row"
+					sx={{ pt: 2, pb: 7, justifyContent: "space-around" }}
+				>
+					<Button
+						color="inherit"
+						disabled={!activeStep} // If active step is 0 this will be true. Back button is disabled
+						onClick={
+							() => setActiveStep((activeStep) => activeStep - 1) // This decreases the active step by 1
+						}
+					>
+						Back
+					</Button>
+					<Button
+						disabled={checkDisabled()} // We have to invoke it with every click
+						onClick={handleNext}
+					>
+						Next
+					</Button>
+				</Stack>
+				{showSubmit && (
+					<Stack sx={{ alignItems: "center" }}>
+						<Button
+							variant="contained"
+							endIcon={<SendIcon />}
+							onClick={handleSubmit}
+						>
+							Submit
+						</Button>
+					</Stack>
+				)}
 			</Box>
-			<Stack
-				direction="row"
-				sx={{ pt: 2, pb: 7, justifyContent: "space-around" }}
-			>
-				<Button
-					color="inherit"
-					disabled={!activeStep} // If active step is 0 this will be true. Back button is disabled
-					onClick={
-						() => setActiveStep((activeStep) => activeStep - 1) // This decreases the active step by 1
-					}
-				>
-					Back
-				</Button>
-				<Button
-					disabled={checkDisabled()} // We have to invoke it with every click
-					onClick={handleNext}
-				>
-					Next
-				</Button>
-			</Stack>
 		</Container>
 	);
 };
