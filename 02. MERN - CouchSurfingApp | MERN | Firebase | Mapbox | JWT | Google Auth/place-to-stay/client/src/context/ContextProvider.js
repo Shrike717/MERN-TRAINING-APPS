@@ -13,6 +13,7 @@ const initialState = {
 	images: [], // Array storing the imageurls from Firebase
 	details: { title: "", description: "", price: 0 },
 	location: { lng: 0, lat: 0 },
+	rooms: [],
 };
 
 // Initiialising the context

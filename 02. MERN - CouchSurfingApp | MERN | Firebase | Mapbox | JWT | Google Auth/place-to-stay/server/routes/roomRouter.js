@@ -6,6 +6,6 @@ import { createRoom, getRooms } from "../controllers/room.js";
 const roomRouter = Router();
 
 roomRouter.post("/", auth, createRoom);
-roomRouter.get("/", auth, getRooms);
+roomRouter.get("/", getRooms);
 
 export default roomRouter;
