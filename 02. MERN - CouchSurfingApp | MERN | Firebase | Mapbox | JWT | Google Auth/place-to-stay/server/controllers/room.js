@@ -12,3 +12,11 @@ export const createRoom = tryCatch(async (req, res) => {
 	// Then sending back response
 	res.status(201).json({ success: true, result: newRoom });
 });
+
+// Getting all rooms. Wrapped with tryCatch util function.
+export const getRRooms = tryCatch(async (req, res) => {
+	// Get all rooms and sort them from newest to oldest
+	const rooms = await Room.find().sort({ _id: -1 });
+
+	res.status(200).json({ success: true, result: rooms });
+});
