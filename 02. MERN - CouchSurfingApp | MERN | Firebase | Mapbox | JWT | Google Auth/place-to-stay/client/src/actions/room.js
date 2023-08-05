@@ -3,18 +3,17 @@
 import fetchData from "./utils/fetchData";
 
 import {
-	CLOSE_LOGIN,
 	END_LOADING,
 	START_LOADING,
 	UPDATE_ALERT,
-	UPDATE_USER,
-	UPDATE_PROFILE,
-	PATCH,
 	RESET_ROOM,
+	UPDATE_ROOMS,
+	GET,
 } from "../constants/actionTypes";
 
 const url = process.env.REACT_APP_SERVER_URL + "/room";
 
+// Action to create a room
 // We have to add current user because we have to send the token
 export const createRoom = async (room, currentUser, dispatch, setPage) => {
 	dispatch({ type: START_LOADING });
@@ -40,6 +39,19 @@ export const createRoom = async (room, currentUser, dispatch, setPage) => {
 	dispatch({ type: RESET_ROOM });
 	// This will set the component in the main section to show the cluster map:
 	setPage(0);
+
+	dispatch({ type: END_LOADING });
+};
+
+// Action to get all rooms
+export const getRooms = async (dispatch) => {
+	dispatch({ type: START_LOADING });
+
+	const result = await fetchData({ url, method: GET }, dispatch);
+
+	if (result) {
+		dispatch({ type: UPDATE_ROOMS, payload: result });
+	}
 
 	dispatch({ type: END_LOADING });
 };

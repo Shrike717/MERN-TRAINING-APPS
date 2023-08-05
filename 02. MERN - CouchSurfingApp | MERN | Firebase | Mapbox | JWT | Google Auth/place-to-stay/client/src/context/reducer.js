@@ -11,6 +11,7 @@ import {
 	UPDATE_DETAILS,
 	UPDATE_LOCATION,
 	RESET_ROOM,
+	UPDATE_ROOMS,
 } from "../constants/actionTypes";
 
 //  the state is managed by a reducer. The reducer function contains all of the state update logic
@@ -71,13 +72,16 @@ const reducer = (state, action) => {
 			return { ...state, location: action.payload };
 		// Resetting the room after saving it to DB
 		case RESET_ROOM:
-			//
 			return {
 				...state,
 				images: [],
 				details: { title: "", description: "", price: 0 },
 				location: { lng: 0, lat: 0 },
 			};
+		// Updating the rooms:
+		case UPDATE_ROOMS:
+			// We are returning all of the state and then the rooms array
+			return { ...state, rooms: action.payload };
 
 		default:
 			throw new Error("No matched actions");
