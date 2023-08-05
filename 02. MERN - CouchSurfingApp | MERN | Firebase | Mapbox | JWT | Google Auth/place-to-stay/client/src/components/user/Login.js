@@ -39,7 +39,7 @@ const Login = () => {
 		//  Storing user input:
 		const email = emailRef.current.value;
 		const password = passwordRef.current.value;
-		// Send login rquest if state is not register and return:
+		// Send login rquest to login function in actions if state is not register and return:
 		if (!isRegister) return login({ email, password }, dispatch);
 
 		// If it is register:
@@ -55,7 +55,7 @@ const Login = () => {
 					message: "Passwords do not match",
 				},
 			});
-		// Send register request:
+		// Send register request to register function in actions:
 		register({ name, email, password }, dispatch);
 	};
 

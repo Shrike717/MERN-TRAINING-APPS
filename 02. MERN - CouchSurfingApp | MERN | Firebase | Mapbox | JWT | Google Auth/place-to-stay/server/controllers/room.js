@@ -10,5 +10,5 @@ export const createRoom = tryCatch(async (req, res) => {
 	// Then savingg to DB:
 	await newRoom.save();
 	// Then sending back response
-	res.status(201).jason({ success: true, result: newRoom });
+	res.status(201).json({ success: true, result: newRoom });
 });

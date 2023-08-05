@@ -1,6 +1,6 @@
 // Here we store all user related functionality - like api calls - for communicating with BE:
 
-import { v4 as uuidv4 } from "uuid"; // Creain unique names for user avatar images
+import { v4 as uuidv4 } from "uuid"; // Creating unique names for user avatar images
 
 import {
 	CLOSE_LOGIN,
@@ -52,14 +52,14 @@ export const login = async (user, dispatch) => {
 	const result = await fetchData(
 		{
 			url: url + "/login",
-			body: user, // Is name, email, password
+			body: user, // Is email, password
 		},
 		dispatch
 	);
 	// If we receive an object in result we update the user:
 	if (result) {
 		dispatch({ type: UPDATE_USER, payload: result });
-		dispatch({ type: CLOSE_LOGIN }); // Close the sign p modal
+		dispatch({ type: CLOSE_LOGIN }); // Close the sign in modal
 	}
 
 	dispatch({ type: END_LOADING });

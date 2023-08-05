@@ -10,7 +10,7 @@ const initialState = {
 	loading: false,
 	alert: { open: false, severity: "info", message: "" },
 	profile: { open: false, file: null, photoUrl: "" },
-	images: [],
+	images: [], // Array storing the imageurls from Firebase
 	details: { title: "", description: "", price: 0 },
 	location: { lng: 0, lat: 0 },
 };

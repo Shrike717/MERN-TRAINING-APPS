@@ -15,12 +15,14 @@ import { useValue } from "../../context/ContextProvider";
 import AddLocation from "./addLocation/AddLocation";
 import AddDetails from "./addDetails/AddDetails";
 import AddImages from "./addImages/AddImages";
+import { createRoom } from "../../actions/room";
 
 // This component contains the stepper
 const AddRoom = () => {
 	// Retrieving the state to check wether the steps are completed or not
 	const {
-		state: { location, details, images },
+		state: { location, details, images, currentUser },
+		dispatch,
 	} = useValue();
 
 	// This state sets a step as active. Blue step
@@ -149,7 +151,19 @@ const AddRoom = () => {
 		}
 	}, [steps]);
 
-	const handleSubmit = () => {};
+	const handleSubmit = () => {
+		// Creating the room object:
+		const room = {
+			lng: location.lng,
+			lat: location.lat,
+			title: details.title,
+			description: details.description,
+			price: details.price,
+			images, // This is the images array with the Firebase imageUrls
+		};
+		// Then using the createRoom function in actions:
+		createRoom(room, currentUser, dispatch);
+	};
 
 	return (
 		<Container sx={{ my: 4 }}>
