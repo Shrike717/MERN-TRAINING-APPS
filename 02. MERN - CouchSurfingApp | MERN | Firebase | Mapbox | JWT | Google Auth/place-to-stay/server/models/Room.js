@@ -6,7 +6,12 @@ const roomSchema = mongoose.Schema(
 		lat: { type: Number, required: true },
 		price: { type: Number, min: 0, max: 50, default: 0 },
 		title: { type: String, minLength: 5, maxLength: 150, required: true },
-		title: { type: String, minLength: 10, maxLength: 1000, required: true },
+		description: {
+			type: String,
+			minLength: 10,
+			maxLength: 1000,
+			required: true,
+		},
 		images: {
 			// We check if the data type is an array an contains at least 1 imageUrl
 			type: [String],
