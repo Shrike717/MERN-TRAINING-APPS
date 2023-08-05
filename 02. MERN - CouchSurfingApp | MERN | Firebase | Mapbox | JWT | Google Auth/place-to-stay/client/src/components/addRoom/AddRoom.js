@@ -18,7 +18,7 @@ import AddImages from "./addImages/AddImages";
 import { createRoom } from "../../actions/room";
 
 // This component contains the stepper
-const AddRoom = () => {
+const AddRoom = ({ setPage }) => {
 	// Retrieving the state to check wether the steps are completed or not
 	const {
 		state: { location, details, images, currentUser },
@@ -162,7 +162,8 @@ const AddRoom = () => {
 			images, // This is the images array with the Firebase imageUrls
 		};
 		// Then using the createRoom function in actions:
-		createRoom(room, currentUser, dispatch);
+		// setPage is the setter function to change the shown component from bottom navigation
+		createRoom(room, currentUser, dispatch, setPage);
 	};
 
 	return (

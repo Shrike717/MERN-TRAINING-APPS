@@ -10,12 +10,13 @@ import {
 	UPDATE_USER,
 	UPDATE_PROFILE,
 	PATCH,
+	RESET_ROOM,
 } from "../constants/actionTypes";
 
 const url = process.env.REACT_APP_SERVER_URL + "/room";
 
 // We have to add current user because we have to send the token
-export const createRoom = async (room, currentUser, dispatch) => {
+export const createRoom = async (room, currentUser, dispatch, setPage) => {
 	dispatch({ type: START_LOADING });
 
 	const result = await fetchData(
@@ -23,7 +24,7 @@ export const createRoom = async (room, currentUser, dispatch) => {
 		dispatch
 	);
 
-	// If the result is not null we receive an object and update the room:
+	// If the result is not null we receive an object and return success message:
 	if (result) {
 		dispatch({
 			type: UPDATE_ALERT,
@@ -34,6 +35,11 @@ export const createRoom = async (room, currentUser, dispatch) => {
 			},
 		});
 	}
+
+	// After saving room we reset the state again:
+	dispatch({ type: RESET_ROOM });
+	// This will set the component in the main section to show the cluster map:
+	setPage(0);
 
 	dispatch({ type: END_LOADING });
 };

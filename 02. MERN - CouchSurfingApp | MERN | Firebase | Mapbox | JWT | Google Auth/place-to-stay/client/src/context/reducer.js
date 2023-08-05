@@ -10,6 +10,7 @@ import {
 	DELETE_IMAGE,
 	UPDATE_DETAILS,
 	UPDATE_LOCATION,
+	RESET_ROOM,
 } from "../constants/actionTypes";
 
 //  the state is managed by a reducer. The reducer function contains all of the state update logic
@@ -68,6 +69,15 @@ const reducer = (state, action) => {
 		case UPDATE_LOCATION:
 			// We are returning all of the state and then the longitude and latitude
 			return { ...state, location: action.payload };
+		// Resetting the room after saving it to DB
+		case RESET_ROOM:
+			//
+			return {
+				...state,
+				images: [],
+				details: { title: "", description: "", price: 0 },
+				location: { lng: 0, lat: 0 },
+			};
 
 		default:
 			throw new Error("No matched actions");

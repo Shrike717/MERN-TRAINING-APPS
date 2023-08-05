@@ -13,6 +13,7 @@ import Room from "./rooms/Rooms";
 import AddRoom from "./addRoom/AddRoom";
 
 const BottomNav = () => {
+	// This is the state controlling which page/component is shown in the main section of our site
 	const [value, setValue] = useState(0);
 	const ref = useRef(); // If we change section it scrolls up to top
 
@@ -27,7 +28,7 @@ const BottomNav = () => {
 					// This is a switch inside JSX. Shows component when click on icon
 					0: <ClusterMap />,
 					1: <Room />,
-					2: <AddRoom />,
+					2: <AddRoom setPage={setValue} />, // We pass the setter function to change the component from there as prop
 				}[value]
 			}
 			<Paper

@@ -9,6 +9,7 @@ export const UPDATE_IMAGES = "UPDATE_IMAGESs";
 export const DELETE_IMAGE = "DELETE_IMAGE";
 export const UPDATE_DETAILS = "UPDATE_DETAILS";
 export const UPDATE_LOCATION = "UPDATE_LOCATION";
+export const RESET_ROOM = "RESET_ROOM";
 
 export const POST = "POST";
 export const PATCH = "PATCH";
