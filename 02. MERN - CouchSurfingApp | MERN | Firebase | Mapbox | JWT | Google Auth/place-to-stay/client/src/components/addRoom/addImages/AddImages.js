@@ -12,10 +12,6 @@ const AddImages = () => {
 	// Function that receives dropped files:
 	const onDrop = useCallback((acceptedFiles) => {
 		setFiles(acceptedFiles);
-		console.log(
-			"1.This is the file accepted in the dropzone in AddImages ",
-			acceptedFiles
-		);
 	}, []);
 	// ?
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({

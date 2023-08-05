@@ -29,10 +29,7 @@ const ProgressItem = ({ file }) => {
 				);
 
 				dispatch({ type: UPDATE_IMAGES, payload: url });
-				console.log(
-					"4. This is the image url coming back from firebase",
-					url
-				);
+
 				setImageURL(null);
 			} catch (error) {
 				dispatch({

@@ -11,6 +11,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { DELETE_IMAGE } from "../../../constants/actionTypes";
 import deleteFile from "../../../firebase/deleteFile";
 
+// This component shows a list of images that has been selected
 const ImagesList = () => {
 	// Importing the already uploaded images from state.
 	//  currenUser is needed for the id which is included in the image path. Needed to delete images
