@@ -1,4 +1,10 @@
-import { createContext, useContext, useReducer, useEffect } from "react";
+import {
+	createContext,
+	useContext,
+	useReducer,
+	useEffect,
+	useRef,
+} from "react";
 
 import reducer from "./reducer";
 import { UPDATE_USER } from "../constants/actionTypes";
@@ -27,6 +33,8 @@ export const useValue = () => {
 // Now all the variables inside the state will be available to all components wrapped by this provider
 const ContextProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
+	// The ref for controlling the map:
+	const mapRef = useRef();
 
 	useEffect(() => {
 		// Getting user from local storage on first rendering
@@ -36,7 +44,7 @@ const ContextProvider = ({ children }) => {
 
 	return (
 		// CAUTION!!! There has to be ad . bevore Provider!
-		<Context.Provider value={{ state, dispatch }}>
+		<Context.Provider value={{ state, dispatch, mapRef }}>
 			{children}
 		</Context.Provider>
 	);
