@@ -2,6 +2,8 @@ import React from "react";
 import { Box, Drawer, IconButton, Typography, styled } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
+import PriceSlider from "./PriceSlider";
+
 // Defiining a styled component. We have to make the Drawer the same height as the main menu
 const DrawerHeader = styled("div")(({ theme }) => ({
 	display: "flex",
@@ -23,7 +25,9 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 				</IconButton>
 			</DrawerHeader>
 			{/* Contains search input box and pricee slider */}
-			<Box sx={{ width: 240, p: 3 }}></Box>
+			<Box sx={{ width: 240, p: 3 }}>
+				<PriceSlider />
+			</Box>
 		</Drawer>
 	);
 };
