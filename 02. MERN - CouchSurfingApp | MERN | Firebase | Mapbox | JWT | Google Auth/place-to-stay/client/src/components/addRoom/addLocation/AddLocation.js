@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from "react";
 import { Box } from "@mui/material";
-
 import ReactMapGL, {
 	GeolocateControl,
 	Marker,
@@ -10,6 +9,7 @@ import "mapbox-gl/dist/mapbox-gl.css"; // Importing the mapbox-gl styles
 
 import { useValue } from "../../../context/ContextProvider";
 import { UPDATE_LOCATION } from "../../../constants/actionTypes";
+import Geocoder from "./Geocoder";
 
 const AddLocation = () => {
 	// Getting the location from state
@@ -92,6 +92,8 @@ const AddLocation = () => {
 						})
 					}
 				/>
+				{/* This is the search field  for city and adress top right*/}
+				<Geocoder />
 			</ReactMapGL>
 		</Box>
 	);

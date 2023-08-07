@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Tooltip, Paper } from "@mui/material";
 import ReactMapGL, { Marker } from "react-map-gl";
-import Supercluster from "supercluster"; // Import of the class Supercluster
+import Supercluster from "supercluster"; // Import of the class Supercluster.
 import "./cluster.css";
 
 import { useValue } from "../../context/ContextProvider";
@@ -59,14 +59,15 @@ const ClusterMap = () => {
 	// This useEffect depends on the points, zoom and bounds. Everytime one of them changes a new Supercluster is created
 	useEffect(() => {
 		supercluster.load(points); // First it loads the points
-		setClusters(supercluster.getClusters(bounds, zoom)); // Then we set the clusters according to documentation
+		// Then we set the clusters according to documentation. A cluster also has all information on the points
+		setClusters(supercluster.getClusters(bounds, zoom));
 	}, [points, zoom, bounds]);
 
-	// This useEffect extracts thee exact bounds of the map:
+	// This useEffect extracts the exact bounds of the map:
 	useEffect(() => {
 		// We check if mapRef is already assigned to our map
 		if (mapRef.current) {
-			// We get the 2 objects, transform them iin arrays and merge them iin  one arrays
+			// We get the 2 objects, transform them in arrays and merge them in one array
 			setBounds(mapRef.current.getMap().getBounds().toArray().flat());
 		}
 	}, [mapRef?.current]);
@@ -78,7 +79,7 @@ const ClusterMap = () => {
 			mapboxAccessToken={process.env.REACT_APP_MAP_TOKEN}
 			mapStyle="mapbox://styles/mapbox/streets-v11"
 			ref={mapRef}
-			// Eveerytime it is zoomed we pass the new zoom to the state and therefore trigger a cluster rerender
+			// Everytime it is zoomed we pass the new zoom to the state and therefore trigger a cluster rerender
 			onZoomEnd={(e) => setZoom(Math.round(e.viewState.zoom))}
 		>
 			{/* Then looping through the clusters */}
@@ -100,7 +101,7 @@ const ClusterMap = () => {
 							{/* Then building the cluster icon */}
 							<div
 								className="cluster-marker"
-								// We dynamically set the size of the marker depending on the  number of points
+								// We dynamically set the size of the marker depending on the number of points
 								style={{
 									width: `${
 										10 + (point_count / points.length) * 20
@@ -111,7 +112,7 @@ const ClusterMap = () => {
 								}}
 								// On click we extract tthe zoom from SC
 								onClick={() => {
-									// We  check if there is one for the cluster id  we pick the minimum value of them, otherwise we use the default of 20
+									// We check if there is one for the cluster id. Then we pick the minimum value of it, otherwise we use the default of 20
 									const zoom = Math.min(
 										supercluster.getClusterExpansionZoom(
 											cluster.id
@@ -120,7 +121,7 @@ const ClusterMap = () => {
 									);
 									// Then we change the view of the map depending on the zoom
 									mapRef.current.flyTo({
-										// center  is the location of thee cluster
+										// center  is the location of the cluster
 										center: [longitude, latitude],
 										// This is the zoom we just extracted:
 										zoom,
@@ -129,7 +130,7 @@ const ClusterMap = () => {
 									});
 								}}
 							>
-								{/* Addiing the number off points (the rooms) */}
+								{/* Adding the number of points (the rooms) */}
 								{point_count}
 							</div>
 						</Marker>

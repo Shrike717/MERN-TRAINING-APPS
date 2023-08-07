@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 import User from "../models/User.js";
+import Room from "../models/Room.js";
 import tryCatch from "./utils/tryCatch.js";
 
 // Wrapped with tryCatch util function
@@ -87,7 +88,8 @@ export const updateProfile = tryCatch(async (req, res) => {
 	// Now extracting some fields to send back to FE
 	const { _id: id, name, photoUrl } = updatedUser;
 
-	// To do: Update all room records added by this user
+	// Updating all room records added by this user. We search them with the id of the user. Then we set the new name and photoUrl
+	await Room.updateMany({ uid: id }, { uName: name, uPhoto: photoUrl });
 
 	// Then creating the token:
 	const token = jwt.sign({ id, name, photoUrl }, process.env.JWT_SECRET, {
