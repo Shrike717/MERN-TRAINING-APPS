@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
 	AppBar,
@@ -15,6 +15,7 @@ import { useValue } from "../context/ContextProvider";
 
 import UserIcons from "./user/UserIcons";
 import { OPEN_LOGIN } from "../constants/actionTypes";
+import Sidebar from "./sidebar/Sidebar";
 
 const NavBar = () => {
 	// Extracting the current user from state wth hook useValue:
@@ -22,6 +23,8 @@ const NavBar = () => {
 		state: { currentUser },
 		dispatch,
 	} = useValue();
+	// This is the state contrrolling wheher the sidebar is open or closed
+	const [isOpen, setIsOpen] = useState(false);
 
 	return (
 		<>
@@ -29,7 +32,12 @@ const NavBar = () => {
 				<Container maxWidth="lg">
 					<Toolbar disableGutters>
 						<Box sx={{ mr: 1 }}>
-							<IconButton size="large" color="inherit">
+							<IconButton
+								size="large"
+								color="inherit"
+								// Opens the Drawer on Hamburger
+								onClick={() => setIsOpen(true)}
+							>
 								<Menu />
 							</IconButton>
 						</Box>
@@ -71,7 +79,8 @@ const NavBar = () => {
 				</Container>
 			</AppBar>
 			{/* This forces the components to be shown. Otherwise they woulb be hidden under the NavBar cause it is absolute */}
-			<Toolbar></Toolbar>
+			<Toolbar />
+			<Sidebar {...{ isOpen, setIsOpen }} />
 		</>
 	);
 };
