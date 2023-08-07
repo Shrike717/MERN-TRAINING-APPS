@@ -12,6 +12,7 @@ import {
 	UPDATE_LOCATION,
 	RESET_ROOM,
 	UPDATE_ROOMS,
+	FILTER_PRICE,
 } from "../constants/actionTypes";
 
 //  the state is managed by a reducer. The reducer function contains all of the state update logic
@@ -82,6 +83,9 @@ const reducer = (state, action) => {
 		case UPDATE_ROOMS:
 			// We are returning all of the state and then the rooms array
 			return { ...state, rooms: action.payload };
+		// This action will update the priceFilter state:
+		case FILTER_PRICE:
+			return { ...state, priceFilter: action.payload };
 
 		default:
 			throw new Error("No matched actions");
