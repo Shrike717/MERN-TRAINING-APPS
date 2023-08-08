@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Drawer, IconButton, Typography, styled } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
+import { useValue } from "../../context/ContextProvider";
 import PriceSlider from "./PriceSlider";
 
 // Defiining a styled component. We have to make the Drawer the same height as the main menu
@@ -14,6 +15,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
+	const { containerRef } = useValue();
 	return (
 		// Persistent: not closing automatically. Usr has  to close i
 		<Drawer variant="persistent" hideBackdrop={true} open={isOpen}>
@@ -24,8 +26,10 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 					<ChevronLeftIcon fontSize="large" />
 				</IconButton>
 			</DrawerHeader>
-			{/* Contains search input box and pricee slider */}
+			{/* Contains search input box and price slider */}
 			<Box sx={{ width: 240, p: 3 }}>
+				{/* We need the ref because we inject the geocoder input inside the search box */}
+				<Box ref={containerRef}></Box>
 				<PriceSlider />
 			</Box>
 		</Drawer>

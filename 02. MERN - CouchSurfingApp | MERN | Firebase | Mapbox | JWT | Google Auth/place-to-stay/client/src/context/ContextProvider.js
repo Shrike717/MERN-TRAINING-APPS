@@ -21,6 +21,7 @@ const initialState = {
 	location: { lng: 0, lat: 0 },
 	rooms: [],
 	priceFilter: 50, // Default is the maximun price
+	addressFilter: null, // This is for the address search in the Sidebar component
 };
 
 // Initiialising the context
@@ -36,6 +37,8 @@ const ContextProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 	// The ref for controlling the map:
 	const mapRef = useRef();
+	// The ref for controlling the search box in drawer component:
+	const containerRef = useRef();
 
 	useEffect(() => {
 		// Getting user from local storage on first rendering
@@ -45,7 +48,7 @@ const ContextProvider = ({ children }) => {
 
 	return (
 		// CAUTION!!! There has to be ad . bevore Provider!
-		<Context.Provider value={{ state, dispatch, mapRef }}>
+		<Context.Provider value={{ state, dispatch, mapRef, containerRef }}>
 			{children}
 		</Context.Provider>
 	);

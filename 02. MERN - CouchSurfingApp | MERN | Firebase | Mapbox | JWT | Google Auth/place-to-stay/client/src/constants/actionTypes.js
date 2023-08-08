@@ -12,6 +12,8 @@ export const UPDATE_LOCATION = "UPDATE_LOCATION";
 export const RESET_ROOM = "RESET_ROOM";
 export const UPDATE_ROOMS = "UPDATE_ROOMS";
 export const FILTER_PRICE = "FILTER_PRICE";
+export const FILTER_ADDRESS = "FILTER_ADDRESS";
+export const CLEAR_ADDRESS = "CLEAR_ADDRESS";
 
 export const POST = "POST";
 export const PATCH = "PATCH";

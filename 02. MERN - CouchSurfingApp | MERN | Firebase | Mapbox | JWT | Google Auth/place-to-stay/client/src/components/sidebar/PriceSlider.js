@@ -4,7 +4,7 @@ import { Box, Slider, Typography } from "@mui/material";
 import { useValue } from "../../context/ContextProvider";
 import { FILTER_PRICE } from "../../constants/actionTypes";
 
-// Setting the marks or the Slideer as an array:
+// Setting the marks or the Slider as an array:
 const marks = [
 	{ value: 0, label: "$0" },
 	{ value: 25, label: "$25" },
@@ -23,7 +23,7 @@ const PriceSlider = () => {
 				min={0}
 				max={50}
 				defaultValue={50}
-				valueLabelDisplay="outer" // This means we see the value label when we hover over slider
+				valueLabelDisplay="auto" // This means we see the value label when we hover over slider
 				marks={marks}
 				value={priceFilter} // The valuu from the global context state
 				onChange={
