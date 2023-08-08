@@ -13,6 +13,8 @@ import {
 	RESET_ROOM,
 	UPDATE_ROOMS,
 	FILTER_PRICE,
+	FILTER_ADDRESS,
+	CLEAR_ADDRESS,
 } from "../constants/actionTypes";
 
 //  the state is managed by a reducer. The reducer function contains all of the state update logic
@@ -86,6 +88,12 @@ const reducer = (state, action) => {
 		// This action will update the priceFilter state:
 		case FILTER_PRICE:
 			return { ...state, priceFilter: action.payload };
+		// This action will update the Address search state in the Sidebar
+		case FILTER_ADDRESS:
+			return { ...state, addressFilter: action.payload };
+		// This action will clear the Address search state again
+		case CLEAR_ADDRESS:
+			return { ...state, addressFilter: null, priceFilter: 50 };
 
 		default:
 			throw new Error("No matched actions");

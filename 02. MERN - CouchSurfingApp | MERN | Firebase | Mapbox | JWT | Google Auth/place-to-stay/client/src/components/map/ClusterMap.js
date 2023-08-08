@@ -6,6 +6,7 @@ import "./cluster.css";
 
 import { useValue } from "../../context/ContextProvider";
 import { getRooms } from "../../actions/room";
+import GeocoderInput from "../sidebar/GeocoderInput";
 
 // Initialising an object from Supercluster class
 const supercluster = new Supercluster({
@@ -154,6 +155,8 @@ const ClusterMap = () => {
 					</Marker>
 				);
 			})}
+			{/* This is the component which injects the Address from the Sidebar search into the map */}
+			<GeocoderInput />
 		</ReactMapGL>
 	);
 };
