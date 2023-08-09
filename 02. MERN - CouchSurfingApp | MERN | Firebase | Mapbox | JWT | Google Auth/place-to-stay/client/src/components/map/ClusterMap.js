@@ -15,9 +15,10 @@ const supercluster = new Supercluster({
 });
 
 const ClusterMap = () => {
-	// Extracting the rooms from the state:
+	// First we  were extracting the rooms from the state.
+	// After we had filteredRooms functionality in place, we replaced it with filteredRooms state
 	const {
-		state: { rooms },
+		state: { filteredRooms },
 		dispatch,
 		mapRef,
 	} = useValue();
@@ -34,8 +35,9 @@ const ClusterMap = () => {
 	}, []);
 
 	// This depends on the state rooms change. Everytime there is any change we loop through rooms and create the points
+	// After we had filteredRooms functionality in place, we replaced rooms with filteredRooms state
 	useEffect(() => {
-		const points = rooms.map((room) => ({
+		const points = filteredRooms.map((room) => ({
 			type: "Feature",
 			properties: {
 				cluster: false, // This is a single point and therefore no cluster
@@ -55,7 +57,8 @@ const ClusterMap = () => {
 			},
 		}));
 		setPoints(points); //Then set the points to the points array
-	}, [rooms]);
+		// After we had filteredRooms functionality in place, we replaced rooms with filteredRooms state
+	}, [filteredRooms]);
 
 	// This useEffect depends on the points, zoom and bounds. Everytime one of them changes a new Supercluster is created
 	useEffect(() => {
@@ -131,7 +134,7 @@ const ClusterMap = () => {
 									});
 								}}
 							>
-								{/* Adding the number of points (the rooms) */}
+								{/* Adding the number of points (the rooms) in the cluster icon*/}
 								{point_count}
 							</div>
 						</Marker>

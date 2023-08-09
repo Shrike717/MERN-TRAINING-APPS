@@ -21,7 +21,7 @@ const AddLocation = () => {
 	} = useValue();
 	// console.log(lng, lat);
 
-	// Sellecting map in DOM needed for the find location by ip feature
+	// Selecting map in DOM needed for the find location by ip feature
 	const mapRef = useRef();
 	// Check on first render: Feature find user location by ip using ipapi
 	useEffect(() => {
