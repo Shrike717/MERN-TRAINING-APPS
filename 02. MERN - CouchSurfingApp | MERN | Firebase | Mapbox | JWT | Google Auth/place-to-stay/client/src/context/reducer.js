@@ -55,7 +55,7 @@ const reducer = (state, action) => {
 
 		// Deleting images
 		case DELETE_IMAGE:
-			// The imageUrl which should be deleted is filtered ou. All other images pass
+			// The imageUrl which should be deleted is filtered out. All other images pass
 			return {
 				...state,
 				images: state.images.filter(
@@ -64,7 +64,8 @@ const reducer = (state, action) => {
 			};
 		// Updating the details of a room
 		case UPDATE_DETAILS:
-			// Wee are returning all of the state, then details are the old state of the details and then we add the payload ass an object.
+			// We are returning all of the state, then details are the old state of the details and then we add the payload as an object.
+			// This will overwrite title, description and price in details
 			return {
 				...state,
 				details: { ...state.details, ...action.payload },
@@ -83,17 +84,48 @@ const reducer = (state, action) => {
 			};
 		// Updating the rooms:
 		case UPDATE_ROOMS:
-			// We are returning all of the state and then the rooms array
-			return { ...state, rooms: action.payload };
+			// We are returning all of the state and then the rooms array from the DB.
+			// We also reset the adressFilter and priceFilter to their default values
+			return {
+				...state,
+				rooms: action.payload,
+				addressFilter: null,
+				priceFilter: 50,
+				filteredRooms: action.payload, // When we first open the page the filteredRooms im state are the same as in rooms state
+			};
 		// This action will update the priceFilter state:
+		//
 		case FILTER_PRICE:
-			return { ...state, priceFilter: action.payload };
+			return {
+				...state,
+				priceFilter: action.payload,
+				// This filteredRooms state will control the clusters. It will trigger it to create and update new clusters from the points (rooms)
+				filteredRooms: applyFilter(
+					state.rooms, // All the rooms
+					state.addressFilter,
+					action.payload // This is the new price we received from the slider
+				),
+			};
 		// This action will update the Address search state in the Sidebar
 		case FILTER_ADDRESS:
-			return { ...state, addressFilter: action.payload };
+			return {
+				...state,
+				addressFilter: action.payload, // This is lng and lat
+				// This filteredRooms state will control the clusters. It will trigger it to create and update new clusters from the points (rooms)
+				filteredRooms: applyFilter(
+					state.rooms, // All the rooms
+					action.payload, // This is the new address we received from the Geocoder search input in Sidebar
+					state.priceFilter
+				),
+			};
 		// This action will clear the Address search state again
 		case CLEAR_ADDRESS:
-			return { ...state, addressFilter: null, priceFilter: 50 };
+			return {
+				...state,
+				addressFilter: null,
+				priceFilter: 50,
+				filteredRooms: state.rooms, // Setting filteredRooms back to all rooms again
+			};
 
 		default:
 			throw new Error("No matched actions");
@@ -101,3 +133,39 @@ const reducer = (state, action) => {
 };
 
 export default reducer;
+
+// This function gets triggered every time  we change the  addrress or the price
+const applyFilter = (rooms, address, price) => {
+	let filteredRooms = rooms;
+	// We check if there is an address onject
+	if (address) {
+		// Extracting lng and lat from the address
+		const { lng, lat } = address;
+		// Then we filter the rooms
+		filteredRooms = filteredRooms.filter((room) => {
+			// Applying conditions:
+			// We check if the lng / lat in the address is bigger then the lng / lat in the room lng / lat
+			// If yes we substract the room lng / lat from the address lng / lat. Otherwise it will be the opposite
+			// In this way we always substract the smaller number from the bigger number
+			const lngDifference =
+				lng > room.lng ? lng - room.lng : room.lng - lng;
+			const latDifference =
+				lat > room.lat ? lat - room.lat : room.lat - lat;
+			// Then we return all rooms within a range of ca. 60 miles. This is 1 degree
+			// If i search for Munich i will find rooms within the range when i zoom out in the map.
+			// If i change the range to 10 and search for Munich it will show all rooms in Germany when i zoom out in the map.
+			console.log(lngDifference, latDifference);
+			return lngDifference <= 1 && latDifference <= 1;
+		});
+		console.log(filteredRooms);
+	}
+	// We filter our rooms a second time  dependin on the price
+	if (price < 50) {
+		// We only show rooms that are within the price range of tthe slider
+		filteredRooms = filteredRooms.filter((room) => room.price <= price);
+	}
+
+	// After applying these 2 filters we return the filtered rooms array
+	// This then will be assigned to the global state filteredRooms variable in the actions FILTER_PRICE and FILTER_ADDRESS above
+	return filteredRooms;
+};

@@ -21,7 +21,8 @@ const initialState = {
 	location: { lng: 0, lat: 0 },
 	rooms: [],
 	priceFilter: 50, // Default is the maximun price
-	addressFilter: null, // This is for the address search in the Sidebar component
+	addressFilter: null, // This is for the address search in the Sidebar component. It will be lng and lat
+	filteredRooms: [], // This is an array with rooms that changess depending on the filter applied
 };
 
 // Initiialising the context
