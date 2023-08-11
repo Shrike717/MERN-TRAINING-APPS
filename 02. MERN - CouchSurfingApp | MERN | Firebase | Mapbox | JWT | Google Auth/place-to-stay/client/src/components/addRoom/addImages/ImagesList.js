@@ -55,9 +55,9 @@ const ImagesList = () => {
 						src={image}
 						alt="rooms"
 						loading="lazy"
-						style={{ height: "100%" }}
+						style={{ height: "100px" }}
 					/>
-					{/* Is on top of the image  so closing icon can  be added */}
+					{/* Is on top of the image so closing icon can be added */}
 					<ImageListItemBar
 						position="top"
 						sx={{
