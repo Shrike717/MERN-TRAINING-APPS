@@ -23,7 +23,7 @@ const NavBar = () => {
 		state: { currentUser },
 		dispatch,
 	} = useValue();
-	// This is the state contrrolling wheher the sidebar is open or closed
+	// This is the state controlling wheher the sidebar is open or closed
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
@@ -78,7 +78,7 @@ const NavBar = () => {
 					</Toolbar>
 				</Container>
 			</AppBar>
-			{/* This forces the components to be shown. Otherwise they woulb be hidden under the NavBar cause it is absolute */}
+			{/* This forces the components to be shown. Otherwise they would be hidden under the NavBar cause it is absolute */}
 			<Toolbar />
 			<Sidebar {...{ isOpen, setIsOpen }} />
 		</>
