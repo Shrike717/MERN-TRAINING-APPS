@@ -134,7 +134,7 @@ const reducer = (state, action) => {
 
 export default reducer;
 
-// This function gets triggered every time  we change the  addrress or the price
+// This function gets triggered every time we change the address or the price
 const applyFilter = (rooms, address, price) => {
 	let filteredRooms = rooms;
 	// We check if there is an address onject
@@ -154,10 +154,9 @@ const applyFilter = (rooms, address, price) => {
 			// Then we return all rooms within a range of ca. 60 miles. This is 1 degree
 			// If i search for Munich i will find rooms within the range when i zoom out in the map.
 			// If i change the range to 10 and search for Munich it will show all rooms in Germany when i zoom out in the map.
-			console.log(lngDifference, latDifference);
+
 			return lngDifference <= 1 && latDifference <= 1;
 		});
-		console.log(filteredRooms);
 	}
 	// We filter our rooms a second time  dependin on the price
 	if (price < 50) {

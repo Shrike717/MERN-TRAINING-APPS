@@ -5,6 +5,7 @@ import {
 	ImageList,
 	ImageListItem,
 	ImageListItemBar,
+	Toolbar,
 } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 
@@ -37,45 +38,47 @@ const ImagesList = () => {
 		}
 	};
 	return (
-		// Showing the uploaded images
-		<ImageList
-			rowHeight={250}
-			sx={{
-				// Overwriting styling so that ImageList is responsive
-				"&.MuiImageList-root": {
-					gridTemplateColumns:
-						"repeat(auto-fill, minmax(250px, 1fr))!important",
-				},
-			}}
-		>
-			{/* image is the imageUrl */}
-			{images.map((image, index) => (
-				<ImageListItem key={index} cols={1} rows={1}>
-					<img
-						src={image}
-						alt="rooms"
-						loading="lazy"
-						style={{ height: "100px" }}
-					/>
-					{/* Is on top of the image so closing icon can be added */}
-					<ImageListItemBar
-						position="top"
-						sx={{
-							background:
-								"linear-gradient(to bottom, rgba(0,0,0,0.7)0%, rgba(0,0,0,0.3)70%, rgba(0,0,0,0)100%)",
-						}}
-						actionIcon={
-							<IconButton
-								sx={{ color: "white" }}
-								onClick={() => handleDelete(image)}
-							>
-								<CancelIcon />
-							</IconButton>
-						}
-					></ImageListItemBar>
-				</ImageListItem>
-			))}
-		</ImageList>
+		<>
+			// Showing the uploaded images
+			<ImageList
+				rowHeight={250}
+				sx={{
+					// Overwriting styling so that ImageList is responsive
+					"&.MuiImageList-root": {
+						gridTemplateColumns:
+							"repeat(auto-fill, minmax(250px, 1fr))!important",
+					},
+				}}
+			>
+				{/* image is the imageUrl */}
+				{images.map((image, index) => (
+					<ImageListItem key={index} cols={1} rows={1}>
+						<img
+							src={image}
+							alt="rooms"
+							loading="lazy"
+							style={{ height: "100px" }}
+						/>
+						{/* Is on top of the image so closing icon can be added */}
+						<ImageListItemBar
+							position="top"
+							sx={{
+								background:
+									"linear-gradient(to bottom, rgba(0,0,0,0.7)0%, rgba(0,0,0,0.3)70%, rgba(0,0,0,0)100%)",
+							}}
+							actionIcon={
+								<IconButton
+									sx={{ color: "white" }}
+									onClick={() => handleDelete(image)}
+								>
+									<CancelIcon />
+								</IconButton>
+							}
+						></ImageListItemBar>
+					</ImageListItem>
+				))}
+			</ImageList>
+		</>
 	);
 };
 

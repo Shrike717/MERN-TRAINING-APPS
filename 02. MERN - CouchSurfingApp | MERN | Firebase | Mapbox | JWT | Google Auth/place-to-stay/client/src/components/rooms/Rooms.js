@@ -24,7 +24,11 @@ const Rooms = () => {
 		<Container>
 			<ImageList
 				gap={12} // This adds vertically and horizontally 12px spacing between images
-				sx={{ mb: 8 }}
+				sx={{
+					mb: 8,
+					gridTemplateColumns:
+						"repeat(auto-fill, minmax(280px, 1fr)) !important", // This makes it responsive
+				}}
 			>
 				{filteredRooms.map((room) => (
 					<Card key={room._id}>
