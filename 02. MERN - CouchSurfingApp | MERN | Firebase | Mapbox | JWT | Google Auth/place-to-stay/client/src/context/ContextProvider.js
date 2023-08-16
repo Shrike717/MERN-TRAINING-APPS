@@ -23,6 +23,7 @@ const initialState = {
 	priceFilter: 50, // Default is the maximun price
 	addressFilter: null, // This is for the address search in the Sidebar component. It will be lng and lat
 	filteredRooms: [], // This is an array with rooms that changess depending on the filter applied
+	room: null, // This is the state to open the room single page
 };
 
 // Initiialising the context

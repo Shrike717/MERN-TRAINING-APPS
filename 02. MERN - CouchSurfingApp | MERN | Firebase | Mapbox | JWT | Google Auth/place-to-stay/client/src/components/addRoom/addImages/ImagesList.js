@@ -38,8 +38,8 @@ const ImagesList = () => {
 		}
 	};
 	return (
+		// Showing the uploaded images
 		<>
-			// Showing the uploaded images
 			<ImageList
 				rowHeight={250}
 				sx={{

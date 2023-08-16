@@ -12,6 +12,7 @@ import {
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 import { useValue } from "../../context/ContextProvider";
+import { UPDATE_ROOM } from "../../constants/actionTypes";
 
 const Rooms = () => {
 	// Extracting the  rooms from global state
@@ -64,6 +65,13 @@ const Rooms = () => {
 								alt={room.title}
 								loading="lazy"
 								style={{ cursor: "pointer" }}
+								onClick={() =>
+									// This opens the single room component of the room the user is clicking on
+									dispatch({
+										type: UPDATE_ROOM,
+										payload: room,
+									})
+								}
 							/>
 							<ImageListItemBar
 								title={room.title}
