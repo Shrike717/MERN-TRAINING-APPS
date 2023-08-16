@@ -15,6 +15,7 @@ import {
 	FILTER_PRICE,
 	FILTER_ADDRESS,
 	CLEAR_ADDRESS,
+	UPDATE_ROOM,
 } from "../constants/actionTypes";
 
 //  the state is managed by a reducer. The reducer function contains all of the state update logic
@@ -125,6 +126,12 @@ const reducer = (state, action) => {
 				addressFilter: null,
 				priceFilter: 50,
 				filteredRooms: state.rooms, // Setting filteredRooms back to all rooms again
+			};
+		// This action updates the state room for the single page
+		case UPDATE_ROOM:
+			return {
+				...state,
+				room: action.payload,
 			};
 
 		default:

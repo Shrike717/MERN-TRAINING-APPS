@@ -6,6 +6,7 @@ import Loading from "./components/Loading";
 import BottomNav from "./components/BottomNav";
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import Room from "./components/rooms/Room";
 
 const App = () => {
 	return (
@@ -18,6 +19,7 @@ const App = () => {
 				<Login />
 				<NavBar />
 				<BottomNav />
+				<Room />
 			</GoogleOAuthProvider>
 		</>
 	);
