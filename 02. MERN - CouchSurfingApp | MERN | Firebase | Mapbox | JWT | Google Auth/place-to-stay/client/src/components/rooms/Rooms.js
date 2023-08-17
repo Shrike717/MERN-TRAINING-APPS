@@ -22,7 +22,7 @@ const Rooms = () => {
 	} = useValue();
 	return (
 		// Container centralizes the rooms list
-		<Container>
+		<Container sx={{ pb: 2 }}>
 			<ImageList
 				gap={12} // This adds vertically and horizontally 12px spacing between images
 				sx={{
