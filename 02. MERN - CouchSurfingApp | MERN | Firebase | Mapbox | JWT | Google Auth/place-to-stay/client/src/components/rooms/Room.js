@@ -2,15 +2,19 @@ import React, { forwardRef } from "react";
 import {
 	AppBar,
 	Avatar,
+	Box,
 	Container,
 	Dialog,
 	IconButton,
+	Rating,
 	Slide,
+	Stack,
 	Toolbar,
 	Tooltip,
 	Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 // This are the imports for the slider:
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -52,7 +56,7 @@ const Room = () => {
 	};
 
 	return (
-		// The slider gets placed in a Dialog component
+		// The slider and the whole content afterwards gets placed in a Dialog component
 		<Dialog
 			fullScreen
 			open={Boolean(room)} // If it is null its false, if object its true
@@ -95,7 +99,7 @@ const Room = () => {
 					lazy
 					zoom
 					effect="coverflow"
-					// Configuring thee effect:
+					// Configuring the effect:
 					coverflowEffect={{
 						rotate: 50,
 						stretch: 0,
@@ -113,7 +117,7 @@ const Room = () => {
 							</div>
 						</SwiperSlide>
 					))}
-					{/* Tis is tthe avatar for the user */}
+					{/* This is tthe avatar for the user */}
 					<Tooltip
 						title={room?.uName || ""}
 						sx={{
@@ -126,6 +130,38 @@ const Room = () => {
 						<Avatar src={room?.uPhoto} />
 					</Tooltip>
 				</Swiper>
+				{/* Adding the information of the room. Wrapped in a stack */}
+				<Stack sx={{ p: 3 }} spacing={2}>
+					<Stack
+						direction="row"
+						sx={{
+							justifyContent: "space-between",
+							flexWrap: "wrap", // This is for smaller screens: If there is no space the components go down
+						}}
+					>
+						<Box>
+							<Typography variant="h6" component="span">
+								{"Price Per Night: "}
+							</Typography>
+							<Typography component="span">
+								{room?.price === 0
+									? "Free Stay"
+									: "$" + room?.price}
+							</Typography>
+						</Box>
+						<Box sx={{ display: "flex", alignItems: "center" }}>
+							<Typography variant="h6" component="span">
+								{"Ratings: "}
+							</Typography>
+							<Rating
+								name="room-ratings"
+								defaultValue={3.5}
+								precision={0.5}
+								emptyIcon={<StarBorderIcon />}
+							/>
+						</Box>
+					</Stack>
+				</Stack>
 			</Container>
 		</Dialog>
 	);
