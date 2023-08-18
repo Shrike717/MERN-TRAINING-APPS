@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useState, useEffect } from "react";
 import {
 	AppBar,
 	Avatar,
@@ -50,6 +50,21 @@ const Room = () => {
 		state: { room },
 		dispatch,
 	} = useValue();
+
+	// State needed for reverse geocoding:
+	const [place, setPlace] = useState(null);
+
+	// useEffect for
+	useEffect(() => {
+		if (room) {
+			// This API gets coordinates and sends back the address
+			const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${room.lng},${room.lat}.json?access_token=${process.env.REACT_APP_MAP_TOKEN}`;
+			fetch(url)
+				.then((response) => response.json()) // Parsing result to json object
+				.then((data) => setPlace(data.features[0])) // Then extracting the address and setting it as state
+				.catch((err) => console.log(err));
+		}
+	}, [room]);
 
 	const handleClose = () => {
 		dispatch({ type: UPDATE_ROOM, payload: null }); // Closing the room single pages
@@ -160,6 +175,45 @@ const Room = () => {
 								emptyIcon={<StarBorderIcon />}
 							/>
 						</Box>
+					</Stack>
+					<Stack
+						direction="row"
+						sx={{
+							justifyContent: "space-between",
+							flexWrap: "wrap", // This is for smaller screens: If there is no space the components go down
+						}}
+					>
+						<Box>
+							<Typography variant="h6" component="span">
+								{"Place Name: "}
+							</Typography>
+							<Typography component="span">
+								{/* This contains the place name */}
+								{place?.text}
+							</Typography>
+						</Box>
+						<Box sx={{ display: "flex", alignItems: "center" }}>
+							<Typography
+								variant="h6"
+								component="span"
+								sx={{ pr: 1 }}
+							>
+								{"Address: "}
+							</Typography>
+							<Typography component="span">
+								{/* This contains the addresss */}
+								{place?.place_name}
+							</Typography>
+						</Box>
+					</Stack>
+					<Stack>
+						<Typography variant="h6" component="span">
+							{"Details: "}
+						</Typography>
+						<Typography component="span">
+							{/* This contains the addresss */}
+							{room?.description}
+						</Typography>
 					</Stack>
 				</Stack>
 			</Container>
