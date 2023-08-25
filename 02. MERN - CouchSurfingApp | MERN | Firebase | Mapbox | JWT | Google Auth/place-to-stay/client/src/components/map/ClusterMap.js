@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Tooltip, Paper } from "@mui/material";
-import ReactMapGL, { Marker } from "react-map-gl";
+import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import Supercluster from "supercluster"; // Import of the class Supercluster.
 import "./cluster.css";
 
 import { useValue } from "../../context/ContextProvider";
 import { getRooms } from "../../actions/room";
 import GeocoderInput from "../sidebar/GeocoderInput";
+import PopupRoom from "./PopupRoom";
 
 // Initialising an object from Supercluster class
 const supercluster = new Supercluster({
@@ -28,6 +29,9 @@ const ClusterMap = () => {
 	const [clusters, setClusters] = useState([]);
 	const [bounds, setBounds] = useState([-180, -85, 180, 85]); // Default value taken from SC package
 	const [zoom, setZoom] = useState(0);
+
+	// This is the state we need to pass to the Slider when clickin on a room on the ClusterMap:
+	const [popupInfo, setPopupInfo] = useState(null);
 
 	// In the first render we use useEffect to fetch all rooms
 	useEffect(() => {
@@ -153,6 +157,9 @@ const ClusterMap = () => {
 								src={cluster.properties.uPhoto}
 								component={Paper}
 								elevation={2}
+								// When we click on the user avatar on the map we set all needed properties for a room from the cluster we are mapping over above
+								onClick={() => setPopupInfo(cluster.properties)}
+								sx={{ cursor: "pointer" }}
 							/>
 						</Tooltip>
 					</Marker>
@@ -160,6 +167,21 @@ const ClusterMap = () => {
 			})}
 			{/* This is the component which injects the Address from the Sidebar search into the map */}
 			<GeocoderInput />
+			{/* Checking if the popupInfo state was set.. When true, we open the Popup component from react-map-gl*/}
+			{popupInfo && (
+				<Popup
+					// Passing  the needed properties to ...
+					longitude={popupInfo.lng}
+					latitude={popupInfo.lat}
+					maxWidth="auto"
+					closeOnClick={false} // We don't need to close it when clicking outside of this popup
+					focusAfterOpen={false} // We don't want it to move the focus dirctly to the X closing  icon
+					onClose={() => setPopupInfo(null)}
+				>
+					{/* Then showing the PopupRoom component with the slider and passing the props to it */}
+					<PopupRoom {...{ popupInfo }} />
+				</Popup>
+			)}
 		</ReactMapGL>
 	);
 };

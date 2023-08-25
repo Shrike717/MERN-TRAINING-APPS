@@ -132,7 +132,7 @@ const Room = () => {
 							</div>
 						</SwiperSlide>
 					))}
-					{/* This is tthe avatar for the user */}
+					{/* This is the avatar for the user */}
 					<Tooltip
 						title={room?.uName || ""}
 						sx={{
@@ -211,7 +211,7 @@ const Room = () => {
 							{"Details: "}
 						</Typography>
 						<Typography component="span">
-							{/* This contains the addresss */}
+							{/* This contains the address */}
 							{room?.description}
 						</Typography>
 					</Stack>

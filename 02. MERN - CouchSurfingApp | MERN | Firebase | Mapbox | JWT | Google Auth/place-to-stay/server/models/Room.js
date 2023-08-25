@@ -13,7 +13,7 @@ const roomSchema = mongoose.Schema(
 			required: true,
 		},
 		images: {
-			// We check if the data type is an array an contains at least 1 imageUrl
+			// We check if the data type is an array and contains at least 1 imageUrl
 			type: [String],
 			validate: (v) => Array.isArray(v) && v.length > 0,
 		},
