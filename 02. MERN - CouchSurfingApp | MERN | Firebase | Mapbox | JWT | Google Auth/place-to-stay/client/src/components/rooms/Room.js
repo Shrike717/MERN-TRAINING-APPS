@@ -43,9 +43,9 @@ const Transition = forwardRef((props, ref) => {
 	return <Slide direction="up" {...props} ref={ref} />;
 });
 
-// This component ist thee single page for the room
+// This component is the single page for the room
 const Room = () => {
-	// Importing the room from global sttate:
+	// Importing the room from global state:
 	const {
 		state: { room },
 		dispatch,
