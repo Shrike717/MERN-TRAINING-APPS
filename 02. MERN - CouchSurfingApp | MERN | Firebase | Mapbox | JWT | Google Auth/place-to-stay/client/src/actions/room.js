@@ -9,6 +9,7 @@ import {
 	RESET_ROOM,
 	UPDATE_ROOMS,
 	GET,
+	UPDATE_ROOM,
 } from "../constants/actionTypes";
 
 const url = process.env.REACT_APP_SERVER_URL + "/room";
@@ -39,6 +40,8 @@ export const createRoom = async (room, currentUser, dispatch, setPage) => {
 	dispatch({ type: RESET_ROOM });
 	// This will set the component in the main section to show the cluster map:
 	setPage(0);
+	// This will open the single page for the room after creating a new room
+	dispatch({ type: UPDATE_ROOM, payload: result });
 
 	dispatch({ type: END_LOADING });
 };
