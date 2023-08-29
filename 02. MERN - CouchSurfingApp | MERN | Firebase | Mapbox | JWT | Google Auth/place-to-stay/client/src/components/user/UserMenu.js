@@ -1,4 +1,4 @@
-import { Settings } from "@mui/icons-material";
+import { Dashboard, Settings } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ListItemIcon, MenuItem, Menu } from "@mui/material";
 
@@ -13,6 +13,7 @@ import {
 	UPDATE_PROFILE,
 } from "../../constants/actionTypes";
 import useCheckToken from "../../hooks/useCheckToken";
+import { useNavigate } from "react-router-dom";
 
 // This is the user menu when click on avatar in navbar
 const UserMenu = ({ anchorUserMenu, setAnchorUserMenu }) => {
@@ -25,6 +26,9 @@ const UserMenu = ({ anchorUserMenu, setAnchorUserMenu }) => {
 	const handleCloseUserMenu = () => {
 		setAnchorUserMenu(null);
 	};
+
+	//Using hook navigate to navigate to the Dashboard component from user menu
+	const navigate = useNavigate();
 
 	return (
 		<>
@@ -54,7 +58,12 @@ const UserMenu = ({ anchorUserMenu, setAnchorUserMenu }) => {
 						Profile
 					</MenuItem>
 				)}
-
+				<MenuItem onClick={() => navigate("dashboard")}>
+					<ListItemIcon>
+						<Dashboard fontSize="small" />
+					</ListItemIcon>
+					Dashboard
+				</MenuItem>
 				<MenuItem
 					onClick={() =>
 						dispatch({ type: UPDATE_USER, payload: null })
