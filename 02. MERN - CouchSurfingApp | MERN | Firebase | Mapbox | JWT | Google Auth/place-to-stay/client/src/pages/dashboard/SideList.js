@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 
 import MuiDrawer from "@mui/material/Drawer";
@@ -91,6 +91,9 @@ const SideList = ({ open, setOpen }) => {
 		dispatch,
 	} = useValue();
 
+	// This state is used to highlight the active list item in the drawer. Default is  the main component
+	const [selectedLink, setSelectedLink] = useState("");
+
 	// We create a list as an array of objects. Every object represents a component
 	// This is needed because we show different icons depending on the status of the user.
 	const list = useMemo(
@@ -99,31 +102,35 @@ const SideList = ({ open, setOpen }) => {
 				title: "Main",
 				icon: <Dashboard />,
 				link: "",
-				component: <Main />,
+				component: <Main {...{ setSelectedLink, link: "" }} />, // Here we have to pass the setter and the link to the component to highlite active link
 			},
 			{
 				title: "Users",
 				icon: <PeopleAlt />,
 				link: "users",
-				component: <Users />,
+				component: <Users {...{ setSelectedLink, link: "users" }} />,
 			},
 			{
 				title: "Rooms",
 				icon: <KingBed />,
 				link: "rooms",
-				component: <Rooms />,
+				component: <Rooms {...{ setSelectedLink, link: "rooms" }} />,
 			},
 			{
 				title: "Requests",
 				icon: <NotificationsActive />,
 				link: "requests",
-				component: <Requests />,
+				component: (
+					<Requests {...{ setSelectedLink, link: "requests" }} />
+				),
 			},
 			{
 				title: "Messages",
 				icon: <MarkChatUnread />,
 				link: "messages",
-				component: <Messages />,
+				component: (
+					<Messages {...{ setSelectedLink, link: "messages" }} />
+				),
 			},
 		],
 		[]
@@ -168,6 +175,8 @@ const SideList = ({ open, setOpen }) => {
 								}}
 								// Adding a onClick action:
 								onClick={() => navigate(item.link)}
+								// This selected property checks the sellectedLink state. If true, it is highlited
+								selected={selectedLink === item.link}
 							>
 								<ListItemIcon
 									sx={{
