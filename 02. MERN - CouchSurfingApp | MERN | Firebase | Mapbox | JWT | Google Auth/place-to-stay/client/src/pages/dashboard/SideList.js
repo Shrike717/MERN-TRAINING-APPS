@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useMemo } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 import MuiDrawer from "@mui/material/Drawer";
 import {
@@ -16,11 +16,24 @@ import {
 	Typography,
 	styled,
 } from "@mui/material";
-import { ChevronLeft, Inbox, Logout, Mail } from "@mui/icons-material";
+import {
+	ChevronLeft,
+	Dashboard,
+	KingBed,
+	Logout,
+	MarkChatUnread,
+	NotificationsActive,
+	PeopleAlt,
+} from "@mui/icons-material";
 
 import { useValue } from "../../context/ContextProvider";
 
 import { UPDATE_USER } from "../../constants/actionTypes";
+import Main from "./main/Main";
+import Users from "./users/Users";
+import Rooms from "./rooms/Rooms";
+import Requests from "./requests/Requests";
+import Messages from "./messages/Messages";
 
 const drawerWidth = 240;
 
@@ -72,11 +85,49 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const SideList = ({ open, setOpen }) => {
-	// Importing the user from he lobal state:
+	// Importing the user from the global state:
 	const {
 		state: { currentUser },
 		dispatch,
 	} = useValue();
+
+	// We create a list as an array of objects. Every object represents a component
+	// This is needed because we show different icons depending on the status of the user.
+	const list = useMemo(
+		() => [
+			{
+				title: "Main",
+				icon: <Dashboard />,
+				link: "",
+				component: <Main />,
+			},
+			{
+				title: "Users",
+				icon: <PeopleAlt />,
+				link: "users",
+				component: <Users />,
+			},
+			{
+				title: "Rooms",
+				icon: <KingBed />,
+				link: "rooms",
+				component: <Rooms />,
+			},
+			{
+				title: "Requests",
+				icon: <NotificationsActive />,
+				link: "requests",
+				component: <Requests />,
+			},
+			{
+				title: "Messages",
+				icon: <MarkChatUnread />,
+				link: "messages",
+				component: <Messages />,
+			},
+		],
+		[]
+	);
 
 	// Temporarily forwarding user to home page after logout so that he can login again
 	const navigate = useNavigate();
@@ -102,39 +153,38 @@ const SideList = ({ open, setOpen }) => {
 				</DrawerHeader>
 				<Divider />
 				<List>
-					{["Inbox", "Starred", "Send email", "Drafts"].map(
-						(text, index) => (
-							<ListItem
-								key={text}
-								disablePadding
-								sx={{ display: "block" }}
+					{/* Here we iterate over the list array */}
+					{list.map((item) => (
+						<ListItem
+							key={item.title}
+							disablePadding
+							sx={{ display: "block" }}
+						>
+							<ListItemButton
+								sx={{
+									minHeight: 48,
+									justifyContent: open ? "initial" : "center",
+									px: 2.5,
+								}}
+								// Adding a onClick action:
+								onClick={() => navigate(item.link)}
 							>
-								<ListItemButton
+								<ListItemIcon
 									sx={{
-										minHeight: 48,
-										justifyContent: open
-											? "initial"
-											: "center",
-										px: 2.5,
+										minWidth: 0,
+										mr: open ? 3 : "auto",
+										justifyContent: "center",
 									}}
 								>
-									<ListItemIcon
-										sx={{
-											minWidth: 0,
-											mr: open ? 3 : "auto",
-											justifyContent: "center",
-										}}
-									>
-										{index % 2 === 0 ? <Inbox /> : <Mail />}
-									</ListItemIcon>
-									<ListItemText
-										primary={text}
-										sx={{ opacity: open ? 1 : 0 }}
-									/>
-								</ListItemButton>
-							</ListItem>
-						)
-					)}
+									{item.icon}
+								</ListItemIcon>
+								<ListItemText
+									primary={item.title}
+									sx={{ opacity: open ? 1 : 0 }}
+								/>
+							</ListItemButton>
+						</ListItem>
+					))}
 				</List>
 				<Divider />
 				{/* Here we have the user information */}
@@ -173,6 +223,17 @@ const SideList = ({ open, setOpen }) => {
 			<Box component="main" sx={{ flexGrow: 1, p: 3 }}>
 				<DrawerHeader />
 				{/* Here is the content section of Dashboard */}
+				{/* We route to the  components */}
+				<Routes>
+					{/* Looping over the list array and extacting the link properties and show component */}
+					{list.map((item) => (
+						<Route
+							key={item.title}
+							path={item.link}
+							element={item.component}
+						/>
+					))}
+				</Routes>
 			</Box>
 		</>
 	);
