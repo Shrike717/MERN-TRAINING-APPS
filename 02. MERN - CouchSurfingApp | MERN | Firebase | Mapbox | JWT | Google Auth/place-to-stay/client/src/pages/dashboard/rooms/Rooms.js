@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-const Rooms = () => {
+const Rooms = ({ setSelectedLink, link }) => {
+	// Setting the selected link on the first render of the component
+	useEffect(() => {
+		setSelectedLink(link);
+	}, []);
+
 	return <div>Rooms</div>;
 };
 
