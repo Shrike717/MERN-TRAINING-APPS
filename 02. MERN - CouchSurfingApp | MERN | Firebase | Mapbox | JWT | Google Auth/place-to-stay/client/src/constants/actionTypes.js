@@ -15,6 +15,7 @@ export const FILTER_PRICE = "FILTER_PRICE";
 export const FILTER_ADDRESS = "FILTER_ADDRESS";
 export const CLEAR_ADDRESS = "CLEAR_ADDRESS";
 export const UPDATE_ROOM = "UPDATE_ROOM";
+export const UPDATE_USERS = "UPDATE_USERS";
 
 export const POST = "POST";
 export const PATCH = "PATCH";

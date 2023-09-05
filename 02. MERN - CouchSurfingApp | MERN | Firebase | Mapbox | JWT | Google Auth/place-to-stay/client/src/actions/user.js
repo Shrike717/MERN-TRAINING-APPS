@@ -10,6 +10,8 @@ import {
 	UPDATE_USER,
 	UPDATE_PROFILE,
 	PATCH,
+	UPDATE_USERS,
+	GET,
 } from "../constants/actionTypes";
 
 import fetchData from "./utils/fetchData";
@@ -70,7 +72,7 @@ export const updateProfile = async (currentUser, updatedFields, dispatch) => {
 
 	const { name, file } = updatedFields;
 	let body = { name };
-	// If there is a file we upload it to  firebase. try-catch: when failing we don't want to continue
+	// If there is a file we upload it to firebase. try-catch: when failing we don't want to continue
 	try {
 		if (file) {
 			// Creating unique filename. Extracting the file extension at the end
@@ -80,7 +82,7 @@ export const updateProfile = async (currentUser, updatedFields, dispatch) => {
 				file,
 				`profile/${currentUser?.id}/${imageName}`
 			);
-			body = { ...body, photoUrl }; // Adding this photoUrl to the body. Now body ha name and photoUrl
+			body = { ...body, photoUrl }; // Adding this photoUrl to the body. Now body has name and photoUrl
 		}
 		//Sending body and token to BE. Getting back updated name, photoUrl and new token for updated user
 		const result = await fetchData(
@@ -122,6 +124,19 @@ export const updateProfile = async (currentUser, updatedFields, dispatch) => {
 				message: error.message,
 			},
 		});
+	}
+
+	dispatch({ type: END_LOADING });
+};
+
+// Action to get all users
+export const getUsers = async (dispatch) => {
+	dispatch({ type: START_LOADING });
+
+	const result = await fetchData({ url, method: GET }, dispatch);
+
+	if (result) {
+		dispatch({ type: UPDATE_USERS, payload: result });
 	}
 
 	dispatch({ type: END_LOADING });
