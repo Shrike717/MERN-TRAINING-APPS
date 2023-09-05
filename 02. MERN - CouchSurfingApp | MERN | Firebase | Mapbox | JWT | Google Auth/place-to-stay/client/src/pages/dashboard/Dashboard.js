@@ -1,22 +1,20 @@
-// This is the Mini Drawer component from Mui 5. Then separated in tthis component and SideList component
+// This is the Mini Drawer component from Mui 5. Then separated in this component and SideList component
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-
-import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
-
 import IconButton from "@mui/material/IconButton";
+import CssBaseline from "@mui/material/CssBaseline";
+import { Tooltip } from "@mui/material";
+
 import MenuIcon from "@mui/icons-material/Menu";
+import { Brightness4, Brightness7, Home } from "@mui/icons-material";
 
 import SideList from "./SideList";
-import { Tooltip } from "@mui/material";
-import { Brightness4, Brightness7, Home } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -40,7 +38,7 @@ const AppBar = styled(MuiAppBar, {
 
 // This component is the Appbar component for the Dashboard.
 export default function Dashboard() {
-	// THis state is for opening and closing the drawer. It gets passed o the child component SideList
+	// This state is for opening and closing the drawer. It gets passed to the child component SideList
 	const [open, setOpen] = useState(false);
 	// This ist the state for the dark mode
 	const [dark, setDark] = useState(true);

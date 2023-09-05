@@ -16,6 +16,7 @@ import {
 	FILTER_ADDRESS,
 	CLEAR_ADDRESS,
 	UPDATE_ROOM,
+	UPDATE_USERS,
 } from "../constants/actionTypes";
 
 //  the state is managed by a reducer. The reducer function contains all of the state update logic
@@ -132,6 +133,12 @@ const reducer = (state, action) => {
 			return {
 				...state,
 				room: action.payload,
+			};
+		// This action updates the state of users to show them in the dashboard main component
+		case UPDATE_USERS:
+			return {
+				...state,
+				users: action.payload,
 			};
 
 		default:

@@ -97,3 +97,11 @@ export const updateProfile = tryCatch(async (req, res) => {
 	});
 	res.status(200).json({ success: true, result: { name, photoUrl, token } });
 });
+
+// Getting all users. Wrapped with tryCatch util function.
+export const getUsers = tryCatch(async (req, res) => {
+	// Get all rooms and sort them from newest to oldest
+	const users = await User.find().sort({ _id: -1 });
+
+	res.status(200).json({ success: true, result: users });
+});
