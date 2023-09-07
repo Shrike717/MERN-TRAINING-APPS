@@ -17,6 +17,7 @@ import {
 import { useValue } from "../../../context/ContextProvider";
 import { getRooms } from "../../../actions/room";
 import { getUsers } from "../../../actions/user";
+import PieRoomsCost from "./PieRoomsCost";
 
 // This component shows the main panel with the statistics
 const Main = ({ setSelectedLink, link }) => {
@@ -149,6 +150,12 @@ const Main = ({ setSelectedLink, link }) => {
 						))}
 					</List>
 				</Box>
+			</Paper>
+			{/* This ist the column for the pie chart */}
+			{/* gridColumn: "1/3" means: the first 2  columns */}
+			<Paper elevation={3} sx={{ p: 2, gridColumn: "1/3" }}>
+				{/* This is the Pie Chart component */}
+				<PieRoomsCost />
 			</Paper>
 		</Box>
 	);
