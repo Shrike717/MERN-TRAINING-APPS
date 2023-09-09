@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
-import { Box } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
 import { useValue } from "../../../context/ContextProvider";
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+const COLORS = ["#00C49F", "#0088FE", "#FFBB28", "#FF8042"]; // colors for pie charts
 const RADIAN = Math.PI / 180;
 
 const renderCustomizedLabel = ({
@@ -46,7 +46,7 @@ export default function PieRoomsCost() {
 			lessThan15 = 0,
 			between15And35 = 0,
 			moreThan35 = 0;
-		// Now we loop over the rooms and check price for every  oom:
+		// Now we loop over the rooms and check price for every room:
 		rooms.forEach((room) => {
 			if (room.price === 0) return free++; // If price is 0 we return and increment variable free by 1
 			if (room.price < 15) return lessThan15++; // If price is less than 15 we return and increment variable lessThan15 by 1
@@ -62,7 +62,7 @@ export default function PieRoomsCost() {
 		// ]);
 
 		// Now we set the state. It's an array of objects. Every object has a name and a qty value which are the variables above.
-		// We only push an object into he array when it is > 0. This avoids displaying the chart in a strane way when one value is 0.
+		// We only push an object into he array when it is > 0. This avoids displaying the chart in a strange way when one value is 0.
 		let newArr = [];
 		if (free !== 0) newArr.push({ name: "Free Stay", qty: free });
 		if (lessThan15 !== 0)
@@ -103,6 +103,32 @@ export default function PieRoomsCost() {
 				{/* This shows little info window when hover over chart */}
 				<Tooltip />
 			</PieChart>
+			{/* This section is  for the colors */}
+			<Stack gap={2}>
+				<Typography variant="h6">Rooms Cost</Typography>
+				{/* This forces the colors go down when not enough space */}
+				<Box sx={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
+					{COLORS.map((color, index) => (
+						<Stack
+							key={color}
+							alignItems="center"
+							spacing={1} // spacing is the same as gap
+						>
+							{/* Box for the color. color is the color we receive froom the loop*/}
+							<Box
+								sx={{
+									width: 20,
+									height: 20,
+									background: color,
+								}}
+							/>
+							<Typography variant="body2" sx={{ opacity: 0.7 }}>
+								{costGroups[index]?.name}
+							</Typography>
+						</Stack>
+					))}
+				</Box>
+			</Stack>
 		</Box>
 	);
 }

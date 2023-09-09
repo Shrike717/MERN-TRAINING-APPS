@@ -152,7 +152,7 @@ const Main = ({ setSelectedLink, link }) => {
 				</Box>
 			</Paper>
 			{/* This ist the column for the pie chart */}
-			{/* gridColumn: "1/3" means: the first 2  columns */}
+			{/* gridColumn: "1/3" means: the first 2 columns */}
 			<Paper elevation={3} sx={{ p: 2, gridColumn: "1/3" }}>
 				{/* This is the Pie Chart component */}
 				<PieRoomsCost />
