@@ -18,10 +18,11 @@ import { useValue } from "../../../context/ContextProvider";
 import { getRooms } from "../../../actions/room";
 import { getUsers } from "../../../actions/user";
 import PieRoomsCost from "./PieRoomsCost";
+import AreaRoomsUsers from "./AreaRoomsUsers";
 
 // This component shows the main panel with the statistics
 const Main = ({ setSelectedLink, link }) => {
-	// Extracting the rooms and users from global context
+	// Extracting the rooms and users from global context.
 	const {
 		state: { rooms, users },
 		dispatch,
@@ -151,11 +152,17 @@ const Main = ({ setSelectedLink, link }) => {
 					</List>
 				</Box>
 			</Paper>
-			{/* This ist the column for the pie chart */}
+			{/* This is the column for the pie chart */}
 			{/* gridColumn: "1/3" means: the first 2 columns */}
 			<Paper elevation={3} sx={{ p: 2, gridColumn: "1/3" }}>
 				{/* This is the Pie Chart component */}
 				<PieRoomsCost />
+			</Paper>
+			{/* This is the column for the Area chart */}
+			{/* gridColumn: "1/3" means: the first 2 columns */}
+			<Paper elevation={3} sx={{ p: 2, gridColumn: "1/3" }}>
+				{/* This is the Area Chart component */}
+				<AreaRoomsUsers />
 			</Paper>
 		</Box>
 	);
