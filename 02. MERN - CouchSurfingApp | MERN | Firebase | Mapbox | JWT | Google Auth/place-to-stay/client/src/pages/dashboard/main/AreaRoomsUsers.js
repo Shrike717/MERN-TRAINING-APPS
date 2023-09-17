@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import { useValue } from "../../../context/ContextProvider";
 
-// Here we define our own data
+// Here we define our own data:
 const months = 5;
 const today = new Date();
 const tempData = [];
