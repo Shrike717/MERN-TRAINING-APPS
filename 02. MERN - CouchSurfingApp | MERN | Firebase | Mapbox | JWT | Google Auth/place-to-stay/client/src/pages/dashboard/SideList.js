@@ -91,7 +91,7 @@ const SideList = ({ open, setOpen }) => {
 		dispatch,
 	} = useValue();
 
-	// This state is used to highlight the active list item in the drawer. Default is  the main component
+	// This state is used to highlight the active list item in the drawer. Default is the main component
 	const [selectedLink, setSelectedLink] = useState("");
 
 	// We create a list as an array of objects. Every object represents a component
@@ -197,7 +197,7 @@ const SideList = ({ open, setOpen }) => {
 				</List>
 				<Divider />
 				{/* Here we have the user information */}
-				{/* Styling keeps cotnext in thee centeer */}
+				{/* Styling keeps cotnext in the center */}
 				<Box sx={{ mx: "auto", mt: 3, mb: 1 }}>
 					{/* Iff name  of user is undefined we have empty string to avoid error */}
 					<Tooltip title={currentUser?.name || ""}>
@@ -232,7 +232,7 @@ const SideList = ({ open, setOpen }) => {
 			<Box component="main" sx={{ flexGrow: 1, p: 3 }}>
 				<DrawerHeader />
 				{/* Here is the content section of Dashboard */}
-				{/* We route to the  components */}
+				{/* We route to the components */}
 				<Routes>
 					{/* Looping over the list array and extacting the link properties and show component */}
 					{list.map((item) => (
