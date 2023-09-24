@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo } from "react";
 
-import { Box, Typography } from "@mui/material";
+import { Avatar, Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
 import { useValue } from "../../../context/ContextProvider";
 import { getUsers } from "../../../actions/user";
+import moment from "moment";
 
 const Users = ({ setSelectedLink, link }) => {
 	// Extracting the users from globbal state:
@@ -24,13 +25,39 @@ const Users = ({ setSelectedLink, link }) => {
 	const columns = useMemo(
 		() => [
 			// It's an array of objects:
-			// The DataGrid needs Id's for every field
-			{ field: "photoUrl", headerName: "Avatar", width: 60 },
+			// renderCell is to show the avatar imagge. There we rceive the params of the DataGrid. Frrom there the Url to the photo
+			{
+				field: "photoUrl",
+				headerName: "Avatar",
+				width: 60,
+				renderCell: (params) => <Avatar src={params.row.photoUrl} />,
+				sortable: false,
+				filterable: false,
+			},
 			{ field: "name", headerName: "Name", width: 170 },
 			{ field: "email", headerName: "Email", width: 200 },
-			{ field: "role", headerName: "Role", width: 100 },
-			{ field: "active", headerName: "Active", width: 100 },
-			{ field: "createdAt", headerName: "Created At", width: 200 },
+			{
+				field: "role",
+				headerName: "Role",
+				width: 100,
+				type: "singleSelect",
+				valueOptions: ["basic", "editor", "admin"],
+				editable: true,
+			},
+			{
+				field: "active",
+				headerName: "Active",
+				width: 100,
+				type: "boolean",
+				editable: true,
+			},
+			{
+				field: "createdAt",
+				headerName: "Created At",
+				width: 200,
+				renderCell: (params) =>
+					moment(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss"),
+			},
 			{ field: "_id", headerName: "Id", width: 220 },
 		],
 		[]
@@ -47,6 +74,7 @@ const Users = ({ setSelectedLink, link }) => {
 			</Typography>
 			{/* This component is a speciall component from Mui. We need to install @mui/x-data-grid */}
 			{/* The columns specify the fields, rows are the data of the grid */}
+			{/* The DataGrid needs Id's for every field.. We grap the user Id*/}
 			<DataGrid
 				columns={columns}
 				rows={users}
