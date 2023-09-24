@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 
 import { Avatar, Box, Typography } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { grey } from "@mui/material/colors";
+import { DataGrid, gridClasses } from "@mui/x-data-grid";
 
 import { useValue } from "../../../context/ContextProvider";
 import { getUsers } from "../../../actions/user";
@@ -79,10 +80,23 @@ const Users = ({ setSelectedLink, link }) => {
 				columns={columns}
 				rows={users}
 				getRowId={(row) => row._id}
-				pageSizeOptions={[5, 10, 20]} // Options for number of users per page
 				initialState={{
 					...columns.initialState,
 					pagination: { paginationModel: { pageSize: 5 } }, // This sets the pageSize to the chosen
+				}}
+				pageSizeOptions={[5, 10, 20]} // Options for number of users per page
+				getRowSpacing={(params) => ({
+					top: params.isFirstVisible ? 0 : 5, // No gap on top of first row
+					bottom: params.isLastVisible ? 0 : 5, // No gap on top of last row
+				})} // Options for spacing between rows
+				sx={{
+					[`& .${gridClasses.row}`]: {
+						// gridClasses is imported from @mui/x-data-grid and gets classname of the row
+						bgcolor: (theme) =>
+							theme.palette.mode === "light"
+								? grey[200]
+								: grey[900],
+					}, // Changing style of every second row
 				}}
 			/>
 		</Box>
