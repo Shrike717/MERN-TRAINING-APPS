@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { Avatar, Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -8,7 +8,7 @@ import { getUsers } from "../../../actions/user";
 import moment from "moment";
 
 const Users = ({ setSelectedLink, link }) => {
-	// Extracting the users from globbal state:
+	// Extracting the users from global state:
 	const {
 		state: { users },
 		dispatch,
@@ -79,6 +79,11 @@ const Users = ({ setSelectedLink, link }) => {
 				columns={columns}
 				rows={users}
 				getRowId={(row) => row._id}
+				pageSizeOptions={[5, 10, 20]} // Options for number of users per page
+				initialState={{
+					...columns.initialState,
+					pagination: { paginationModel: { pageSize: 5 } }, // This sets the pageSize to the chosen
+				}}
 			/>
 		</Box>
 	);
