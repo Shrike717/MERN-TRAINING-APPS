@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { Avatar, Box, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
@@ -7,6 +7,7 @@ import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import { useValue } from "../../../context/ContextProvider";
 import { getUsers } from "../../../actions/user";
 import moment from "moment";
+import UsersActions from "./UsersActions";
 
 const Users = ({ setSelectedLink, link }) => {
 	// Extracting the users from global state:
@@ -14,6 +15,11 @@ const Users = ({ setSelectedLink, link }) => {
 		state: { users },
 		dispatch,
 	} = useValue();
+	// This state is needed to set the users per page:
+	const [pageSize, setPageSize] = useState(5);
+
+	// This state is needed to specify which row is active right now
+	const [rowId, setRowId] = useState(null);
 
 	// Setting the selected link on the first render of the component
 	useEffect(() => {
@@ -22,7 +28,7 @@ const Users = ({ setSelectedLink, link }) => {
 		if (users.length === 0) getUsers(dispatch);
 	}, []);
 
-	// Here we create thee columns:
+	// Here we create the columns:
 	const columns = useMemo(
 		() => [
 			// It's an array of objects:
@@ -60,8 +66,17 @@ const Users = ({ setSelectedLink, link }) => {
 					moment(params.row.createdAt).format("YYYY-MM-DD HH:mm:ss"),
 			},
 			{ field: "_id", headerName: "Id", width: 220 },
+			// To save changes we need a special acton field
+			{
+				field: "actions",
+				headerName: "Actions",
+				type: "actions",
+				renderCell: (params) => (
+					<UsersActions {...{ params, rowId, setRowId }} />
+				), // With params we pass the data of the  row to the component. And the state which specifiees the active row
+			},
 		],
-		[]
+		[rowId] // The dependency: When there is a cchange in the row we need to rerender our buttons
 	);
 
 	return (
@@ -80,10 +95,13 @@ const Users = ({ setSelectedLink, link }) => {
 				columns={columns}
 				rows={users}
 				getRowId={(row) => row._id}
-				initialState={{
-					...columns.initialState,
-					pagination: { paginationModel: { pageSize: 5 } }, // This sets the pageSize to the chosen
-				}}
+				rowsPerPageOptions={[5, 10, 20]}
+				pageSize={pageSize}
+				onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+				// initialState={{
+				// 	...columns.initialState,
+				// 	pagination: { paginationModel: { pageSize: 5 } }, // This sets the pageSize to the chosen
+				// }}
 				pageSizeOptions={[5, 10, 20]} // Options for number of users per page
 				getRowSpacing={(params) => ({
 					top: params.isFirstVisible ? 0 : 5, // No gap on top of first row
@@ -98,6 +116,11 @@ const Users = ({ setSelectedLink, link }) => {
 								: grey[900],
 					}, // Changing style of every second row
 				}}
+				// Here we set the rowId:
+				onCellEditCommit={(params) => setRowId(params.id)}
+				// processRowUpdate={(updatedRow, originalRow) =>
+				//     setRowId(params.rowId)
+				//   }
 			/>
 		</Box>
 	);
