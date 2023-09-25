@@ -11,7 +11,7 @@ export const register = tryCatch(async (req, res) => {
 
 	if (password.length < 6) {
 		return res.status(400).json({
-			// return otherwise app crashes because headers are alrady sent
+			// return otherwise app crashes because headers are already sent
 			success: false,
 			message: "Password must be at least 6 characters.",
 		});
@@ -33,7 +33,7 @@ export const register = tryCatch(async (req, res) => {
 		password: hashedPassword,
 	});
 	// Now extracting some fields to send back to FE
-	const { _id: id, photoUrl } = user;
+	const { _id: id, photoUrl, role, active } = user;
 	// Then creating the token:
 	const token = jwt.sign({ id, name, photoUrl }, process.env.JWT_SECRET, {
 		expiresIn: "1h",
@@ -41,7 +41,7 @@ export const register = tryCatch(async (req, res) => {
 	// Then send result:
 	res.status(201).json({
 		success: true,
-		result: { id, name, email: user.email, photoUrl, token },
+		result: { id, name, email: user.email, photoUrl, token, role, active },
 	});
 });
 
@@ -67,7 +67,15 @@ export const login = tryCatch(async (req, res) => {
 			.json({ success: false, message: "Invalid credentials." });
 
 	// Now extracting some fields to send back to FE
-	const { _id: id, name, photoUrl } = existingUser;
+	const { _id: id, name, photoUrl, role, active } = existingUser;
+	//  Check if the user is not active:
+	if (!active) {
+		return res.status(400).json({
+			success: false,
+			message:
+				"The account has been suspended. Please try to contact the admin",
+		});
+	}
 	// Then creating the token:
 	const token = jwt.sign({ id, name, photoUrl }, process.env.JWT_SECRET, {
 		expiresIn: "1h",
@@ -75,7 +83,15 @@ export const login = tryCatch(async (req, res) => {
 	// Then send result:
 	res.status(200).json({
 		success: true,
-		result: { id, name, email: emailToLowerCase, photoUrl, token },
+		result: {
+			id,
+			name,
+			email: emailToLowerCase,
+			photoUrl,
+			token,
+			role,
+			active,
+		},
 	});
 });
 
@@ -104,4 +120,21 @@ export const getUsers = tryCatch(async (req, res) => {
 	const users = await User.find().sort({ _id: -1 });
 
 	res.status(200).json({ success: true, result: users });
+});
+
+// Updating the user status. Wrapped with tryCatch util function.
+export const updateStatus = tryCatch(async (req, res) => {
+	// Extracting role and active:
+	const { role, active } = req.body;
+	// Updatin the status of the user
+	await User.findByIdAndUpdate(req.params.userId, {
+		role: role,
+		active: active,
+	});
+	// Then sending the response
+	res.status(200).json({
+		success: true,
+		message: "User status updated successfully.",
+		result: { _id: req.params.userId },
+	});
 });
