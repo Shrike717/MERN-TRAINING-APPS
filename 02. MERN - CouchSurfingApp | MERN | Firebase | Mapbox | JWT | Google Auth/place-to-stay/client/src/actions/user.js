@@ -141,3 +141,15 @@ export const getUsers = async (dispatch) => {
 
 	dispatch({ type: END_LOADING });
 };
+
+// Action to update user status. updatedFields is role and active
+export const updateStatus = (updatedFields, userId, dispatch) => {
+	return fetchData(
+		{
+			url: `${url}/updateStatus/${userId}`,
+			method: PATCH,
+			body: updatedFields,
+		},
+		dispatch
+	);
+};

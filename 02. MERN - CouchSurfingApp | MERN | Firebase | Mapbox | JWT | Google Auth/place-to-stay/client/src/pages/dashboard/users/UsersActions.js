@@ -1,17 +1,41 @@
+import React, { useEffect, useState } from "react";
+
 import { Box, CircularProgress, Fab } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import SaveIcon from "@mui/icons-material/Save";
 import { green, grey } from "@mui/material/colors";
-import React, { useState } from "react";
+
+import { updateStatus } from "../../../actions/user";
+import { useValue } from "../../../context/ContextProvider";
 
 const UsersActions = ({ params, rowId, setRowId }) => {
+	const { dispatch } = useValue;
 	// This state is needed for the loading:
 	const [loading, setLoading] = useState(false);
 	// This state is needed for successful loading:
 	const [success, setSuccess] = useState(false);
 
 	// The handleSubmit function. Async because we communicate with the server
-	const handleSubmit = async () => {};
+	const handleSubmit = async () => {
+		setLoading(true);
+		const { role, active, _id } = params.row; // _id is the user id
+		const result = await updateStatus({ role, active }, _id, dispatch);
+		setLoading(false);
+
+		// If there is an object in the result we set success to true
+		if (result) {
+			setSuccess(true);
+			// Then we reset  the row id
+			setRowId(null);
+		}
+	};
+
+	// We need this useEffect to reset the success icon after saving a change.
+	// When we edit twice in a row it has to show the save button again.
+	useEffect(() => {
+		// We check if the actve row is the same row as the success icon && success state is true. If yes we set it to false
+		if (rowId === params.id && success) setSuccess(false);
+	}, [rowId]);
 
 	return (
 		// We need position relative for our loading

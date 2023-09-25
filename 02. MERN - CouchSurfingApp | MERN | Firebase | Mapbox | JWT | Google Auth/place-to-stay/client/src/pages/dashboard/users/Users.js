@@ -15,6 +15,7 @@ const Users = ({ setSelectedLink, link }) => {
 		state: { users },
 		dispatch,
 	} = useValue();
+	console.log("This are the users in the Users component:", users);
 	// This state is needed to set the users per page:
 	const [pageSize, setPageSize] = useState(5);
 
@@ -32,7 +33,7 @@ const Users = ({ setSelectedLink, link }) => {
 	const columns = useMemo(
 		() => [
 			// It's an array of objects:
-			// renderCell is to show the avatar imagge. There we rceive the params of the DataGrid. Frrom there the Url to the photo
+			// renderCell is to show the avatar imagge. There we receive the params of the DataGrid. Frrom there the Url to the photo
 			{
 				field: "photoUrl",
 				headerName: "Avatar",
@@ -76,7 +77,7 @@ const Users = ({ setSelectedLink, link }) => {
 				), // With params we pass the data of the  row to the component. And the state which specifiees the active row
 			},
 		],
-		[rowId] // The dependency: When there is a cchange in the row we need to rerender our buttons
+		[rowId] // The dependency: When there is a change in the row we need to rerender our buttons
 	);
 
 	return (
@@ -97,11 +98,7 @@ const Users = ({ setSelectedLink, link }) => {
 				getRowId={(row) => row._id}
 				rowsPerPageOptions={[5, 10, 20]}
 				pageSize={pageSize}
-				onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-				// initialState={{
-				// 	...columns.initialState,
-				// 	pagination: { paginationModel: { pageSize: 5 } }, // This sets the pageSize to the chosen
-				// }}
+				onPageSizeChange={(newPageSize) => setPageSize(newPageSize)} // This sets the pageSize to the chosen new pageSize
 				pageSizeOptions={[5, 10, 20]} // Options for number of users per page
 				getRowSpacing={(params) => ({
 					top: params.isFirstVisible ? 0 : 5, // No gap on top of first row
